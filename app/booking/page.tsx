@@ -2,7 +2,7 @@
 
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const treatments = [
@@ -30,9 +30,25 @@ const treatments = [
 ];
 
 export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <>
+        <Header />
+        <main className="w-full bg-background min-h-screen flex items-center justify-center">
+          <p className="text-muted-foreground">Loading...</p>
+        </main>
+        <Footer />
+      </>
+    }>
+      <BookingContent />
+    </Suspense>
+  );
+}
+
+function BookingContent() {
   const searchParams = useSearchParams();
   const treatmentParam = searchParams.get('treatment') || '';
-  
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -57,7 +73,7 @@ export default function BookingPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     // Simulate form submission
     setTimeout(() => {
       setSubmitted(true);
