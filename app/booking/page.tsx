@@ -78,7 +78,6 @@ function BookingContent() {
     setTimeout(() => {
       setSubmitted(true);
       setLoading(false);
-      console.log('Booking submitted:', formData);
     }, 1000);
   };
 

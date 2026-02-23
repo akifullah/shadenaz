@@ -19,17 +19,17 @@ export function Header() {
             <span className="hidden sm:block text-sm font-light tracking-widest text-foreground">SHADENAZ</span>
           </Link>
           <nav className="hidden lg:flex items-center gap-12">
-            <Link href="#treatments" className="text-foreground hover:text-primary transition text-xs tracking-widest font-medium">
-              TREATMENTS
-            </Link>
             <Link href="/about" className="text-foreground hover:text-primary transition text-xs tracking-widest font-medium">
               ABOUT
+            </Link>
+            <Link href="#treatments" className="text-foreground hover:text-primary transition text-xs tracking-widest font-medium">
+              TREATMENTS
             </Link>
             <Link href="/pricing" className="text-foreground hover:text-primary transition text-xs tracking-widest font-medium">
               PRICING
             </Link>
             <Link href="/care-guide" className="text-foreground hover:text-primary transition text-xs tracking-widest font-medium">
-              CARE GUIDE
+              PRE AND POST CARE
             </Link>
             <Link href="/policies" className="text-foreground hover:text-primary transition text-xs tracking-widest font-medium">
               POLICIES
@@ -38,7 +38,7 @@ export function Header() {
               CONTACT
             </Link>
           </nav>
-          
+
           <nav className="flex lg:hidden items-center gap-6">
             <Link href="/pricing" className="text-foreground hover:text-primary transition text-xs tracking-widest font-medium">
               PRICING

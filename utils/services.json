@@ -1,0 +1,356 @@
+{
+    "services": [
+        {
+            "category": "Dermal Fillers - Face",
+            "treatments": [
+                {
+                    "name": "1ml Enhancement",
+                    "description": "Single ml of premium dermal filler",
+                    "price": "£99",
+                    "duration": "45 minutes"
+                },
+                {
+                    "name": "2ml Enhancement",
+                    "description": "Double ml for more dramatic results",
+                    "price": "£180",
+                    "duration": "50 minutes"
+                },
+                {
+                    "name": "3ml Enhancement",
+                    "description": "Triple ml for comprehensive facial enhancement",
+                    "price": "£260",
+                    "duration": "60 minutes"
+                },
+                {
+                    "name": "4ml Enhancement",
+                    "description": "Quad ml for advanced facial contouring",
+                    "price": "£330",
+                    "duration": "70 minutes"
+                },
+                {
+                    "name": "5ml Enhancement",
+                    "description": "Five ml for full facial volumisation",
+                    "price": "£395",
+                    "duration": "70 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Dermal Fillers - Lip Enhancement",
+            "treatments": [
+                {
+                    "name": "0.5ml Lip Enhancement",
+                    "description": "Subtle lip definition and hydration",
+                    "price": "£105",
+                    "duration": "50 minutes"
+                },
+                {
+                    "name": "0.7ml Lip Enhancement",
+                    "description": "Natural lip volume and shape",
+                    "price": "£115",
+                    "duration": "50 minutes"
+                },
+                {
+                    "name": "1.1ml Lip Enhancement",
+                    "description": "Fuller lips with enhanced definition",
+                    "price": "£125",
+                    "duration": "50 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Dermal Fillers - Nose Enhancement",
+            "treatments": [
+                {
+                    "name": "Nose Enhancement",
+                    "description": "Non-surgical nose reshaping using filler and botox",
+                    "price": "£145",
+                    "duration": "50 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Dissolving Filler (Hyaluronidase)",
+            "treatments": [
+                {
+                    "name": "Dissolving Filler - 1 Area",
+                    "description": "Safe and effective filler dissolution using hyaluronidase",
+                    "price": "£85",
+                    "duration": "50 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Radiesse",
+            "treatments": [
+                {
+                    "name": "Radiesse 1.5ml",
+                    "description": "Calcium-based biostimulator filler for natural lifting",
+                    "price": "£190",
+                    "duration": "45 minutes"
+                },
+                {
+                    "name": "Radiesse 3ml",
+                    "description": "Double dose calcium-based filler for enhanced results",
+                    "price": "£365",
+                    "duration": "60 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Botox - Standard Areas",
+            "treatments": [
+                {
+                    "name": "1 Area Botox",
+                    "description": "Single area anti-wrinkle treatment",
+                    "price": "£95",
+                    "duration": "30 minutes"
+                },
+                {
+                    "name": "2 Areas Botox",
+                    "description": "Dual area anti-wrinkle treatment",
+                    "price": "£135",
+                    "duration": "35 minutes"
+                },
+                {
+                    "name": "3 Areas Botox",
+                    "description": "Triple area anti-wrinkle treatment",
+                    "price": "£175",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "4+ Areas Botox",
+                    "description": "Comprehensive multi-area anti-wrinkle treatment (+£45 per extra area)",
+                    "price": "£175+",
+                    "duration": "45 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Botox - Advanced / Medical",
+            "treatments": [
+                {
+                    "name": "Hyperhidrosis",
+                    "description": "Botox treatment to reduce excessive sweating. Includes 10-day review.",
+                    "price": "£140",
+                    "duration": "45 minutes"
+                },
+                {
+                    "name": "Masseter",
+                    "description": "Jaw slimming and teeth grinding relief. Includes 10-day review.",
+                    "price": "£135",
+                    "duration": "45 minutes"
+                },
+                {
+                    "name": "Lip Flip",
+                    "description": "Subtle lip enhancement without filler. Includes 10-day review.",
+                    "price": "£105",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "Gummy Smile",
+                    "description": "Reduce gum visibility when smiling. Includes 10-day review.",
+                    "price": "£105",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "Neck Lines",
+                    "description": "Smooth horizontal neck lines and bands. Includes 10-day review.",
+                    "price": "£135",
+                    "duration": "45 minutes"
+                },
+                {
+                    "name": "Shoulder / Trap",
+                    "description": "Trapezius slimming and tension relief. Includes 10-day review.",
+                    "price": "£135",
+                    "duration": "45 minutes"
+                },
+                {
+                    "name": "Jowls",
+                    "description": "Lift and define the jawline. Includes 10-day review.",
+                    "price": "£115",
+                    "duration": "40 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Skin Treatments - Microneedling",
+            "treatments": [
+                {
+                    "name": "Microneedling Face",
+                    "description": "Skin rejuvenation treatment for the face",
+                    "price": "£50",
+                    "duration": "60 minutes"
+                },
+                {
+                    "name": "Microneedling Face + Neck",
+                    "description": "Skin rejuvenation treatment for the face and neck",
+                    "price": "£75",
+                    "duration": "70 minutes"
+                },
+                {
+                    "name": "Body Microneedling - Small Area",
+                    "description": "Targeted skin rejuvenation for small body areas",
+                    "price": "From £50",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "Body Microneedling - Large Area",
+                    "description": "Skin rejuvenation for larger body areas",
+                    "price": "From £95",
+                    "duration": "60 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Skin Treatments - PRP",
+            "treatments": [
+                {
+                    "name": "PRP Face Injections",
+                    "description": "Platelet-rich plasma treatment for facial rejuvenation",
+                    "price": "£105",
+                    "duration": "80 minutes"
+                },
+                {
+                    "name": "PRP Face + Neck",
+                    "description": "Platelet-rich plasma treatment for face and neck",
+                    "price": "£125",
+                    "duration": "90 minutes"
+                },
+                {
+                    "name": "PRP Body Injections",
+                    "description": "Platelet-rich plasma treatment for body areas",
+                    "price": "£149",
+                    "duration": "90 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Skin Treatments - BioRePeel",
+            "treatments": [
+                {
+                    "name": "BioRePeel Face",
+                    "description": "Advanced chemical peel for facial skin renewal",
+                    "price": "£75",
+                    "duration": "50 minutes"
+                },
+                {
+                    "name": "BioRePeel Face + Neck",
+                    "description": "Advanced chemical peel for face and neck",
+                    "price": "£95",
+                    "duration": "50 minutes"
+                },
+                {
+                    "name": "BioRePeel Body",
+                    "description": "Advanced chemical peel for body areas",
+                    "price": "From £95",
+                    "duration": "60 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Skin Boosters",
+            "treatments": [
+                {
+                    "name": "Polynucleotides – Face (2ml)",
+                    "description": "DNA-based skin booster for deep facial rejuvenation",
+                    "price": "£170",
+                    "duration": "45 minutes"
+                },
+                {
+                    "name": "Polynucleotides – Eyes (2ml)",
+                    "description": "Targeted polynucleotide treatment for the eye area",
+                    "price": "£140",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "Profhilo (2ml)",
+                    "description": "High-concentration hyaluronic acid skin remodelling treatment",
+                    "price": "£160",
+                    "duration": "45 minutes"
+                },
+                {
+                    "name": "iLLUMA Luna (1ml)",
+                    "description": "Brightening and hydrating skin booster",
+                    "price": "£110",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "Lumi Eyes (1ml)",
+                    "description": "Revitalising under-eye skin booster",
+                    "price": "£90",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "Lumi Pro Lips (1ml)",
+                    "description": "Hydrating and plumping lip skin booster",
+                    "price": "£90",
+                    "duration": "40 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Fat Dissolving (Lemon Bottle)",
+            "treatments": [
+                {
+                    "name": "Fat Dissolving - Small Areas",
+                    "description": "Targeted fat reduction for small areas",
+                    "price": "£60",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "Fat Dissolving - Medium Areas",
+                    "description": "Targeted fat reduction for medium areas",
+                    "price": "£85",
+                    "duration": "50 minutes"
+                },
+                {
+                    "name": "Fat Dissolving - Large Areas",
+                    "description": "Targeted fat reduction for large areas",
+                    "price": "£120",
+                    "duration": "60 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Hair Loss Treatments",
+            "treatments": [
+                {
+                    "name": "PRP Hair",
+                    "description": "Platelet-rich plasma treatment to stimulate hair growth",
+                    "price": "£145",
+                    "duration": "90 minutes"
+                },
+                {
+                    "name": "PRP Hair x5 Sessions",
+                    "description": "Course of five PRP hair loss treatments",
+                    "price": "£675",
+                    "duration": "90 minutes per session"
+                },
+                {
+                    "name": "Hair Filler (2ml)",
+                    "description": "Filler-based treatment to improve scalp and hair density",
+                    "price": "£135",
+                    "duration": "40 minutes"
+                },
+                {
+                    "name": "Polynucleotides Hair (2ml)",
+                    "description": "DNA-based treatment to promote hair restoration",
+                    "price": "£145",
+                    "duration": "40 minutes"
+                }
+            ]
+        },
+        {
+            "category": "Consultation",
+            "treatments": [
+                {
+                    "name": "Face-to-Face Consultation",
+                    "description": "In-person consultation to discuss your treatment needs",
+                    "price": "£10",
+                    "duration": "20 minutes"
+                }
+            ]
+        }
+    ]
+}
