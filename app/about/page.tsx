@@ -39,13 +39,13 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <div className="w-full aspect-square bg-secondary/30 rounded border border-accent/50 flex items-center justify-center">
+                <div className="max-w-[300px] aspect-[9/16] bg-secondary/30 rounded border border-accent/50 flex items-center justify-center">
                   <Image
-                    src="/shadenaz-logo.png"
-                    alt="Shadenaz Aesthetics Logo"
-                    width={200}
-                    height={200}
-                    className="w-32 h-32 object-contain"
+                    src="/about me.jpg"
+                    alt="Shadenaz Aesthetics"
+                    width={500}
+                    height={500}
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </div>
@@ -54,7 +54,7 @@ export default function AboutPage() {
         </div>
 
         {/* Why Choose Us */}
-        <div className="py-20 border-b border-accent/30">
+        {/* <div className="py-20 border-b border-accent/30">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
             <h2 className="text-3xl font-light text-foreground mb-12 text-center">Why Choose Shadenaz Aesthetics</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -131,7 +131,7 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Call to Action */}
         <div className="py-20">

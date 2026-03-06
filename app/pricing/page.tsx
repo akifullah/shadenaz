@@ -213,9 +213,9 @@ export default function PricingPage() {
               <h1 className="text-5xl md:text-6xl font-light tracking-tight text-foreground">
                 Our Treatments & Pricing
               </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Transparent pricing for all our premium aesthetic treatments
-              </p>
+              </p> */}
             </div>
 
             <div className="space-y-12">
@@ -254,16 +254,18 @@ export default function PricingPage() {
                               <span className="text-sm font-medium text-foreground">{treatment.duration}</span>
                             </div>
                           </div>
-
-                          <Link
-                            href={`/booking?treatment=${treatment.name}`}
-                            className="block mt-4 text-center border border-primary text-primary py-2 hover:bg-primary hover:text-primary-foreground transition text-xs tracking-widest font-medium"
-                          >
-                            BOOK NOW
-                          </Link>
                         </div>
                       </div>
                     ))}
+
+                  </div>
+                  <div className="flex justify-center">
+                    <Link
+                      href="/booking"
+                      className="inline-block mt-8 px-12 py-3 border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-xs tracking-widest font-medium"
+                    >
+                      BOOK NOW
+                    </Link>
                   </div>
                 </div>
               ))}

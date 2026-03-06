@@ -6,21 +6,33 @@ import Link from 'next/link';
 const slides = [
   {
     id: 1,
-    title: 'Aesthetic Excellence',
-    subtitle: 'Discover your most confident self with Shadenaz Aesthetics',
-    image: 'linear-gradient(135deg, #f5f1ed 0%, #e8dfd5 100%)',
+    title: 'Expert Care. Natural Results.',
+    subtitle: 'Premium treatments tailored to your unique beauty goals',
+    image: 'linear-gradient(135deg, #f5f1ed3c 0%, #e8dfd5ba 100%), url(/image1.jpg)',
   },
   {
     id: 2,
-    title: 'Expert Care. Natural Results.',
-    subtitle: 'Premium treatments tailored to your unique beauty goals',
-    image: 'linear-gradient(135deg, #e8dfd5 0%, #d4cfc4 100%)',
+    title: 'Precision Meets Artistry',
+    subtitle: 'Professional aesthetic solutions with clinical excellence',
+    image: 'linear-gradient(135deg, #f5f1ed3c 0%, #e8dfd5ba 100%), url(/image2.jpg)',
   },
   {
     id: 3,
-    title: 'Precision Meets Artistry',
-    subtitle: 'Professional aesthetic solutions with clinical excellence',
-    image: 'linear-gradient(135deg, #d4cfc4 0%, #f5f1ed 100%)',
+    title: 'Aesthetic Excellence',
+    subtitle: 'Discover your most confident self with Shadenaz Aesthetics',
+    image: 'linear-gradient(135deg, #f5f1ed3c 0%, #e8dfd5ba 100%), url(/image3.jpg)',
+  },
+  {
+    id: 4,
+    title: 'Your Beauty, Our Expertise',
+    subtitle: 'Advanced treatments delivered with care and precision',
+    image: 'linear-gradient(135deg, #f5f1ed3c 0%, #e8dfd5ba 100%), url(/image4.jpg)',
+  },
+  {
+    id: 5,
+    title: 'Where Science Meets Beauty',
+    subtitle: 'Clinically proven techniques for naturally stunning results',
+    image: 'linear-gradient(135deg, #f5f1ed3c 0%, #e8dfd5ba 100%), url(/image5.jpg)',
   },
 ];
 
@@ -59,10 +71,9 @@ export function HeroSlider() {
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? 'opacity-100' : 'opacity-0'
-          }`}
-          style={{ background: slide.image }}
+          className={`absolute inset-0 transition-opacity duration-1000 bg-cover bg-center ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          style={{ backgroundImage: slide.image, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center space-y-6 px-6 max-w-3xl">
@@ -119,11 +130,10 @@ export function HeroSlider() {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`transition-all duration-300 ${
-              index === currentSlide
-                ? 'bg-foreground w-8 h-2'
-                : 'bg-foreground/30 hover:bg-foreground/50 w-2 h-2'
-            } rounded-full`}
+            className={`transition-all duration-300 ${index === currentSlide
+              ? 'bg-foreground w-8 h-2'
+              : 'bg-foreground/30 hover:bg-foreground/50 w-2 h-2'
+              } rounded-full`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
