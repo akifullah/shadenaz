@@ -26,6 +26,9 @@ export function Footer() {
               <Link href="/policies" className="text-sm hover:opacity-70 transition">
                 Policies & FAQs
               </Link>
+              <Link href="/consent-form" className="text-sm hover:opacity-70 transition">
+                Consent Form
+              </Link>
               <Link href="/booking" className="text-sm hover:opacity-70 transition">
                 Book Now
               </Link>

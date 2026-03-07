@@ -9,6 +9,7 @@ const navLinks = [
   { href: '/about', label: 'ABOUT' },
   { href: '/pricing', label: 'TREATMENTS & PRICING' },
   { href: '/care-guide', label: 'PRE AND POST CARE' },
+  { href: '/consent-form', label: 'CONSENT FORM' },
   { href: '/policies', label: 'POLICIES' },
   { href: '/contact', label: 'CONTACT' },
 ];
@@ -45,21 +46,21 @@ export function Header() {
   return (
     <>
       <header className="w-full bg-background sticky top-0 z-50 border-b border-accent/30">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10 py-3 sm:py-6">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2">
               <Image
                 src="/shadenaz.png"
                 alt="Shadenaz Aesthetics"
                 width={50}
                 height={50}
-                className="h-10 w-auto object-contain"
+                className="h-8 sm:h-10 w-auto object-contain"
               />
-              <span className="hidden sm:block text-sm  tracking-widest text-[#000]">SHADENAZ</span>
+              <span className="block text-xs sm:text-sm tracking-widest text-[#000]">SHADENAZ</span>
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-12">
+            <nav className="hidden xl:flex items-center gap-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -83,7 +84,7 @@ export function Header() {
               {/* Hamburger button — mobile only */}
               <button
                 onClick={toggleSidebar}
-                className="lg:hidden flex flex-col justify-center items-center w-10 h-10 relative z-[60] group"
+                className="xl:hidden flex flex-col justify-center items-center w-10 h-10 relative z-[60] group"
                 aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={sidebarOpen}
               >
@@ -107,7 +108,7 @@ export function Header() {
 
       {/* Backdrop overlay */}
       <div
-        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] transition-opacity duration-300 lg:hidden ${sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] transition-opacity duration-300 xl:hidden ${sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
         onClick={closeSidebar}
         aria-hidden="true"
@@ -115,7 +116,7 @@ export function Header() {
 
       {/* Sidebar menu */}
       <aside
-        className={`fixed top-0 right-0 h-full w-[min(320px,85vw)] bg-background z-[58] shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`fixed top-0 right-0 h-full w-[min(320px,85vw)] bg-background z-[58] shadow-2xl transition-transform duration-300 ease-in-out xl:hidden ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
       >
         <div className="flex flex-col h-full pt-24 pb-10 px-8">
