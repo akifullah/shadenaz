@@ -5,9 +5,9 @@ import { Mail, Instagram, Facebook, Linkedin } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="w-full bg-primary text-primary-foreground py-12 border-t border-secondary">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <footer className="w-full bg-primary text-primary-foreground py-8 md:py-12 border-t border-secondary">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-6 md:mb-8">
           <div className="space-y-4">
             <h3 className="text-sm font-medium tracking-widest uppercase">Navigation</h3>
             <nav className="flex flex-col gap-2">
@@ -75,8 +75,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-secondary/30 pt-8">
-          <p className="text-sm text-center opacity-70">
+        <div className="border-t border-secondary/30 pt-6 md:pt-8">
+          <p className="text-xs md:text-sm text-center opacity-70">
             © {new Date().getFullYear()} Shadenaz Aesthetics. All rights reserved. | Website by CREATEA WEB
           </p>
         </div>

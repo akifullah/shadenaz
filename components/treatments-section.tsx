@@ -55,32 +55,32 @@ const treatments = [
 
 export function TreatmentsSection() {
   return (
-    <section id="treatments" className="w-full bg-background py-24 border-b border-accent/30">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-        <div className="text-center mb-16 space-y-4">
-          <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">
+    <section id="treatments" className="w-full bg-background py-12 md:py-24 border-b border-accent/30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
+        <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+          <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">
             Our Treatments
           </p>
-          <h2 className="text-4xl md:text-5xl font-light tracking-tight text-foreground">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-light tracking-tight text-foreground">
             Premium Services
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
             Each treatment is customized to your unique needs and goals
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {treatments.map((treatment) => (
             <div
               key={treatment.id}
               className="group flex flex-col h-full bg-white/50 hover:bg-white transition-all duration-300 p-0 cursor-pointer"
             >
-              <div className="flex flex-col h-full p-8 space-y-6">
+              <div className="flex flex-col h-full p-5 md:p-8 space-y-4 md:space-y-6">
                 <div className="space-y-2">
-                  <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">
+                  <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">
                     {treatment.category}
                   </p>
-                  <h3 className="text-2xl font-light text-foreground group-hover:text-primary transition">
+                  <h3 className="text-lg md:text-2xl font-light text-foreground group-hover:text-primary transition">
                     {treatment.name}
                   </h3>
                 </div>
@@ -96,7 +96,7 @@ export function TreatmentsSection() {
                   </div>
                   <div className="flex justify-between items-end pt-2 border-t border-accent/20">
                     <span className="text-xs text-muted-foreground tracking-widest font-medium">Price</span>
-                    <span className="text-2xl font-light text-primary">{treatment.price}</span>
+                    <span className="text-xl md:text-2xl font-light text-primary">{treatment.price}</span>
                   </div>
                 </div>
 
