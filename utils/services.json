@@ -36,11 +36,11 @@
             ]
         },
         {
-            "category": "Dermal Fillers - Lip Enhancement",
+            "category": "Lip enhancement - Dermal Filler",
             "treatments": [
                 {
                     "name": "0.5ml Lip Enhancement",
-                    "description": "Subtle lip definition and hydration",
+                    "description": "Must have no current Migration/LUMPS.",
                     "price": "£105",
                     "duration": "50 minutes"
                 },
@@ -59,11 +59,11 @@
             ]
         },
         {
-            "category": "Dermal Fillers - Nose Enhancement",
+            "category": "Non-surgical Rhinoplasty",
             "treatments": [
                 {
                     "name": "Nose Enhancement",
-                    "description": "Non-surgical nose reshaping using filler and botox",
+                    "description": "This treatment consists of Dermal filler & Botox. The price includes a 10 day review/ touch up.",
                     "price": "£145",
                     "duration": "50 minutes"
                 }
@@ -77,6 +77,12 @@
                     "description": "Safe and effective filler dissolution using hyaluronidase",
                     "price": "£85",
                     "duration": "50 minutes"
+                },
+                {
+                    "name": "Dissolving Filler - 2 Areas",
+                    "description": "Safe and effective filler dissolution using hyaluronidase",
+                    "price": "£150",
+                    "duration": "60 minutes"
                 }
             ]
         },
@@ -99,30 +105,43 @@
         },
         {
             "category": "Botox - Standard Areas",
+            "description": "Forehead, Frown lines, Crow’s feet (side of the eyes), Brow lift, Bunny lines, Chin dimples, Nose tip lift, Nostril slimming/ flare. (Please check the next section for advanced Botox areas).",
             "treatments": [
                 {
-                    "name": "1 Area Botox",
-                    "description": "Single area anti-wrinkle treatment",
+                    "name": "1 Area Of Botox",
+                    "description": "The price includes a 10 day review/ touch up.",
                     "price": "£95",
                     "duration": "30 minutes"
                 },
                 {
-                    "name": "2 Areas Botox",
-                    "description": "Dual area anti-wrinkle treatment",
+                    "name": "2 Areas Of Botox",
+                    "description": "The price includes a 10 day review/ touch up.",
                     "price": "£135",
                     "duration": "35 minutes"
                 },
                 {
-                    "name": "3 Areas Botox",
-                    "description": "Triple area anti-wrinkle treatment",
+                    "name": "3 Areas Of Botox",
+                    "description": "The price includes a 10 day review/ touch up.",
                     "price": "£175",
                     "duration": "40 minutes"
                 },
                 {
-                    "name": "4+ Areas Botox",
-                    "description": "Comprehensive multi-area anti-wrinkle treatment (+£45 per extra area)",
-                    "price": "£175+",
+                    "name": "4 Areas Of Botox",
+                    "description": "The price includes a 10 day review/ touch up.",
+                    "price": "£220",
                     "duration": "45 minutes"
+                },
+                {
+                    "name": "5 Areas Of Botox",
+                    "description": "The price includes a 10 day review/ touch up.",
+                    "price": "£265",
+                    "duration": "50 minutes"
+                },
+                {
+                    "name": "6 Areas Of Botox",
+                    "description": "The price includes a 10 day review/ touch up.",
+                    "price": "£310",
+                    "duration": "50 minutes"
                 }
             ]
         },
@@ -133,25 +152,25 @@
                     "name": "Hyperhidrosis",
                     "description": "Botox treatment to reduce excessive sweating. Includes 10-day review.",
                     "price": "£140",
-                    "duration": "45 minutes"
+                    "duration": "30 minutes"
                 },
                 {
                     "name": "Masseter",
                     "description": "Jaw slimming and teeth grinding relief. Includes 10-day review.",
                     "price": "£135",
-                    "duration": "45 minutes"
+                    "duration": "30 minutes"
                 },
                 {
                     "name": "Lip Flip",
                     "description": "Subtle lip enhancement without filler. Includes 10-day review.",
                     "price": "£105",
-                    "duration": "40 minutes"
+                    "duration": "30 minutes"
                 },
                 {
                     "name": "Gummy Smile",
                     "description": "Reduce gum visibility when smiling. Includes 10-day review.",
                     "price": "£105",
-                    "duration": "40 minutes"
+                    "duration": "45 minutes"
                 },
                 {
                     "name": "Neck Lines",
@@ -169,7 +188,7 @@
                     "name": "Jowls",
                     "description": "Lift and define the jawline. Includes 10-day review.",
                     "price": "£115",
-                    "duration": "40 minutes"
+                    "duration": "60 minutes"
                 }
             ]
         },

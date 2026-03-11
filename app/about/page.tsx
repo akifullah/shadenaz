@@ -11,11 +11,11 @@ export default function AboutPage() {
         <div className="bg-gradient-to-b from-accent/30 to-background py-20">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
             <div className="text-center space-y-4">
-              <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">About</p>
-              <h1 className="text-5xl md:text-6xl font-light text-foreground">Shadenaz Aesthetics</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {/* <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">About</p> */}
+              <h1 className="text-5xl md:text-6xl font-light text-foreground">About Shadenaz</h1>
+              {/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Redefining aesthetic excellence with precision, artistry, and unwavering commitment to your confidence
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

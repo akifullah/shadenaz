@@ -207,11 +207,11 @@ export default function PricingPage() {
         <section className="w-full bg-background pt-16 pb-24 border-b border-accent/30">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
             <div className="text-center mb-16 space-y-4">
-              <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">
+              {/* <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">
                 Price List
-              </p>
+              </p> */}
               <h1 className="text-5xl md:text-6xl font-light tracking-tight text-foreground">
-                Our Treatments & Pricing
+                Treatments & Pricing
               </h1>
               {/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Transparent pricing for all our premium aesthetic treatments
