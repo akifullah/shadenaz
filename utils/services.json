@@ -94,13 +94,13 @@
             "treatments": [
                 {
                     "name": "Radiesse 1.5ml",
-                    "description": "Calcium-based biostimulator filler for natural lifting",
+                    "description": "Calcium hydroxylapatite based filler suitable for mid-face, such as the cheeks, smile lines and marionette lines.",
                     "price": "£190",
                     "duration": "45 minutes"
                 },
                 {
                     "name": "Radiesse 3ml",
-                    "description": "Double dose calcium-based filler for enhanced results",
+                    "description": "Calcium hydroxylapatite based filler suitable for mid-face, such as the cheeks, smile lines and marionette lines.",
                     "price": "£365",
                     "duration": "60 minutes"
                 }
@@ -228,20 +228,20 @@
             "category": "Skin Treatments - PRP",
             "treatments": [
                 {
-                    "name": "PRP Face Injections",
-                    "description": "Platelet-rich plasma treatment for facial rejuvenation",
-                    "price": "£105",
+                    "name": "PRP Face",
+                    "description": "This treatment uses your own plasma which is injected into the face and under the eyes, with microneedling also performed to enhance skin rejuvenation.",
+                    "price": "£115",
                     "duration": "80 minutes"
                 },
                 {
                     "name": "PRP Face + Neck",
-                    "description": "Platelet-rich plasma treatment for face and neck",
-                    "price": "£125",
+                    "description": "This treatment uses your own plasma which is injected into the face and under the eyes, with microneedling also performed on the face and neck to enhance skin rejuvenation.",
+                    "price": "£130",
                     "duration": "90 minutes"
                 },
                 {
-                    "name": "PRP Body Injections",
-                    "description": "Platelet-rich plasma treatment for body areas",
+                    "name": "PRP Body",
+                    "description": "This treatment uses your own plasma which is injected into the area being treated, with microneedling also performed to enhance skin rejuvenation.",
                     "price": "£149",
                     "duration": "90 minutes"
                 }
@@ -274,14 +274,14 @@
             "category": "Skin Boosters",
             "treatments": [
                 {
-                    "name": "Polynucleotides – Face (2ml)",
-                    "description": "DNA-based skin booster for deep facial rejuvenation",
-                    "price": "£170",
+                    "name": "Polynucleotides - Face (2ml)",
+                    "description": "Plinest Face by Mastelli",
+                    "price": "£160",
                     "duration": "45 minutes"
                 },
                 {
-                    "name": "Polynucleotides – Eyes (2ml)",
-                    "description": "Targeted polynucleotide treatment for the eye area",
+                    "name": "Polynucleotides - Eyes (2ml)",
+                    "description": "Plinesy Eye by Mastelli",
                     "price": "£140",
                     "duration": "40 minutes"
                 },

@@ -3,19 +3,11 @@
 const testimonials = [
   {
     id: 1,
-    quote: 'Faiza what did you do to my face, It\'s like magic!',
-    source: 'Instagram Review'
+    quote: `I cannot recommend Taylor Alonso enough! The level of professionalism and market insight Taylor brought to our home buying process was outstanding. Taylor understood our unique needs and worked tirelessly to find a home that fit our lifestyle and budget. We're over the moon with our new home!`,
+    source: 'Instagram Review',
+    client: 'Juliana Silva'
   },
-  {
-    id: 2,
-    quote: 'My skin\'s glowing like never before and everyone\'s noticing. You\'re a miracle worker. Can\'t wait to see you again!',
-    source: 'Instagram Review'
-  },
-  {
-    id: 3,
-    quote: 'Honestly, that was one of the best facials I\'ve ever had!',
-    source: 'Instagram Review'
-  }
+
 ];
 
 export function TestimonialsSection() {
@@ -34,17 +26,20 @@ export function TestimonialsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-1 max-w-lg mx-auto  gap-4 md:gap-8 ">
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="border border-accent p-5 md:p-8 bg-card hover:shadow-md transition-all duration-300 space-y-3 md:space-y-4"
+              className="border   border-accent p-5 md:p-8 bg-card hover:shadow-md transition-all duration-300 space-y-3 md:space-y-4 text-center w-full"
             >
               <p className="text-foreground leading-relaxed text-xs md:text-sm">
                 "{testimonial.quote}"
               </p>
-              <p className="text-xs text-muted-foreground tracking-wide font-medium uppercase">
+              {/* <p className="text-xs text-muted-foreground tracking-wide font-medium uppercase">
                 {testimonial.source}
+              </p> */}
+              <p className="italic text-muted-foreground tracking-wide font-medium uppercase">
+                - {testimonial.client}
               </p>
             </div>
           ))}
