@@ -301,16 +301,16 @@ export default function CareGuidePage() {
       <Header />
       <main className="w-full bg-background min-h-screen">
         {/* Hero Section */}
-        <section className="relative py-24 overflow-hidden">
+        <section className="relative py-12 md:py-24 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent opacity-50" />
-          <div className="max-w-7xl mx-auto px-6 relative z-10 text-center space-y-4">
-            <p className="text-xs tracking-[0.3em] text-primary font-semibold uppercase">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10 text-center space-y-3 md:space-y-4">
+            <p className="text-[10px] md:text-xs tracking-[0.3em] text-primary font-semibold uppercase">
               Treatment Protocol
             </p>
-            <h1 className="text-5xl md:text-7xl font-light tracking-tight text-foreground">
+            <h1 className="text-3xl sm:text-4xl md:text-7xl font-light tracking-tight text-foreground">
               Pre & Post <span className="text-primary">Care Guide</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
+            <p className="text-sm md:text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
               Your results depend on the care you take before and after your session.
               Follow our expert guidelines to ensure safety and longevity.
             </p>
@@ -318,8 +318,8 @@ export default function CareGuidePage() {
         </section>
 
         {/* Content Section */}
-        <section className="pb-32 px-6">
-          <div className="max-w-4xl mx-auto space-y-6">
+        <section className="pb-16 md:pb-32 px-4 md:px-6">
+          <div className="max-w-4xl mx-auto space-y-4 md:space-y-6">
             {careGuides.map((guide) => {
               const isOpen = openIds.includes(guide.id);
               return (
@@ -332,11 +332,11 @@ export default function CareGuidePage() {
                 >
                   <button
                     onClick={() => toggleAccordion(guide.id)}
-                    className="w-full flex items-center justify-between p-8 text-left group-hover:cursor-pointer"
+                    className="w-full flex items-center justify-between p-4 md:p-8 text-left group-hover:cursor-pointer"
                   >
                     <div className="space-y-1">
                       <h2 className={cn(
-                        "text-2xl font-medium tracking-tight transition-colors duration-300",
+                        "text-lg md:text-2xl font-medium tracking-tight transition-colors duration-300",
                         isOpen ? "text-primary" : "text-foreground"
                       )}>
                         {guide.title}
@@ -358,7 +358,7 @@ export default function CareGuidePage() {
                     isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                   )}>
                     <div className="overflow-hidden">
-                      <div className="p-8 pt-0 space-y-10">
+                      <div className="p-4 md:p-8 pt-0 space-y-6 md:space-y-10">
                         {guide.sections.map((section, idx) => (
                           <div key={idx} className={cn(
                             "relative pl-6 space-y-4",
@@ -381,9 +381,9 @@ export default function CareGuidePage() {
                               </h3>
                             </div>
 
-                            <ul className="space-y-3">
+                            <ul className="space-y-2 md:space-y-3">
                               {section.items.map((item, itemIdx) => (
-                                <li key={itemIdx} className="flex gap-3 text-muted-foreground text-sm leading-relaxed font-light">
+                                <li key={itemIdx} className="flex gap-2 md:gap-3 text-muted-foreground text-xs md:text-sm leading-relaxed font-light">
                                   <CheckCircle2 className={cn(
                                     "flex-shrink-0 mt-0.5",
                                     section.type === 'critical' ? "text-destructive/50" :
@@ -406,12 +406,12 @@ export default function CareGuidePage() {
         </section>
 
         {/* Global Warning */}
-        <section className="max-w-4xl mx-auto px-6 pb-24">
-          <div className="bg-destructive/10 border border-destructive/30 p-12 text-center space-y-6">
-            <AlertTriangle className="mx-auto text-destructive" size={48} />
+        <section className="max-w-4xl mx-auto px-4 md:px-6 pb-12 md:pb-24">
+          <div className="bg-destructive/10 border border-destructive/30 p-6 md:p-12 text-center space-y-4 md:space-y-6">
+            <AlertTriangle className="mx-auto text-destructive" size={32} />
             <div className="space-y-4">
-              <h3 className="text-2xl font-medium text-foreground">Critical Safety Notice</h3>
-              <p className="text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              <h3 className="text-lg md:text-2xl font-medium text-foreground">Critical Safety Notice</h3>
+              <p className="text-xs md:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
                 Any medical treatment involves risks. Failing to adhere to pre and post-care instructions
                 not only compromises your aesthetic results but can lead to medical complications.
                 If you experience extreme pain, unusual skin discoloration, or vision changes after

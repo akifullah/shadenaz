@@ -94,35 +94,35 @@ export default function PoliciesPage() {
     <>
       <Header />
       <main className="w-full bg-background">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-10 py-24">
-          <div className="text-center mb-16 space-y-4">
-            <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 py-12 md:py-24">
+          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+            <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">
               Information
             </p>
-            <h1 className="text-5xl font-light text-foreground">Clinic Policies & FAQs</h1>
-            <p className="text-lg text-muted-foreground">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light text-foreground">Clinic Policies & FAQs</h1>
+            <p className="text-sm md:text-lg text-muted-foreground">
               Important information about our services and policies
             </p>
           </div>
 
           {/* Policies Section */}
-          <div className="mb-20">
-            <h2 className="text-3xl font-light text-foreground mb-8 flex items-center gap-3">
+          <div className="mb-12 md:mb-20">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6 md:mb-8 flex items-center gap-3">
               <span className="w-1 h-8 bg-primary"></span>
               Our Policies
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {policies.map((policy) => (
                 <div
                   key={policy.id}
-                  className="border border-accent/30 bg-card p-6 hover:border-primary/50 transition"
+                  className="border border-accent/30 bg-card p-4 md:p-6 hover:border-primary/50 transition"
                 >
-                  <h3 className="text-lg font-medium text-foreground mb-4">
+                  <h3 className="text-base md:text-lg font-medium text-foreground mb-3 md:mb-4">
                     {policy.title}
                   </h3>
                   <ul className="space-y-2">
                     {policy.items.map((item, idx) => (
-                      <li key={idx} className="flex gap-2 text-sm text-muted-foreground">
+                      <li key={idx} className="flex gap-2 text-xs md:text-sm text-muted-foreground">
                         <span className="text-primary flex-shrink-0 mt-1">✓</span>
                         <span>{item}</span>
                       </li>
@@ -135,17 +135,17 @@ export default function PoliciesPage() {
 
           {/* FAQs Section */}
           <div>
-            <h2 className="text-3xl font-light text-foreground mb-8 flex items-center gap-3">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6 md:mb-8 flex items-center gap-3">
               <span className="w-1 h-8 bg-primary"></span>
               Frequently Asked Questions
             </h2>
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               {faqs.map((faq, idx) => (
-                <div key={idx} className="border-b border-accent/30 pb-6 last:border-b-0">
-                  <h3 className="text-lg font-medium text-foreground mb-3">
+                <div key={idx} className="border-b border-accent/30 pb-4 md:pb-6 last:border-b-0">
+                  <h3 className="text-base md:text-lg font-medium text-foreground mb-2 md:mb-3">
                     {faq.question}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>
@@ -154,9 +154,9 @@ export default function PoliciesPage() {
           </div>
 
           {/* Contact Section */}
-          <div className="mt-16 bg-secondary/30 border border-accent/50 p-8 text-center space-y-4">
-            <h3 className="text-2xl font-light text-foreground">Have More Questions?</h3>
-            <p className="text-muted-foreground">
+          <div className="mt-10 md:mt-16 bg-secondary/30 border border-accent/50 p-5 md:p-8 text-center space-y-3 md:space-y-4">
+            <h3 className="text-xl md:text-2xl font-light text-foreground">Have More Questions?</h3>
+            <p className="text-sm md:text-base text-muted-foreground">
               Feel free to reach out to us for any clarifications
             </p>
             <div className="pt-4 space-y-2">

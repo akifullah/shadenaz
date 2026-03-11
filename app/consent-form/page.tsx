@@ -167,15 +167,15 @@ export default function ConsentFormPage() {
             <>
                 <Header />
                 <main className="w-full bg-background min-h-screen">
-                    <div className="bg-gradient-to-b from-accent/30 to-background py-20">
-                        <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-10 text-center space-y-6">
+                    <div className="bg-gradient-to-b from-accent/30 to-background py-10 md:py-20">
+                        <div className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-10 text-center space-y-4 md:space-y-6">
                             <div className="w-20 h-20 mx-auto bg-green-50 border border-green-200 rounded-full flex items-center justify-center">
                                 <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-light text-foreground">Thank You</h1>
-                            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+                            <h1 className="text-3xl md:text-5xl font-light text-foreground">Thank You</h1>
+                            <p className="text-sm md:text-lg text-muted-foreground max-w-xl mx-auto">
                                 Your consent form has been submitted successfully. We will review your details before your appointment.
                             </p>
                             <a
@@ -197,12 +197,12 @@ export default function ConsentFormPage() {
             <Header />
             <main className="w-full bg-background">
                 {/* Hero Section */}
-                <div className="bg-gradient-to-b from-accent/30 to-background py-20">
-                    <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-                        <div className="text-center space-y-4">
-                            <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">Client Form</p>
-                            <h1 className="text-5xl md:text-6xl font-light text-foreground">Consent Form</h1>
-                            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                <div className="bg-gradient-to-b from-accent/30 to-background py-10 md:py-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
+                        <div className="text-center space-y-3 md:space-y-4">
+                            <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">Client Form</p>
+                            <h1 className="text-3xl sm:text-4xl md:text-6xl font-light text-foreground">Consent Form</h1>
+                            <p className="text-sm md:text-lg text-muted-foreground max-w-2xl mx-auto">
                                 Please complete this form carefully before your treatment. All information is confidential and will be stored securely.
                             </p>
                         </div>
@@ -210,15 +210,15 @@ export default function ConsentFormPage() {
                 </div>
 
                 {/* Form */}
-                <div className="py-16">
-                    <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-10">
-                        <form onSubmit={handleSubmit} className="space-y-16">
+                <div className="py-8 md:py-16">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-10">
+                        <form onSubmit={handleSubmit} className="space-y-10 md:space-y-16">
 
                             {/* ── CLIENT DETAILS ── */}
-                            <section className="space-y-8">
+                            <section className="space-y-5 md:space-y-8">
                                 <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
                                     <span className="text-xl">👤</span>
-                                    <h2 className="text-2xl font-light text-foreground tracking-wide">Client Details</h2>
+                                    <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Client Details</h2>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="md:col-span-2">
@@ -318,10 +318,10 @@ export default function ConsentFormPage() {
                             </section>
 
                             {/* ── MEDICAL HISTORY ── */}
-                            <section className="space-y-8">
+                            <section className="space-y-5 md:space-y-8">
                                 <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
                                     <span className="text-xl">🔍</span>
-                                    <h2 className="text-2xl font-light text-foreground tracking-wide">Medical History</h2>
+                                    <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Medical History</h2>
                                 </div>
 
                                 {/* Q1 – Medical conditions */}
@@ -448,10 +448,10 @@ export default function ConsentFormPage() {
                             </section>
 
                             {/* ── TREATMENT CONSENT & DECLARATION ── */}
-                            <section className="space-y-8">
+                            <section className="space-y-5 md:space-y-8">
                                 <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
                                     <span className="text-xl">💉</span>
-                                    <h2 className="text-2xl font-light text-foreground tracking-wide">Treatment Consent &amp; Declaration</h2>
+                                    <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Treatment Consent &amp; Declaration</h2>
                                 </div>
                                 <p className="text-sm text-muted-foreground">Please read and confirm each statement below:</p>
 
@@ -510,10 +510,10 @@ export default function ConsentFormPage() {
                             </section>
 
                             {/* ── SIGNATURE ── */}
-                            <section className="space-y-8">
+                            <section className="space-y-5 md:space-y-8">
                                 <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
                                     <span className="text-xl">✍️</span>
-                                    <h2 className="text-2xl font-light text-foreground tracking-wide">Client Signature</h2>
+                                    <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Client Signature</h2>
                                 </div>
 
                                 <div className="space-y-4">

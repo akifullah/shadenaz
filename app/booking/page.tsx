@@ -86,20 +86,20 @@ function BookingContent() {
       <>
         <Header />
         <main className="w-full min-h-screen flex items-center justify-center bg-background">
-          <div className="max-w-2xl mx-auto px-6 sm:px-8 lg:px-10 py-24 text-center space-y-8">
+          <div className="max-w-2xl mx-auto px-4 sm:px-8 lg:px-10 py-12 md:py-24 text-center space-y-6 md:space-y-8">
             <div className="space-y-4">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary/30 rounded">
                 <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h1 className="text-4xl font-light text-foreground">Booking Confirmed!</h1>
-              <p className="text-lg text-muted-foreground">
+              <h1 className="text-3xl md:text-4xl font-light text-foreground">Booking Confirmed!</h1>
+              <p className="text-sm md:text-lg text-muted-foreground">
                 Thank you for your booking. We've sent a confirmation email to <span className="font-medium">{formData.email}</span>
               </p>
             </div>
 
-            <div className="bg-secondary/30 p-8 space-y-4 border border-accent/50">
+            <div className="bg-secondary/30 p-5 md:p-8 space-y-4 border border-accent/50">
               <div className="grid grid-cols-2 gap-8">
                 <div className="text-left">
                   <p className="text-xs text-muted-foreground tracking-widest font-medium uppercase">Treatment</p>
@@ -129,14 +129,14 @@ function BookingContent() {
     <>
       <Header />
       <main className="w-full bg-background min-h-screen">
-        <div className="max-w-2xl mx-auto px-6 sm:px-8 lg:px-10 py-16 sm:py-24">
-          <div className="text-center mb-16 space-y-4">
-            <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">Booking</p>
-            <h1 className="text-5xl font-light tracking-tight text-foreground">Schedule Your Treatment</h1>
-            <p className="text-lg text-muted-foreground">Fill out the form below and we'll confirm your appointment</p>
+        <div className="max-w-2xl mx-auto px-6 sm:px-8 lg:px-10 py-10 sm:py-24">
+          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+            <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">Booking</p>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-foreground">Schedule Your Treatment</h1>
+            <p className="text-sm md:text-lg text-muted-foreground">Fill out the form below and we'll confirm your appointment</p>
           </div>
 
-          <div className="bg-card border border-accent/30 p-8 sm:p-12">
+          <div className="bg-card border border-accent/30 p-5 sm:p-12">
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">

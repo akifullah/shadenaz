@@ -204,13 +204,13 @@ export default function PricingPage() {
     <>
       <Header />
       <main className="w-full">
-        <section className="w-full bg-background pt-16 pb-24 border-b border-accent/30">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-            <div className="text-center mb-16 space-y-4">
+        <section className="w-full bg-background pt-10 pb-12 md:pt-16 md:pb-24 border-b border-accent/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
+            <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
               {/* <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">
                 Price List
               </p> */}
-              <h1 className="text-5xl md:text-6xl font-light tracking-tight text-foreground">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-light tracking-tight text-foreground">
                 Treatments & Pricing
               </h1>
               {/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -218,29 +218,29 @@ export default function PricingPage() {
               </p> */}
             </div>
 
-            <div className="space-y-12">
+            <div className="space-y-8 md:space-y-12">
               {pricingPlans.map((category, catIndex) => (
                 <div key={catIndex} className="space-y-4">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <span className="w-1 h-8 bg-primary"></span>
-                      <h3 className="text-2xl font-medium text-foreground">
+                      <h3 className="text-xl md:text-2xl font-medium text-foreground">
                         {category.category}
                       </h3>
 
                     </div>
-                    <p className='max-w-4xl text-muted-foreground'>{category.description}</p>
+                    <p className='max-w-4xl text-sm md:text-base text-muted-foreground'>{category.description}</p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     {category.treatments.map((treatment, idx) => (
                       <div
                         key={idx}
-                        className="border border-accent hover:border-primary transition-all duration-300 p-6 bg-card hover:shadow-md group"
+                        className="border border-accent hover:border-primary transition-all duration-300 p-4 md:p-6 bg-card hover:shadow-md group"
                       >
                         <div className="space-y-4">
                           <div>
-                            <h4 className="text-lg font-medium text-foreground group-hover:text-primary transition mb-2">
+                            <h4 className="text-base md:text-lg font-medium text-foreground group-hover:text-primary transition mb-2">
                               {treatment.name}
                             </h4>
                             <p className="text-sm text-muted-foreground">
@@ -251,7 +251,7 @@ export default function PricingPage() {
                           <div className="space-y-2 border-t border-accent/50 pt-4">
                             <div className="flex justify-between items-center">
                               <span className="text-xs text-muted-foreground tracking-wide">Price</span>
-                              <span className="text-2xl font-medium text-primary">{treatment.price}</span>
+                              <span className="text-xl md:text-2xl font-medium text-primary">{treatment.price}</span>
                             </div>
                             <div className="flex justify-between items-center">
                               <span className="text-xs text-muted-foreground tracking-wide">Duration</span>
@@ -266,7 +266,7 @@ export default function PricingPage() {
                   <div className="flex justify-center">
                     <Link
                       href="/booking"
-                      className="inline-block mt-8 px-12 py-3 border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-xs tracking-widest font-medium"
+                      className="inline-block mt-6 md:mt-8 px-8 py-2 md:px-12 md:py-3 border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-xs tracking-widest font-medium"
                     >
                       BOOK NOW
                     </Link>
@@ -277,15 +277,15 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section className="w-full bg-secondary/30 py-16">
-          <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-10 text-center space-y-6">
-            <h2 className="text-2xl font-light text-foreground">Have Questions About Our Treatments?</h2>
-            <p className="text-muted-foreground">
+        <section className="w-full bg-secondary/30 py-10 md:py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 text-center space-y-4 md:space-y-6">
+            <h2 className="text-xl md:text-2xl font-light text-foreground">Have Questions About Our Treatments?</h2>
+            <p className="text-sm md:text-base text-muted-foreground">
               Contact us for personalized consultations and package deals
             </p>
             <Link
               href="/booking"
-              className="inline-block border-2 border-primary text-primary px-10 py-3 hover:bg-primary hover:text-primary-foreground transition text-sm tracking-widest font-medium"
+              className="inline-block border-2 border-primary text-primary px-8 py-2 md:px-10 md:py-3 hover:bg-primary hover:text-primary-foreground transition text-xs md:text-sm tracking-widest font-medium"
             >
               SCHEDULE CONSULTATION
             </Link>

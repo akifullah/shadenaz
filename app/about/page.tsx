@@ -38,7 +38,7 @@ export default function AboutPage() {
       <main className="w-full bg-background overflow-hidden">
 
         {/* ── Hero Section ── */}
-        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-[40vh] md:min-h-[60vh] flex items-center justify-center overflow-hidden">
           {/* Decorative background */}
           <div className="absolute inset-0 bg-gradient-to-b from-accent/20 via-background to-background" />
           <div
@@ -48,25 +48,25 @@ export default function AboutPage() {
             }}
           />
 
-          <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 lg:px-10 text-center py-28">
+          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 text-center py-14 md:py-28">
             <p
-              className="text-xs tracking-[0.35em] text-muted-foreground font-medium uppercase mb-6 opacity-0 animate-[fadeSlideUp_0.8s_0.2s_ease-out_forwards]"
+              className="text-[10px] md:text-xs tracking-[0.35em] text-muted-foreground font-medium uppercase mb-4 md:mb-6 opacity-0 animate-[fadeSlideUp_0.8s_0.2s_ease-out_forwards]"
             >
               Our Story
             </p>
             <h1
-              className="text-5xl sm:text-6xl md:text-7xl font-light text-foreground leading-[1.1] tracking-tight opacity-0 animate-[fadeSlideUp_0.8s_0.4s_ease-out_forwards]"
+              className="text-3xl sm:text-5xl md:text-7xl font-light text-foreground leading-[1.1] tracking-tight opacity-0 animate-[fadeSlideUp_0.8s_0.4s_ease-out_forwards]"
             >
               About <span className="font-extralight">Shadenaz</span>
             </h1>
             <p
-              className="mt-8 text-lg sm:text-xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed opacity-0 animate-[fadeSlideUp_0.8s_0.6s_ease-out_forwards]"
+              className="mt-5 md:mt-8 text-sm sm:text-lg md:text-xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed opacity-0 animate-[fadeSlideUp_0.8s_0.6s_ease-out_forwards]"
             >
               Ethical aesthetics rooted in care, confidence, and a personalised approach — one client at a time
             </p>
 
             {/* Decorative line */}
-            <div className="mt-12 flex justify-center opacity-0 animate-[fadeSlideUp_0.8s_0.8s_ease-out_forwards]">
+            <div className="mt-8 md:mt-12 flex justify-center opacity-0 animate-[fadeSlideUp_0.8s_0.8s_ease-out_forwards]">
               <div className="w-16 h-[1px] bg-primary/30" />
             </div>
           </div>
@@ -75,10 +75,10 @@ export default function AboutPage() {
         {/* ── Brand Story Section ── */}
         <section
           ref={story.ref}
-          className="py-24 md:py-32"
+          className="py-12 md:py-32"
         >
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
               {/* Text Column */}
               <div
@@ -88,7 +88,7 @@ export default function AboutPage() {
                   }`}
               >
                 <div className="space-y-3">
-                  <p className="text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase">
+                  <p className="text-[10px] md:text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase">
                     The Founder
                   </p>
                   <h2 className="text-3xl sm:text-4xl font-light text-foreground leading-snug">
@@ -96,7 +96,7 @@ export default function AboutPage() {
                   </h2>
                 </div>
 
-                <div className="space-y-5 text-foreground/75 leading-[1.85] text-[15px] sm:text-base">
+                <div className="space-y-4 md:space-y-5 text-foreground/75 leading-[1.85] text-[13px] sm:text-[15px] md:text-base">
                   <p>
                     For me, aesthetics has never been about changing people or making them look like someone else.
                     It's about listening, understanding someone's story, and helping them feel like the best, most
@@ -152,21 +152,21 @@ export default function AboutPage() {
         </section>
 
         {/* ── Decorative Divider ── */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
           <div className="border-t border-accent/40" />
         </div>
 
         {/* ── Video Section ── */}
         <section
           ref={video.ref}
-          className="py-24 md:py-32"
+          className="py-12 md:py-32"
         >
-          <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-10">
+          <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-10">
             <div
               className={`text-center mb-14 transition-all duration-800 ease-out ${video.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                 }`}
             >
-              <p className="text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase mb-4">
+              <p className="text-[10px] md:text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase mb-3 md:mb-4">
                 Watch & Discover
               </p>
               <h2 className="text-3xl sm:text-4xl font-light text-foreground">
@@ -198,7 +198,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Decorative Divider ── */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
           <div className="border-t border-accent/40" />
         </div>
 
@@ -207,7 +207,7 @@ export default function AboutPage() {
         {/* ── Call to Action Section ── */}
         <section
           ref={cta.ref}
-          className="py-28 md:py-36 relative overflow-hidden"
+          className="py-14 md:py-36 relative overflow-hidden"
         >
           {/* Subtle radial glow */}
           <div
@@ -218,22 +218,22 @@ export default function AboutPage() {
           />
 
           <div
-            className={`relative z-10 max-w-3xl mx-auto px-6 sm:px-8 lg:px-10 text-center space-y-8 transition-all duration-1000 ease-out ${cta.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            className={`relative z-10 max-w-3xl mx-auto px-4 sm:px-8 lg:px-10 text-center space-y-5 md:space-y-8 transition-all duration-1000 ease-out ${cta.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}
           >
-            <p className="text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase">
+            <p className="text-[10px] md:text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase">
               Ready to Begin?
             </p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-foreground leading-snug">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-light text-foreground leading-snug">
               Begin Your Aesthetic <span className="italic">Journey</span>
             </h2>
-            <p className="text-lg text-muted-foreground font-light max-w-xl mx-auto leading-relaxed">
+            <p className="text-sm md:text-lg text-muted-foreground font-light max-w-xl mx-auto leading-relaxed">
               Schedule your consultation today and discover how Shadenaz Aesthetics can help you feel like the most confident version of yourself
             </p>
             <div className="pt-4">
               <a
                 href="/booking"
-                className="group inline-flex items-center gap-3 bg-primary text-primary-foreground px-12 py-4 hover:opacity-90 transition-all duration-300 text-xs tracking-[0.25em] font-medium"
+                className="group inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-3 md:px-12 md:py-4 hover:opacity-90 transition-all duration-300 text-xs tracking-[0.25em] font-medium"
               >
                 BOOK YOUR CONSULTATION
                 <svg

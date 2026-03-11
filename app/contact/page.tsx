@@ -33,24 +33,24 @@ export default function ContactPage() {
     <>
       <Header />
       <main className="w-full">
-        <section className="w-full bg-background py-24 border-b border-accent/30">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-            <div className="text-center mb-16 space-y-4">
-              <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">
+        <section className="w-full bg-background py-12 md:py-24 border-b border-accent/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
+            <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+              <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">
                 Get In Touch
               </p>
-              <h1 className="text-5xl md:text-6xl font-light tracking-tight text-foreground">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-light tracking-tight text-foreground">
                 Contact Us
               </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-sm md:text-lg text-muted-foreground max-w-2xl mx-auto">
                 Have questions? We'd love to hear from you.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
               <div className="space-y-12">
                 <div>
-                  <h2 className="text-2xl font-light text-foreground mb-8">Contact Information</h2>
+                  <h2 className="text-xl md:text-2xl font-light text-foreground mb-6 md:mb-8">Contact Information</h2>
                   
                   <div className="space-y-8">
                     <div className="flex gap-6">
@@ -113,7 +113,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="border-t border-accent/30 pt-12">
-                  <h3 className="text-lg font-light text-foreground mb-6">Hours</h3>
+                  <h3 className="text-base md:text-lg font-light text-foreground mb-4 md:mb-6">Hours</h3>
                   <div className="space-y-3 text-muted-foreground">
                     <div className="flex justify-between">
                       <span>Monday – Friday</span>
@@ -131,8 +131,8 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-secondary/30 p-8 border border-accent/50">
-                <h2 className="text-2xl font-light text-foreground mb-8">Send us a Message</h2>
+              <div className="bg-secondary/30 p-5 md:p-8 border border-accent/50">
+                <h2 className="text-xl md:text-2xl font-light text-foreground mb-6 md:mb-8">Send us a Message</h2>
                 
                 {submitted && (
                   <div className="mb-6 p-4 bg-primary/10 border border-primary/30 text-primary text-sm">
