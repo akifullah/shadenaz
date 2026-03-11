@@ -56,7 +56,7 @@ export function Header() {
                 height={50}
                 className="h-8 sm:h-10 w-auto object-contain"
               />
-              <span className="block text-xs sm:text-sm tracking-widest text-[#000]">SHADENAZ</span>
+              {/* <span className="block text-xs sm:text-sm tracking-widest text-[#000]">SHADENAZ</span> */}
             </Link>
 
             {/* Desktop nav */}

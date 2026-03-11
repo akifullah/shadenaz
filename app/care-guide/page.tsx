@@ -308,7 +308,7 @@ export default function CareGuidePage() {
               Treatment Protocol
             </p>
             <h1 className="text-5xl md:text-7xl font-light tracking-tight text-foreground">
-              Pre & Post <span className="text-primary italic">Care Guide</span>
+              Pre & Post <span className="text-primary">Care Guide</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
               Your results depend on the care you take before and after your session.

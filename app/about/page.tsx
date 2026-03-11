@@ -1,155 +1,271 @@
+'use client';
+
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isVisible };
+}
 
 export default function AboutPage() {
+  const story = useInView(0.1);
+  const video = useInView(0.1);
+  const values = useInView(0.1);
+  const cta = useInView(0.1);
+
   return (
     <>
       <Header />
-      <main className="w-full bg-background">
-        {/* Hero Section */}
-        <div className="bg-gradient-to-b from-accent/30 to-background py-20">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-            <div className="text-center space-y-4">
-              {/* <p className="text-xs tracking-widest text-muted-foreground font-medium uppercase">About</p> */}
-              <h1 className="text-5xl md:text-6xl font-light text-foreground">About Shadenaz</h1>
-              {/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Redefining aesthetic excellence with precision, artistry, and unwavering commitment to your confidence
-              </p> */}
+      <main className="w-full bg-background overflow-hidden">
+
+        {/* ── Hero Section ── */}
+        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+          {/* Decorative background */}
+          <div className="absolute inset-0 bg-gradient-to-b from-accent/20 via-background to-background" />
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full opacity-[0.04]"
+            style={{
+              background: 'radial-gradient(circle, var(--foreground) 0%, transparent 70%)',
+            }}
+          />
+
+          <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 lg:px-10 text-center py-28">
+            <p
+              className="text-xs tracking-[0.35em] text-muted-foreground font-medium uppercase mb-6 opacity-0 animate-[fadeSlideUp_0.8s_0.2s_ease-out_forwards]"
+            >
+              Our Story
+            </p>
+            <h1
+              className="text-5xl sm:text-6xl md:text-7xl font-light text-foreground leading-[1.1] tracking-tight opacity-0 animate-[fadeSlideUp_0.8s_0.4s_ease-out_forwards]"
+            >
+              About <span className="font-extralight">Shadenaz</span>
+            </h1>
+            <p
+              className="mt-8 text-lg sm:text-xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed opacity-0 animate-[fadeSlideUp_0.8s_0.6s_ease-out_forwards]"
+            >
+              Ethical aesthetics rooted in care, confidence, and a personalised approach — one client at a time
+            </p>
+
+            {/* Decorative line */}
+            <div className="mt-12 flex justify-center opacity-0 animate-[fadeSlideUp_0.8s_0.8s_ease-out_forwards]">
+              <div className="w-16 h-[1px] bg-primary/30" />
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Brand Story */}
-        <div className="py-20 border-b border-accent/30">
+        {/* ── Brand Story Section ── */}
+        <section
+          ref={story.ref}
+          className="py-24 md:py-32"
+        >
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <h2 className="text-3xl font-light text-foreground">Our Philosophy</h2>
-                <div className="space-y-4 text-foreground/80 leading-relaxed">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+
+              {/* Text Column */}
+              <div
+                className={`space-y-8 transition-all duration-1000 ease-out ${story.isVisible
+                  ? 'opacity-100 translate-x-0'
+                  : 'opacity-0 -translate-x-12'
+                  }`}
+              >
+                <div className="space-y-3">
+                  <p className="text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase">
+                    The Founder
+                  </p>
+                  <h2 className="text-3xl sm:text-4xl font-light text-foreground leading-snug">
+                    Hi, I'm <span className="">Shadenaz.</span>
+                  </h2>
+                </div>
+
+                <div className="space-y-5 text-foreground/75 leading-[1.85] text-[15px] sm:text-base">
                   <p>
-                    At Shadenaz Aesthetics, we believe that true beauty comes from confidence. Our mission is to enhance your natural features through expert aesthetic treatments that reflect your unique personality and desires.
+                    For me, aesthetics has never been about changing people or making them look like someone else.
+                    It's about listening, understanding someone's story, and helping them feel like the best, most
+                    confident version of themselves.
                   </p>
                   <p>
-                    Founded on principles of clinical excellence, artistic vision, and client-centered care, we've established ourselves as a trusted partner in aesthetic enhancement. Every treatment is a collaboration between art and science.
+                    I take a very ethical and considered approach to my work. That means I don't rush decisions and
+                    I don't believe in performing treatments during emotional or difficult periods in a client's life.
+                    Instead, I focus on long-term, subtle enhancements and ensuring every client feels 100% confident
+                    and certain about any decision they make.
                   </p>
                   <p>
-                    We're committed to using only premium products, advanced techniques, and maintaining the highest safety standards. Your satisfaction and safety are our absolute priorities.
+                    I work from a private home clinic designed to feel calm, welcoming, and discreet — much like
+                    your own home. It's a space where you can feel comfortable with only one client in the treatment
+                    room at a time.
                   </p>
+                  <p className="italic text-foreground/60 text-sm">— Thank you, Shadenaz</p>
                 </div>
               </div>
-              <div className="flex items-center justify-center">
-                <div className="max-w-[300px] aspect-[9/16] bg-secondary/30 rounded border border-accent/50 flex items-center justify-center">
-                  <Image
-                    src="/about me.jpg"
-                    alt="Shadenaz Aesthetics"
-                    width={500}
-                    height={500}
-                    className="w-full h-full object-cover"
+
+              {/* Image Column */}
+              <div
+                className={`flex items-center justify-center transition-all duration-1000 ease-out delay-200 ${story.isVisible
+                  ? 'opacity-100 translate-x-0'
+                  : 'opacity-0 translate-x-12'
+                  }`}
+              >
+                <div className="relative group">
+                  {/* Background accent */}
+                  <div className="absolute -top-4 -right-4 w-full h-full bg-accent/30 rounded-sm transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" />
+
+                  <div className="relative w-[280px] sm:w-[320px] aspect-[9/14] overflow-hidden rounded-sm shadow-lg">
+                    <Image
+                      src="/about me.jpg"
+                      alt="Shadenaz — Founder of Shadenaz Aesthetics"
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 280px, 320px"
+                      priority
+                    />
+                  </div>
+
+                  {/* Small floating badge */}
+                  <div className="absolute -bottom-6 -left-6 bg-background border border-accent/50 px-5 py-3 shadow-md rounded-sm">
+                    <p className="text-2xl font-light text-primary leading-none">6+</p>
+                    <p className="text-[10px] tracking-wider text-muted-foreground mt-1 uppercase">Years Experience</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ── Decorative Divider ── */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+          <div className="border-t border-accent/40" />
+        </div>
+
+        {/* ── Video Section ── */}
+        <section
+          ref={video.ref}
+          className="py-24 md:py-32"
+        >
+          <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-10">
+            <div
+              className={`text-center mb-14 transition-all duration-800 ease-out ${video.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+            >
+              <p className="text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase mb-4">
+                Watch & Discover
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-light text-foreground">
+                A Glimpse Into <span className="">Our World</span>
+              </h2>
+            </div>
+
+            <div
+              className={`transition-all duration-1000 ease-out delay-200 ${video.isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-[0.97]'
+                }`}
+            >
+              <div className="relative group">
+                {/* Decorative border frame */}
+                <div className="absolute -inset-3 border border-accent/30 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                <div className="relative aspect-video rounded-sm overflow-hidden shadow-2xl bg-secondary/20">
+                  <iframe
+                    src="https://drive.google.com/file/d/1NmVQG-wvsjkXeorpKXSChzn2D3XcXSzp/preview"
+                    title="About Shadenaz Aesthetics"
+                    className="w-full h-full"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                    loading="lazy"
                   />
                 </div>
               </div>
             </div>
           </div>
+        </section>
+
+        {/* ── Decorative Divider ── */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+          <div className="border-t border-accent/40" />
         </div>
 
-        {/* Why Choose Us */}
-        {/* <div className="py-20 border-b border-accent/30">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-            <h2 className="text-3xl font-light text-foreground mb-12 text-center">Why Choose Shadenaz Aesthetics</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="space-y-3 p-6 border border-accent/50 hover:border-primary/50 transition">
-                <div className="w-12 h-12 bg-primary/10 rounded flex items-center justify-center">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium text-foreground">Expert Practitioners</h3>
-                <p className="text-sm text-muted-foreground">
-                  Highly trained professionals with extensive experience in aesthetic treatments and latest techniques
-                </p>
-              </div>
 
-              <div className="space-y-3 p-6 border border-accent/50 hover:border-primary/50 transition">
-                <div className="w-12 h-12 bg-primary/10 rounded flex items-center justify-center">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium text-foreground">Premium Products</h3>
-                <p className="text-sm text-muted-foreground">
-                  Only FDA-approved and clinically tested products for safety and superior results
-                </p>
-              </div>
 
-              <div className="space-y-3 p-6 border border-accent/50 hover:border-primary/50 transition">
-                <div className="w-12 h-12 bg-primary/10 rounded flex items-center justify-center">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium text-foreground">Natural Results</h3>
-                <p className="text-sm text-muted-foreground">
-                  Customized treatments that enhance your features while maintaining your natural beauty
-                </p>
-              </div>
+        {/* ── Call to Action Section ── */}
+        <section
+          ref={cta.ref}
+          className="py-28 md:py-36 relative overflow-hidden"
+        >
+          {/* Subtle radial glow */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              background: 'radial-gradient(ellipse at center, var(--foreground) 0%, transparent 60%)',
+            }}
+          />
 
-              <div className="space-y-3 p-6 border border-accent/50 hover:border-primary/50 transition">
-                <div className="w-12 h-12 bg-primary/10 rounded flex items-center justify-center">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium text-foreground">Transparent Process</h3>
-                <p className="text-sm text-muted-foreground">
-                  Clear communication about procedures, expectations, and aftercare guidance
-                </p>
-              </div>
-
-              <div className="space-y-3 p-6 border border-accent/50 hover:border-primary/50 transition">
-                <div className="w-12 h-12 bg-primary/10 rounded flex items-center justify-center">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium text-foreground">Personalized Care</h3>
-                <p className="text-sm text-muted-foreground">
-                  One-on-one consultation to understand your goals and create your ideal treatment plan
-                </p>
-              </div>
-
-              <div className="space-y-3 p-6 border border-accent/50 hover:border-primary/50 transition">
-                <div className="w-12 h-12 bg-primary/10 rounded flex items-center justify-center">
-                  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium text-foreground">After-care Support</h3>
-                <p className="text-sm text-muted-foreground">
-                  Comprehensive guidance and follow-up support to maximize your treatment results
-                </p>
-              </div>
+          <div
+            className={`relative z-10 max-w-3xl mx-auto px-6 sm:px-8 lg:px-10 text-center space-y-8 transition-all duration-1000 ease-out ${cta.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
+          >
+            <p className="text-xs tracking-[0.3em] text-muted-foreground font-medium uppercase">
+              Ready to Begin?
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-foreground leading-snug">
+              Begin Your Aesthetic <span className="italic">Journey</span>
+            </h2>
+            <p className="text-lg text-muted-foreground font-light max-w-xl mx-auto leading-relaxed">
+              Schedule your consultation today and discover how Shadenaz Aesthetics can help you feel like the most confident version of yourself
+            </p>
+            <div className="pt-4">
+              <a
+                href="/booking"
+                className="group inline-flex items-center gap-3 bg-primary text-primary-foreground px-12 py-4 hover:opacity-90 transition-all duration-300 text-xs tracking-[0.25em] font-medium"
+              >
+                BOOK YOUR CONSULTATION
+                <svg
+                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
             </div>
           </div>
-        </div> */}
+        </section>
 
-        {/* Call to Action */}
-        <div className="py-20">
-          <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-10 text-center space-y-8">
-            <h2 className="text-3xl font-light text-foreground">Begin Your Aesthetic Journey</h2>
-            <p className="text-lg text-muted-foreground">
-              Schedule your consultation today and discover how Shadenaz Aesthetics can help you achieve your beauty goals
-            </p>
-            <a
-              href="/booking"
-              className="inline-block bg-primary text-primary-foreground px-12 py-4 hover:opacity-90 transition text-sm tracking-widest font-medium"
-            >
-              BOOK YOUR CONSULTATION
-            </a>
-          </div>
-        </div>
       </main>
       <Footer />
+
+      {/* Keyframe animations */}
+      <style jsx global>{`
+        @keyframes fadeSlideUp {
+          from {
+            opacity: 0;
+            transform: translateY(24px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </>
   );
 }

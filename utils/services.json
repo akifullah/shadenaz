@@ -1,35 +1,36 @@
 {
     "services": [
         {
-            "category": "Dermal Fillers - Face",
+            "category": "Face enhancement - Dermal Filler",
+            "description": "(Lips not included) Areas included in Face Enhancement: Cheeks, Jawline, Chin, Temples, Nasolabial folds, Smoker’s lines, Marionette lines, Pre-jowl sulcus, Neck lines.",
             "treatments": [
                 {
                     "name": "1ml Enhancement",
-                    "description": "Single ml of premium dermal filler",
+                    "description": "",
                     "price": "£99",
                     "duration": "45 minutes"
                 },
                 {
                     "name": "2ml Enhancement",
-                    "description": "Double ml for more dramatic results",
+                    "description": "",
                     "price": "£180",
                     "duration": "50 minutes"
                 },
                 {
                     "name": "3ml Enhancement",
-                    "description": "Triple ml for comprehensive facial enhancement",
+                    "description": "",
                     "price": "£260",
                     "duration": "60 minutes"
                 },
                 {
                     "name": "4ml Enhancement",
-                    "description": "Quad ml for advanced facial contouring",
+                    "description": "",
                     "price": "£330",
                     "duration": "70 minutes"
                 },
                 {
                     "name": "5ml Enhancement",
-                    "description": "Five ml for full facial volumisation",
+                    "description": "",
                     "price": "£395",
                     "duration": "70 minutes"
                 }
@@ -37,22 +38,23 @@
         },
         {
             "category": "Lip enhancement - Dermal Filler",
+            "description": "Must have no current Migration/LUMPS.",
             "treatments": [
                 {
                     "name": "0.5ml Lip Enhancement",
-                    "description": "Must have no current Migration/LUMPS.",
+                    "description": "",
                     "price": "£105",
                     "duration": "50 minutes"
                 },
                 {
                     "name": "0.7ml Lip Enhancement",
-                    "description": "Natural lip volume and shape",
+                    "description": "",
                     "price": "£115",
                     "duration": "50 minutes"
                 },
                 {
                     "name": "1.1ml Lip Enhancement",
-                    "description": "Fuller lips with enhanced definition",
+                    "description": "",
                     "price": "£125",
                     "duration": "50 minutes"
                 }
@@ -71,16 +73,17 @@
         },
         {
             "category": "Dissolving Filler (Hyaluronidase)",
+            "description": "Safe and effective filler dissolution using hyaluronidase",
             "treatments": [
                 {
                     "name": "Dissolving Filler - 1 Area",
-                    "description": "Safe and effective filler dissolution using hyaluronidase",
+                    "description": "",
                     "price": "£85",
                     "duration": "50 minutes"
                 },
                 {
                     "name": "Dissolving Filler - 2 Areas",
-                    "description": "Safe and effective filler dissolution using hyaluronidase",
+                    "description": "",
                     "price": "£150",
                     "duration": "60 minutes"
                 }

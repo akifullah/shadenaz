@@ -221,11 +221,15 @@ export default function PricingPage() {
             <div className="space-y-12">
               {pricingPlans.map((category, catIndex) => (
                 <div key={catIndex} className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <span className="w-1 h-8 bg-primary"></span>
-                    <h3 className="text-2xl font-medium text-foreground">
-                      {category.category}
-                    </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <span className="w-1 h-8 bg-primary"></span>
+                      <h3 className="text-2xl font-medium text-foreground">
+                        {category.category}
+                      </h3>
+
+                    </div>
+                    <p className='max-w-4xl text-muted-foreground'>{category.description}</p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
