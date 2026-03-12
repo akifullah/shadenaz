@@ -197,6 +197,8 @@
         },
         {
             "category": "Skin Treatments - Microneedling",
+            "extra_quetion": "(Please write below what area you are wanting this treatment done on and why?",
+            "placeholder": " For example: Full back because of acne scars)",
             "treatments": [
                 {
                     "name": "Microneedling Face",
@@ -229,19 +231,19 @@
             "treatments": [
                 {
                     "name": "PRP Face",
-                    "description": "This treatment uses your own plasma which is injected into the face and under the eyes, with microneedling also performed to enhance skin rejuvenation.",
+                    "description": "This treatment uses your own plasma which is injected into the face and under the eyes, with microneedling also performed to enhance skin rejuvenation. (Includes taking your blood)",
                     "price": "£115",
                     "duration": "80 minutes"
                 },
                 {
                     "name": "PRP Face + Neck",
-                    "description": "This treatment uses your own plasma which is injected into the face and under the eyes, with microneedling also performed on the face and neck to enhance skin rejuvenation.",
+                    "description": "This treatment uses your own plasma which is injected into the face and under the eyes, with microneedling also performed on the face and neck to enhance skin rejuvenation. (Includes taking your blood).",
                     "price": "£130",
                     "duration": "90 minutes"
                 },
                 {
                     "name": "PRP Body",
-                    "description": "This treatment uses your own plasma which is injected into the area being treated, with microneedling also performed to enhance skin rejuvenation.",
+                    "description": "This treatment uses your own plasma which is injected into the area being treated, with microneedling also performed to enhance skin rejuvenation. (Includes taking your blood).",
                     "price": "£149",
                     "duration": "90 minutes"
                 }
@@ -293,13 +295,13 @@
                 },
                 {
                     "name": "iLLUMA Luna (1ml)",
-                    "description": "Brightening and hydrating skin booster",
+                    "description": "Brightens, depuffs and revitalises the under eye area for a refreshed, youthful look.",
                     "price": "£110",
                     "duration": "40 minutes"
                 },
                 {
                     "name": "Lumi Eyes (1ml)",
-                    "description": "Revitalising under-eye skin booster",
+                    "description": "Hydrates, and rejuvenates the under eye area, helping to smooth fine lines and restore radiance.",
                     "price": "£90",
                     "duration": "40 minutes"
                 },
@@ -312,23 +314,23 @@
             ]
         },
         {
-            "category": "Fat Dissolving (Lemon Bottle)",
+            "category": "Fat dissolving Injections (Lemon bottle)",
             "treatments": [
                 {
-                    "name": "Fat Dissolving - Small Areas",
-                    "description": "Targeted fat reduction for small areas",
+                    "name": "Lemon Bottle - Chin/Jaw",
+                    "description": "THelps reduce stubborn fat and improve the appearance of a double chin",
                     "price": "£60",
                     "duration": "40 minutes"
                 },
                 {
-                    "name": "Fat Dissolving - Medium Areas",
-                    "description": "Targeted fat reduction for medium areas",
+                    "name": "Lemon Bottle - Half Stomach",
+                    "description": "Targets stubborn fat to slim the upper or lower stomach area.",
                     "price": "£85",
                     "duration": "50 minutes"
                 },
                 {
-                    "name": "Fat Dissolving - Large Areas",
-                    "description": "Targeted fat reduction for large areas",
+                    "name": "Lemon Bottle - Large Area",
+                    "description": "Areas available: Full stomach, Arms (bingo wings), thighs, back, waist, love handles, bra fat and beneath the buttocks.",
                     "price": "£120",
                     "duration": "60 minutes"
                 }
@@ -339,25 +341,25 @@
             "treatments": [
                 {
                     "name": "PRP Hair",
-                    "description": "Platelet-rich plasma treatment to stimulate hair growth",
+                    "description": "Stimulates hair growth with your own platelet-rich plasma. (Includes taking your blood)",
                     "price": "£145",
                     "duration": "90 minutes"
                 },
                 {
-                    "name": "PRP Hair x5 Sessions",
-                    "description": "Course of five PRP hair loss treatments",
+                    "name": "PRP Hair - 5 Sessions",
+                    "description": "Course of five PRP hair loss sessions",
                     "price": "£675",
                     "duration": "90 minutes per session"
                 },
                 {
-                    "name": "Hair Filler (2ml)",
-                    "description": "Filler-based treatment to improve scalp and hair density",
+                    "name": "Dr.CYJ Hair Filler (2ml)",
+                    "description": "Powered by biomimetic peptides and hyaluronic acid to boost hair growth and scalp health.",
                     "price": "£135",
                     "duration": "40 minutes"
                 },
                 {
-                    "name": "Polynucleotides Hair (2ml)",
-                    "description": "DNA-based treatment to promote hair restoration",
+                    "name": "Polyneucleotide (2ml)",
+                    "description": "Uses DNA-based peptides to boost collagen, reduce inflammation and revitalize follicles for thicker, healthier hair.",
                     "price": "£145",
                     "duration": "40 minutes"
                 }
