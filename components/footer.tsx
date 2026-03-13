@@ -17,6 +17,9 @@ export function Footer() {
               <Link href="/about" className="text-sm hover:opacity-70 transition">
                 About Us
               </Link>
+              <Link href="/results" className="text-sm hover:opacity-70 transition">
+                Results
+              </Link>
               <Link href="/pricing" className="text-sm hover:opacity-70 transition">
                 Pricing
               </Link>
