@@ -232,7 +232,7 @@ export default function AboutPage() {
             </p>
             <div className="pt-4">
               <a
-                href="/booking"
+                href="/pricing"
                 className="group inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-3 md:px-12 md:py-4 hover:opacity-90 transition-all duration-300 text-xs tracking-[0.25em] font-medium"
               >
                 BOOK YOUR CONSULTATION

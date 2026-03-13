@@ -8,8 +8,8 @@ import { usePathname } from 'next/navigation';
 const navLinks = [
   { href: '/about', label: 'ABOUT' },
   { href: '/pricing', label: 'TREATMENTS & PRICING' },
-  { href: '/care-guide', label: 'PRE AND POST CARE' },
-  { href: '/consent-form', label: 'CONSENT FORM' },
+  { href: '/care-guide', label: 'PRE & POST CARE' },
+  { href: '/consent-form', label: 'CONSENT' },
   { href: '/policies', label: 'POLICIES' },
   { href: '/contact', label: 'CONTACT' },
 ];
@@ -75,7 +75,7 @@ export function Header() {
             <div className="flex items-center gap-4">
               {/* Book Now — always visible */}
               <Link
-                href="/booking"
+                href="/pricing"
                 className="hidden sm:inline-block border-2 border-primary text-primary px-8 py-2 hover:bg-primary hover:text-primary-foreground transition text-xs tracking-widest font-medium"
               >
                 BOOK NOW
@@ -154,7 +154,7 @@ export function Header() {
             }}
           >
             <Link
-              href="/booking"
+              href="/pricing"
               onClick={closeSidebar}
               className="block w-full text-center border-2 border-primary text-primary px-8 py-4 hover:bg-primary hover:text-primary-foreground transition-colors duration-300 text-xs tracking-widest font-medium"
             >

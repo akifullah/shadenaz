@@ -65,12 +65,12 @@ export function TreatmentsSection() {
             Premium Services
           </h2>
           <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
-            Each treatment is customized to your unique needs and goals
+            Each treatment is customised to your unique needs and goals
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {treatments.map((treatment) => (
+          {/* {treatments.map((treatment) => (
             <div
               key={treatment.id}
               className="group flex flex-col h-full bg-white/50 hover:bg-white transition-all duration-300 p-0 cursor-pointer"
@@ -101,14 +101,14 @@ export function TreatmentsSection() {
                 </div>
 
                 <Link
-                  href={`/booking?treatment=${treatment.name}`}
+                  href={`/pricing?treatment=${treatment.name}`}
                   className="block text-center bg-primary text-primary-foreground py-3 hover:bg-primary/90 transition text-xs tracking-widest font-medium mt-auto"
                 >
                   BOOK NOW
                 </Link>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>

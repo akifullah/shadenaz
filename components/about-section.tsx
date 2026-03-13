@@ -10,18 +10,16 @@ export function AboutSection() {
               About Us
             </p>
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-light tracking-tight text-foreground">
-              Meet Our Expert
+              Welcome to Shadenaz Aesthetics
             </h2>
           </div>
 
           <div className="space-y-4 md:space-y-6 text-center">
             <p className="text-sm md:text-lg text-foreground leading-relaxed font-light">
-              Welcome to Shadenaz Aesthetics, where elegance meets expert care. We specialize in premium aesthetic treatments 
-              designed to enhance your natural beauty and boost your confidence with precision and artistry.
+              A place that  specialises in premium aesthetic treatments designed to bring out your natural beauty and boost your confidence, using a careful balance of skill and artistry.
             </p>
             <p className="text-sm md:text-lg text-foreground leading-relaxed font-light">
-              Our founder combines clinical excellence with aesthetic vision, ensuring every client receives personalized treatment 
-              plans that deliver natural, beautiful results. We're committed to the latest techniques and highest safety standards.
+              I bring together clinical expertise and a genuine eye for aesthetics, ensuring every client receives a personalised plan that delivers natural, beautiful results. I’m committed to the latest techniques and the highest safety standards.
             </p>
           </div>
 
@@ -31,8 +29,8 @@ export function AboutSection() {
               <p className="text-xs text-muted-foreground tracking-wide">Years Experience</p>
             </div>
             <div className="text-center space-y-2">
-              <p className="text-xl md:text-3xl font-medium text-primary">50+</p>
-              <p className="text-xs text-muted-foreground tracking-wide">Professionals Trained</p>
+              <p className="text-xl md:text-3xl font-medium text-primary">32+</p>
+              <p className="text-xs text-muted-foreground tracking-wide">Certifications</p>
             </div>
             <div className="text-center space-y-2">
               <p className="text-xl md:text-3xl font-medium text-primary">1000+</p>
@@ -43,9 +41,9 @@ export function AboutSection() {
           <div className="space-y-3 md:space-y-4 pt-6 md:pt-8 bg-background p-5 md:p-8 rounded-sm border border-accent/50">
             <h3 className="text-base md:text-lg font-medium text-foreground">Opening Hours</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>Monday to Friday – 09:00 – 21:00</p>
-              <p>Saturday – 10:00 – 18:00</p>
-              <p>Sunday – 12:00 – 18:00</p>
+              <p>Monday to Friday – 10am - 8pm</p>
+              <p>Saturdays - CLOSED</p>
+              <p>Sunday – 12pm - 8pm</p>
             </div>
           </div>
         </div>

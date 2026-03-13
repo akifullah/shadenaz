@@ -24,7 +24,7 @@ A comprehensive, minimalist aesthetic clinic booking website built with Next.js 
   - **Special Treatments**: Nose enhancement, BioRePeel, consultations
 - Each treatment includes: name, description, price (in £), duration, and booking link
 
-### 3. **Booking Page** (`/app/booking/page.tsx`)
+### 3. **Booking Page** (`/app/pricing/page.tsx`)
 - Multi-field booking form with:
   - Client information (name, email, phone)
   - Treatment selection dropdown with 21 treatment options
@@ -151,7 +151,7 @@ All treatments include:
 ```
 /                          (Homepage)
 ├── /pricing               (All treatments & pricing)
-├── /booking               (Booking form)
+├── /pricing               (Booking form)
 ├── /care-guide            (Pre/Post care instructions)
 ├── /policies              (Policies & FAQs)
 └── /contact               (Contact & inquiries)

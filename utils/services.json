@@ -38,7 +38,7 @@
         },
         {
             "category": "Lip enhancement - Dermal Filler",
-            "description": "Must have no current Migration/LUMPS.",
+            "description": "Your current lips must have no migration/lumps.",
             "treatments": [
                 {
                     "name": "0.5ml Lip Enhancement",
@@ -83,7 +83,7 @@
                 },
                 {
                     "name": "Dissolving Filler - 2 Areas",
-                    "description": "",
+                    "description": "Ideal if you need a large area dissolving such as full jawline or 2 small areas such as chin and lips.",
                     "price": "£150",
                     "duration": "60 minutes"
                 }
@@ -111,37 +111,37 @@
             "description": "Forehead, Frown lines, Crow’s feet (side of the eyes), Brow lift, Bunny lines, Chin dimples, Nose tip lift, Nostril slimming/ flare. (Please check the next section for advanced Botox areas).",
             "treatments": [
                 {
-                    "name": "1 Area Of Botox",
+                    "name": "1 Area of Botox",
                     "description": "The price includes a 10 day review/ touch up.",
                     "price": "£95",
                     "duration": "30 minutes"
                 },
                 {
-                    "name": "2 Areas Of Botox",
+                    "name": "2 Areas of Botox",
                     "description": "The price includes a 10 day review/ touch up.",
                     "price": "£135",
                     "duration": "35 minutes"
                 },
                 {
-                    "name": "3 Areas Of Botox",
+                    "name": "3 Areas of Botox",
                     "description": "The price includes a 10 day review/ touch up.",
                     "price": "£175",
                     "duration": "40 minutes"
                 },
                 {
-                    "name": "4 Areas Of Botox",
+                    "name": "4 Areas of Botox",
                     "description": "The price includes a 10 day review/ touch up.",
                     "price": "£220",
                     "duration": "45 minutes"
                 },
                 {
-                    "name": "5 Areas Of Botox",
+                    "name": "5 Areas of Botox",
                     "description": "The price includes a 10 day review/ touch up.",
                     "price": "£265",
                     "duration": "50 minutes"
                 },
                 {
-                    "name": "6 Areas Of Botox",
+                    "name": "6 Areas of Botox",
                     "description": "The price includes a 10 day review/ touch up.",
                     "price": "£310",
                     "duration": "50 minutes"
@@ -191,7 +191,7 @@
                     "name": "Jowls",
                     "description": "Lift and define the jawline. Includes 10-day review.",
                     "price": "£115",
-                    "duration": "60 minutes"
+                    "duration": "30 minutes"
                 }
             ]
         },
@@ -250,7 +250,8 @@
             ]
         },
         {
-            "category": "Skin Treatments - BioRePeel",
+            "category": "Chemical Peel - BioRePeel",
+            "description": "Treats active acne, scars, fine lines and sun damage on the face, neck and body by increasing cellular turnover and collagen production.",
             "treatments": [
                 {
                     "name": "BioRePeel Face",

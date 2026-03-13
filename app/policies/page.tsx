@@ -25,19 +25,18 @@ const policies = [
     id: 3,
     title: 'Payment Terms',
     items: [
-      'A deposit is required to confirm your booking',
-      'Full payment must be received before treatment',
+      'A £40 deposit is required to confirm your booking',
+      'Remaining payments are cash only',
       'We accept all major payment methods',
       'Invoices can be provided upon request'
     ]
   },
   {
     id: 4,
-    title: 'Touch-Up Policy (Botox)',
+    title: 'Touch-up Policy',
     items: [
-      'Please book your review/touch up appointment approximately 10 days after your treatment',
-      'Small adjustments may be needed to perfect your result',
-      'Complimentary touch ups must be attended within 20 days of your treatment',
+      'Your complimentary review/ touch-up appointment must take place approximately 10 days after your initial treatment.',
+      'If you fail to attend the touch-up appointment within 20 days of your initial treatment,  any further adjustments will be chargeable.',
       'After 20 days, any further adjustments will be chargeable'
     ]
   },
@@ -72,20 +71,16 @@ const faqs = [
     answer: 'Cancellations must be made at least 3 days before your appointment. Cancelling within 3 days will result in loss of deposit.'
   },
   {
-    question: 'How long do results last?',
-    answer: 'Results vary depending on the treatment. Botox typically lasts 3-4 months, while fillers can last 6-12 months. We\'ll discuss longevity during your consultation.'
-  },
-  {
     question: 'Are treatments painful?',
-    answer: 'Most clients report minimal discomfort. We use fine needles and can apply numbing cream if needed. Pain tolerance varies individually.'
+    answer: `Everyone's pain tolerance is completely different and discomfort can vary depending on the area being treated. However, a strong numbing cream is applied beforehand to minimise any discomfort, and fine needles are used to further reduce pain.`
   },
   {
     question: 'When will I see results?',
-    answer: 'Some treatments show immediate results, while others develop gradually. Most clients see full results within 1-2 weeks.'
+    answer: 'Commonly, all injectable treatments may show some immediate results. However, injectable treatments may come with swelling and bruising. It typically takes approximately four weeks to see the full results.'
   },
   {
     question: 'Is there downtime after treatment?',
-    answer: 'Downtime varies by treatment. Most treatments allow you to return to normal activities immediately, though you should avoid strenuous exercise for 24 hours.'
+    answer: 'All treatments come with some downtime. Please check the pre- and post-care section for full details on what to expect.'
   }
 ];
 

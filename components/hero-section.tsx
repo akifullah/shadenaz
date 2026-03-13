@@ -19,7 +19,7 @@ export function HeroSection() {
             Professional aesthetic treatments designed to enhance your natural beauty with precision and care
           </p>
           <div className="pt-4">
-            <Link href="/booking" className="inline-block border-2 border-primary text-primary px-8 py-2 md:px-10 md:py-3 hover:bg-primary hover:text-primary-foreground transition text-xs md:text-sm tracking-widest font-medium">
+            <Link href="/pricing" className="inline-block border-2 border-primary text-primary px-8 py-2 md:px-10 md:py-3 hover:bg-primary hover:text-primary-foreground transition text-xs md:text-sm tracking-widest font-medium">
               BOOK CONSULTATION
             </Link>
           </div>

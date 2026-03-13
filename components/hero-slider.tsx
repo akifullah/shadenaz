@@ -88,7 +88,7 @@ export function HeroSlider() {
               </p>
               <div className="pt-4 md:pt-8">
                 <Link
-                  href="/booking"
+                  href="/pricing"
                   className="inline-block border-2 border-primary text-primary px-8 py-2 md:px-12 md:py-3 hover:bg-primary hover:text-primary-foreground transition text-xs md:text-sm tracking-widest font-medium"
                 >
                   BOOK NOW

@@ -162,7 +162,14 @@ const careGuides: CareGuide[] = [
     title: 'MICRONEEDLING',
     sections: [
       {
-        title: 'PRE-CARE',
+        title: 'IMPORTANT',
+        type: 'warning',
+        items: [
+          'It is vital that all clients have their own organic hyaluronic acid serum and SPF 50 to use as a part of the aftercare.'
+        ]
+      },
+      {
+        title: 'PRE-CARE INSTRUCTIONS',
         items: [
           'Are not pregnant/ breastfeeding.',
           'Stop taking vitamins or anti-inflammatory medications such as Ibuprofen, Aspirin or Fish oils for 10 days.',
@@ -204,18 +211,18 @@ const careGuides: CareGuide[] = [
     id: 'prp-hair',
     title: 'PRP HAIR LOSS',
     sections: [
-      {
-        title: 'CLINIC POLICY',
-        type: 'warning',
-        items: [
-          'If you arrive early then please wait until your appointment time to come in.',
-          'You must attend the appointment alone.',
-          'Children are strictly not allowed inside.',
-          'Deposits are non-refundable.',
-          'Cancelling within 3 days of your appointment will result in loss of deposit.',
-          'Arriving late may result in losing your appointment and deposit.'
-        ]
-      },
+      // {
+      //   title: 'CLINIC POLICY',
+      //   type: 'warning',
+      //   items: [
+      //     'If you arrive early then please wait until your appointment time to come in.',
+      //     'You must attend the appointment alone.',
+      //     'Children are strictly not allowed inside.',
+      //     'Deposits are non-refundable.',
+      //     'Cancelling within 3 days of your appointment will result in loss of deposit.',
+      //     'Arriving late may result in losing your appointment and deposit.'
+      //   ]
+      // },
       {
         title: 'PRE-CARE INSTRUCTIONS',
         items: [
@@ -281,6 +288,38 @@ const careGuides: CareGuide[] = [
           'Avoid extreme heat such as sauna, steam room and sunbeds for 2 weeks.',
           'Avoid laser, chemical peels, facials and other treatments for 2 weeks.',
           'Wait at least 3 weeks before having any Covid vaccines.'
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'bio-repeel',
+    title: 'BioRePeel',
+    sections: [
+      {
+        title: 'PRE-CARE INSTRUCTIONS',
+        items: [
+          'Are not pregnant/ breastfeeding.',
+          'Arrive with clean skin free from makeup.',
+          'Do not use exfoliating products for 48 hours before treatment.',
+          'Avoid retinol, retinoids, or active skincare ingredients for 7 days prior to treatment.',
+          'Avoid sunbeds or sunbathing for 14 days before treatment.',
+          'Avoid waxing, bleaching, or hair removal on the treatment area for 14 days prior to treatment.',
+        ]
+      },
+      {
+        title: 'POST-CARE INSTRUCTIONS',
+        items: [
+          'Use only water on the treated area for the first 24 hours.',
+          'After 24 hours, cleanse the face with a gentle cleanser and use only a gentle moisturiser alongside SPF 50',
+          'Use clean pillowcases and towels and gently dab the skin dry.',
+          'Avoid touching, picking, peeling or scratching the treated area. If peeling or flaking occurs, allow the skin to shed naturall.',
+          'Avoid laser treatments and sunbeds for 2 weeks.',
+          'Avoid extreme heat such as hot showers, steam rooms, saunas or direct sun exposure for 7 days.',
+          'Avoid heavy sweating or intense exercise for 48 hours.',
+          'Avoid makeup for at least 3 days, or longer if the skin remains sensitive.',
+          'Drink plenty of water to support skin healing.',
         ]
       }
     ]

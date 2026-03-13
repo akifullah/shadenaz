@@ -29,7 +29,7 @@ export function Footer() {
               <Link href="/consent-form" className="text-sm hover:opacity-70 transition">
                 Consent Form
               </Link>
-              <Link href="/booking" className="text-sm hover:opacity-70 transition">
+              <Link href="/pricing" className="text-sm hover:opacity-70 transition">
                 Book Now
               </Link>
             </nav>
@@ -77,7 +77,7 @@ export function Footer() {
 
         <div className="border-t border-secondary/30 pt-6 md:pt-8">
           <p className="text-xs md:text-sm text-center opacity-70">
-            © {new Date().getFullYear()} Shadenaz Aesthetics. All rights reserved. | Website by CREATEA WEB
+            © {new Date().getFullYear()} Shadenaz Aesthetics. All rights reserved. | Made ❤ by <a className='font-bold' href="https://createaweb.co.uk" target='_blank'>CREATEA WEB</a>
           </p>
         </div>
       </div>

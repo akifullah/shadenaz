@@ -51,7 +51,7 @@ export default function ContactPage() {
               <div className="space-y-12">
                 <div>
                   <h2 className="text-xl md:text-2xl font-light text-foreground mb-6 md:mb-8">Contact Information</h2>
-                  
+
                   <div className="space-y-8">
                     <div className="flex gap-6">
                       <div className="flex-shrink-0">
@@ -61,8 +61,8 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="text-sm font-medium text-foreground tracking-widest mb-1">PHONE</h3>
-                        <a href="tel:+1234567890" className="text-muted-foreground hover:text-primary transition">
-                          +1 (234) 567-890
+                        <a href="tel:+4407301037810" className="text-muted-foreground hover:text-primary transition">
+                          07301037810
                         </a>
                       </div>
                     </div>
@@ -75,8 +75,8 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="text-sm font-medium text-foreground tracking-widest mb-1">EMAIL</h3>
-                        <a href="mailto:info@createaweb.com" className="text-muted-foreground hover:text-primary transition">
-                          info@createaweb.com
+                        <a href="mailto:shadenaz.aesthetics@gmail.com" className="text-muted-foreground hover:text-primary transition">
+                          shadenaz.aesthetics@gmail.com
                         </a>
                       </div>
                     </div>
@@ -90,8 +90,7 @@ export default function ContactPage() {
                       <div>
                         <h3 className="text-sm font-medium text-foreground tracking-widest mb-1">LOCATION</h3>
                         <p className="text-muted-foreground">
-                          123 Beauty Street<br />
-                          New York, NY 10001
+                          Bolton, Hunger Hill, BL3
                         </p>
                       </div>
                     </div>
@@ -104,8 +103,8 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="text-sm font-medium text-foreground tracking-widest mb-1">INSTAGRAM</h3>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition">
-                          @createaweb
+                        <a href="https://instagram.com/@Shadenaz_Aesthetics" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition">
+                          @Shadenaz_Aesthetics
                         </a>
                       </div>
                     </div>
@@ -113,19 +112,19 @@ export default function ContactPage() {
                 </div>
 
                 <div className="border-t border-accent/30 pt-12">
-                  <h3 className="text-base md:text-lg font-light text-foreground mb-4 md:mb-6">Hours</h3>
+                  <h3 className="text-base md:text-lg font-light text-foreground mb-4 md:mb-6">Opening Hours:</h3>
                   <div className="space-y-3 text-muted-foreground">
                     <div className="flex justify-between">
                       <span>Monday – Friday</span>
-                      <span className="font-medium">09:00 – 21:00</span>
+                      <span className="font-medium">10am - 8pm</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Saturday</span>
-                      <span className="font-medium">10:00 – 18:00</span>
+                      <span className="font-medium">Closed</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Sunday</span>
-                      <span className="font-medium">12:00 – 18:00</span>
+                      <span className="font-medium">12pm - 8pm</span>
                     </div>
                   </div>
                 </div>
@@ -133,7 +132,7 @@ export default function ContactPage() {
 
               <div className="bg-secondary/30 p-5 md:p-8 border border-accent/50">
                 <h2 className="text-xl md:text-2xl font-light text-foreground mb-6 md:mb-8">Send us a Message</h2>
-                
+
                 {submitted && (
                   <div className="mb-6 p-4 bg-primary/10 border border-primary/30 text-primary text-sm">
                     Thank you! We'll get back to you soon.
