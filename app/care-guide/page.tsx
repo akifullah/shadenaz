@@ -294,6 +294,57 @@ const careGuides: CareGuide[] = [
   },
 
   {
+    id: 'prp-skin',
+    title: 'PRP Skin',
+    sections: [
+      {
+        title: 'IMPORTANT',
+        type: 'warning',
+        items: [
+          `It is vital that all clients have their own organic hyaluronic acid serum and SPF 50 to use as a part of the aftercare.`,
+          `Eat a healthy, well balanced meal before your appointment.`,
+          `Drink approximately 500ml of water at least 1-2 hours prior to your treatment.`
+
+        ]
+      },
+      {
+        title: 'PRE-CARE INSTRUCTIONS',
+        items: [
+          'Are not pregnant/ breastfeeding.',
+          'Stop taking vitamins or anti-inflammatory medications such as Ibuprofen, Aspirin or Fish oils for 10 days.',
+          'Do not consume alcohol for 3 days.',
+          'Plan social events around this treatment as redness/ peeling can be common after microneedling for up to 7 days.',
+          'Avoid sun exposure, sunbeds, waxing treatments for 7 days.',
+          'Must not have an active breakout, open wounds or any other infections in the area to be treated.',
+          'Stop using active skincare such as retinoids, exfoliants, topical antibiotics or acids for 5 days.',
+          'Avoid all laser procedures and unprotected sun exposure for 2 weeks.',
+          'Do not shave on the day of the treatment. If there’s dense hair present in the area, shave prior to the day of your appointment.',
+          'Must not be taking Accutane or have taken Accutane in the past 6 months.',
+        ]
+      },
+      {
+        title: 'POST-CARE INSTRUCTIONS',
+        items: [
+          `Make sure you use a clean pillowcase and towels. (Gently dab dry only) Avoid touching, picking, peeling or scratching the treated area. (If peeling or flaking occurs, allow the skin to shed naturally)`,
+          'Avoid laser treatments and sunbeds for 2 weeks.',
+          'Avoid extreme heat such as hot showers, steam rooms, saunas or sun exposure for 7 days.',
+          'Avoid heavy sweating/ intense exercise for 48 hours.',
+          'Avoid makeup for at least 3 days (longer if skin is still sensitive).',
+          'Drink plenty of water to support skin healing.',
+        ]
+      },
+      {
+        title: 'SKINCARE TIMELINE',
+        type: 'info',
+        items: [
+          'Days 1 - 3: Wash with water only. Apply Hyaluronic acid serum morning and night. In the morning, apply SPF 50. No SPF is needed at night.',
+          'Days 3 - 7: You may start using a gentle face wash (no exfoliants). Introduce your usual gentle moisturiser or day/ night creams.',
+          'After 7 days: You can resume your regular skincare routine.'
+        ]
+      }
+    ]
+  },
+  {
     id: 'bio-repeel',
     title: 'BioRePeel',
     sections: [

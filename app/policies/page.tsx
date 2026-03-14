@@ -27,8 +27,6 @@ const policies = [
     items: [
       'A £40 deposit is required to confirm your booking',
       'Remaining payments are cash only',
-      'We accept all major payment methods',
-      'Invoices can be provided upon request'
     ]
   },
   {
@@ -37,7 +35,6 @@ const policies = [
     items: [
       'Your complimentary review/ touch-up appointment must take place approximately 10 days after your initial treatment.',
       'If you fail to attend the touch-up appointment within 20 days of your initial treatment,  any further adjustments will be chargeable.',
-      'After 20 days, any further adjustments will be chargeable'
     ]
   },
   {
