@@ -62,57 +62,7 @@ export default function ResultsPage() {
 
       <main className="w-full bg-background">
 
-        {/* ── Hero Banner ────────────────────────────────────────────────── */}
-        <section className="results-hero relative w-full flex items-center justify-center overflow-hidden">
-          {/* background image layer */}
-          <div className="results-hero-bg absolute inset-0">
-            <Image
-              src="/image1.jpg"
-              alt="Results hero"
-              fill
-              className="object-cover object-center"
-              priority
-            />
-            <div className="absolute inset-0 bg-black/60" />
-          </div>
-
-          {/* Decorative fine lines */}
-          <div className="results-hero-line-l absolute left-0 top-0 h-full w-[1px] bg-white/10" />
-          <div className="results-hero-line-r absolute right-0 top-0 h-full w-[1px] bg-white/10" />
-
-          <div className="relative z-10 text-center px-4 py-24 sm:py-32 max-w-3xl mx-auto">
-            <p className="text-[10px] sm:text-xs tracking-[0.3em] text-white/60 uppercase mb-4">
-              Shadenaz Aesthetics
-            </p>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-light tracking-tight text-white mb-6 leading-tight">
-              Client <span className="">Results</span>
-            </h1>
-            <p className="text-sm sm:text-base text-white/70 leading-relaxed max-w-xl mx-auto mb-8">
-              Real transformations from real clients. Every photo tells a story of renewed
-              confidence and expertly delivered aesthetic care.
-            </p>
-            <Link
-              href="/pricing"
-              className="inline-block border border-white text-white px-10 py-3 text-xs tracking-widest hover:bg-white hover:text-black transition-all duration-300"
-            >
-              BOOK YOUR TRANSFORMATION
-            </Link>
-          </div>
-        </section>
-
-        {/* ── Stats Bar ──────────────────────────────────────────────────── */}
-        <section className="w-full bg-primary text-primary-foreground py-6 md:py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 divide-x-0 md:divide-x md:divide-white/20">
-              {stats.map((s) => (
-                <div key={s.label} className="text-center">
-                  <p className="text-2xl sm:text-3xl md:text-4xl font-light tracking-tight">{s.value}</p>
-                  <p className="text-[10px] sm:text-xs tracking-widest text-white/60 uppercase mt-1">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+       
 
         {/* ── Gallery Section ────────────────────────────────────────────── */}
         <section className="w-full py-16 md:py-28">
@@ -120,11 +70,8 @@ export default function ResultsPage() {
 
             {/* Section heading */}
             <div className="text-center mb-10 md:mb-16 space-y-3">
-              <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">
-                Gallery
-              </p>
               <h2 className="text-2xl sm:text-3xl md:text-5xl font-light tracking-tight text-foreground">
-                Natural. Beautiful. <span className="">Results.</span>
+                <span className="">Results.</span>
               </h2>
               <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
                 Filter by treatment and tap any photo to explore in detail.

@@ -220,6 +220,17 @@ export default function ConsentFormPage() {
                                     <span className="text-xl">👤</span>
                                     <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Client Details</h2>
                                 </div>
+                                {/* ── ID Warning ── */}
+                                <div className="flex items-start gap-3 border border-amber-300 bg-amber-50 px-4 py-3 rounded-sm">
+                                    <svg className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                                    </svg>
+                                    <p className="text-xs text-amber-800 leading-relaxed">
+                                        <span className="font-semibold">Important:</span> You <span className="font-semibold">MUST</span> enter your real, full name, date of birth and address exactly as they appear on your official identification document.{' '}
+                                        <span className="italic">(Do not use nicknames, abbreviations, or alternative spellings).</span>
+                                    </p>
+                                </div>
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="md:col-span-2">
                                         <label className="block text-xs tracking-widest text-muted-foreground font-medium uppercase mb-2">

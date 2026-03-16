@@ -244,7 +244,7 @@
                 {
                     "name": "PRP Body",
                     "description": "This treatment uses your own plasma which is injected into the area being treated, with microneedling also performed to enhance skin rejuvenation. (Includes taking your blood).",
-                    "price": "£149",
+                    "price": "From £149",
                     "duration": "90 minutes"
                 }
             ]
@@ -319,7 +319,7 @@
             "treatments": [
                 {
                     "name": "Lemon Bottle - Chin/Jaw",
-                    "description": "THelps reduce stubborn fat and improve the appearance of a double chin",
+                    "description": "Helps reduce stubborn fat and improve the appearance of a double chin",
                     "price": "£60",
                     "duration": "40 minutes"
                 },

@@ -47,8 +47,8 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
-              <div className="space-y-12">
+            <div className="">
+              <div className="space-y-12 mx-auto max-w-xl">
                 <div>
                   <h2 className="text-xl md:text-2xl font-light text-foreground mb-6 md:mb-8">Contact Information</h2>
 
@@ -130,7 +130,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-secondary/30 p-5 md:p-8 border border-accent/50">
+              {/* <div className="bg-secondary/30 p-5 md:p-8 border border-accent/50">
                 <h2 className="text-xl md:text-2xl font-light text-foreground mb-6 md:mb-8">Send us a Message</h2>
 
                 {submitted && (
@@ -199,7 +199,7 @@ export default function ContactPage() {
                     SEND MESSAGE
                   </button>
                 </form>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
