@@ -1,8 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
 
 const testimonials = [
   {
@@ -78,10 +77,20 @@ const testimonials = [
 ];
 
 export function TestimonialsSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000, stopOnInteraction: false }),
-  ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const startAutoplay = useCallback(() => {
+    if (autoplayRef.current) clearInterval(autoplayRef.current);
+    autoplayRef.current = setInterval(() => {
+      emblaApi?.scrollNext();
+    }, 5000);
+  }, [emblaApi]);
+
+  const stopAutoplay = useCallback(() => {
+    if (autoplayRef.current) clearInterval(autoplayRef.current);
+  }, []);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -95,11 +104,20 @@ export function TestimonialsSection() {
     const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
     emblaApi.on('select', onSelect);
     onSelect();
-    return () => { emblaApi.off('select', onSelect); };
-  }, [emblaApi]);
+    startAutoplay();
+    return () => {
+      emblaApi.off('select', onSelect);
+      stopAutoplay();
+    };
+  }, [emblaApi, startAutoplay, stopAutoplay]);
 
   return (
-    <section id="testimonials" className="w-full bg-background py-12 md:py-24 border-b border-accent/30 overflow-hidden">
+    <section
+      id="testimonials"
+      className="w-full bg-background py-12 md:py-24 border-b border-accent/30 overflow-hidden"
+      onMouseEnter={stopAutoplay}
+      onMouseLeave={startAutoplay}
+    >
       <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-10">
 
         {/* Header */}
