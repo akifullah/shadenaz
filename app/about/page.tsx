@@ -38,8 +38,7 @@ export default function AboutPage() {
       <main className="w-full bg-background overflow-hidden">
 
         {/* ── Hero Section ── */}
-        <section className="relative min-h-[40vh] md:min-h-[60vh] flex items-center justify-center overflow-hidden">
-          {/* Decorative background */}
+        {/* <section className="relative min-h-[40vh] md:min-h-[60vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-accent/20 via-background to-background" />
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full opacity-[0.04]"
@@ -65,12 +64,11 @@ export default function AboutPage() {
               Ethical aesthetics rooted in care, confidence, and a personalised approach — one client at a time
             </p>
 
-            {/* Decorative line */}
             <div className="mt-8 md:mt-12 flex justify-center opacity-0 animate-[fadeSlideUp_0.8s_0.8s_ease-out_forwards]">
               <div className="w-16 h-[1px] bg-primary/30" />
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* ── Brand Story Section ── */}
         <section
@@ -98,20 +96,13 @@ export default function AboutPage() {
 
                 <div className="space-y-4 md:space-y-5 text-foreground/75 leading-[1.85] text-[13px] sm:text-[15px] md:text-base">
                   <p>
-                    For me, aesthetics has never been about changing people or making them look like someone else.
-                    It's about listening, understanding someone's story, and helping them feel like the best, most
-                    confident version of themselves.
+                    For me, aesthetics has never been about changing people or making them look like someone else. It's about listening, understanding someone's story, and helping them feel like the best, most confident version of themselves.
                   </p>
                   <p>
-                    I take a very ethical and considered approach to my work. That means I don't rush decisions and
-                    I don't believe in performing treatments during emotional or difficult periods in a client's life.
-                    Instead, I focus on long-term, subtle enhancements and ensuring every client feels 100% confident
-                    and certain about any decision they make.
+                    I take a very ethical and considered approach to my work. That means I don't rush decisions and I don't believe in performing treatments during emotional or difficult periods in a client's life. Instead, I focus on long-term, subtle enhancements and ensuring every client feels 100% confident and certain about any decision they make.
                   </p>
                   <p>
-                    I work from a private home clinic designed to feel calm, welcoming, and discreet — much like
-                    your own home. It's a space where you can feel comfortable with only one client in the treatment
-                    room at a time.
+                    I work from a private home clinic designed to feel calm, welcoming and discreet, much like your own home. It's a space where you can feel comfortable with only one client in the treatment room at a time.
                   </p>
                   <p className="italic text-foreground/60 text-sm">— Thank you, Shadenaz</p>
                 </div>

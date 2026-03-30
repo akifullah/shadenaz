@@ -263,14 +263,14 @@ export default function PricingPage() {
                     ))}
 
                   </div>
-                  <div className="flex justify-center">
+                  {/* <div className="flex justify-center">
                     <Link
                       href="/pricing"
                       className="inline-block mt-6 md:mt-8 px-8 py-2 md:px-12 md:py-3 border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-xs tracking-widest font-medium"
                     >
                       BOOK NOW
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               ))}
             </div>

@@ -9,6 +9,10 @@ interface FormData {
     dateOfBirth: string;
     phoneNumber: string;
     email: string;
+    addressLine1: string;
+    addressLine2: string;
+    city: string;
+    postcode: string;
     gender: string;
     emergencyContactName: string;
     emergencyContactNumber: string;
@@ -47,6 +51,10 @@ export default function ConsentFormPage() {
         dateOfBirth: '',
         phoneNumber: '',
         email: '',
+        addressLine1: '',
+        addressLine2: '',
+        city: '',
+        postcode: '',
         gender: '',
         emergencyContactName: '',
         emergencyContactNumber: '',
@@ -297,6 +305,57 @@ export default function ConsentFormPage() {
                                             onChange={(e) => handleInputChange('email', e.target.value)}
                                             className="w-full border border-accent/50 bg-white px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition placeholder:text-muted-foreground/40"
                                             placeholder="Enter your email address"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2">
+                                        <label className="block text-xs tracking-widest text-muted-foreground font-medium uppercase mb-2">
+                                            Address Line 1 <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            required
+                                            value={formData.addressLine1}
+                                            onChange={(e) => handleInputChange('addressLine1', e.target.value)}
+                                            className="w-full border border-accent/50 bg-white px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition placeholder:text-muted-foreground/40"
+                                            placeholder="House number and street name"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2">
+                                        <label className="block text-xs tracking-widest text-muted-foreground font-medium uppercase mb-2">
+                                            Address Line 2
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={formData.addressLine2}
+                                            onChange={(e) => handleInputChange('addressLine2', e.target.value)}
+                                            className="w-full border border-accent/50 bg-white px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition placeholder:text-muted-foreground/40"
+                                            placeholder="Apartment, flat, suite (optional)"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs tracking-widest text-muted-foreground font-medium uppercase mb-2">
+                                            City <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            required
+                                            value={formData.city}
+                                            onChange={(e) => handleInputChange('city', e.target.value)}
+                                            className="w-full border border-accent/50 bg-white px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition placeholder:text-muted-foreground/40"
+                                            placeholder="City"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs tracking-widest text-muted-foreground font-medium uppercase mb-2">
+                                            Postcode <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            required
+                                            value={formData.postcode}
+                                            onChange={(e) => handleInputChange('postcode', e.target.value)}
+                                            className="w-full border border-accent/50 bg-white px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition placeholder:text-muted-foreground/40"
+                                            placeholder="Postcode"
                                         />
                                     </div>
                                     <div>

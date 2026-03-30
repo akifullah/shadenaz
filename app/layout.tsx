@@ -9,7 +9,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'Shadenaz Aesthetics - Premium Aesthetic Treatments',
   description: 'Discover premium aesthetic treatments at Shadenaz Aesthetics. Expert Botox, dermal fillers, skin treatments, and more with professional care and natural results.',
- 
+
 }
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" cz-shortcut-listen="true">
         {children}
         <Analytics />
       </body>
