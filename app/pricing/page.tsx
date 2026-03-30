@@ -281,7 +281,7 @@ export default function PricingPage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 text-center space-y-4 md:space-y-6">
             <h2 className="text-xl md:text-2xl font-light text-foreground">Have Questions About Our Treatments?</h2>
             <p className="text-sm md:text-base text-muted-foreground">
-              Contact us for personalized consultations and package deals
+              Contact us for personalised consultations and package deals
             </p>
             <Link
               href="/pricing"
