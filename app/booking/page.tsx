@@ -27,6 +27,7 @@ interface SelectedTreatment {
   staff_id: number | null;
   treatment_name: string;
   treament_description: string | null;
+  treatment_display_price: string | number | null;
   treatment_price: string | number | null;
   treatment_duration: string | number | null;
   details_answers: Record<string, any>; // answers to the treatment's detail questions
@@ -78,7 +79,7 @@ function BookingContent() {
 
   // Multi-treatment cart
   const [selectedTreatments, setSelectedTreatments] = useState<SelectedTreatment[]>([]);
-  const [expandedTreatmentIdx, setExpandedTreatmentIdx] = useState<number | null>(null);
+  const [collapsedTreatmentIdxs, setCollapsedTreatmentIdxs] = useState<Set<number>>(new Set());
 
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingSchema),
@@ -186,23 +187,27 @@ function BookingContent() {
       staff_id: null,
       treatment_name: treatment.name,
       treament_description: treatment.description || null,
-      treatment_price: treatment.display_price || treatment.price || null,
+      treatment_display_price: treatment.display_price || null,
+      treatment_price: treatment.price || null,
       treatment_duration: treatment.duration || treatment.time || null,
       details_answers: {},
       treatmentObj: treatment,
     };
-    setSelectedTreatments(prev => [...prev, newEntry]);
-    setExpandedTreatmentIdx(selectedTreatments.length); // expand the newly added one
+    setSelectedTreatments([newEntry]);
+    // New treatments are expanded by default (not in collapsedTreatmentIdxs)
     setStep(2);
   };
 
   const handleRemoveTreatment = (idx: number) => {
     setSelectedTreatments(prev => prev.filter((_, i) => i !== idx));
-    if (expandedTreatmentIdx === idx) {
-      setExpandedTreatmentIdx(null);
-    } else if (expandedTreatmentIdx !== null && expandedTreatmentIdx > idx) {
-      setExpandedTreatmentIdx(expandedTreatmentIdx - 1);
-    }
+    setCollapsedTreatmentIdxs(prev => {
+      const next = new Set<number>();
+      prev.forEach(i => {
+        if (i < idx) next.add(i);
+        else if (i > idx) next.add(i - 1);
+      });
+      return next;
+    });
   };
 
   const handleDetailChange = (treatmentIdx: number, detailId: string, value: any) => {
@@ -258,15 +263,28 @@ function BookingContent() {
     }
 
     // Build booking_treatments array matching the Laravel backend
-    const booking_treatments = selectedTreatments.map(t => ({
-      treatment_id: t.treatment_id,
-      staff_id: t.staff_id,
-      treatment_name: t.treatment_name,
-      treament_description: t.treament_description,
-      treatment_price: t.treatment_price,
-      treatment_duration: t.treatment_duration,
-      details: t.details_answers,
-    }));
+    // Transform details_answers into array of { id, question, answer, type } objects
+    const booking_treatments = selectedTreatments.map(t => {
+      const detailsWithQuestions = (t.treatmentObj?.details || []).map((detail: any) => {
+        const answer = t.details_answers[detail.id];
+        return {
+          id: detail.id,
+          question: detail.label,
+          type: detail.type,
+          answer: answer ?? null,
+        };
+      }).filter((d: any) => d.answer !== null && d.answer !== '' && !(Array.isArray(d.answer) && d.answer.length === 0));
+
+      return {
+        treatment_id: t.treatment_id,
+        staff_id: t.staff_id,
+        treatment_name: t.treatment_name,
+        treament_description: t.treament_description,
+        treatment_price: t.treatment_price,
+        treatment_duration: t.treatment_duration,
+        details: detailsWithQuestions,
+      };
+    });
 
     const data = {
       name: values.name,
@@ -557,7 +575,7 @@ function BookingContent() {
                     {selectedTreatments.map((selectedTreatment, tIdx) => {
                       const treatmentObj = selectedTreatment.treatmentObj;
                       const hasDetails = treatmentObj?.details && treatmentObj.details.length > 0;
-                      const isExpanded = expandedTreatmentIdx === tIdx;
+                      const isExpanded = !collapsedTreatmentIdxs.has(tIdx);
 
                       return (
                         <div key={tIdx} className="border border-accent/50 bg-secondary/10">
@@ -566,7 +584,12 @@ function BookingContent() {
                             className={`flex items-center justify-between px-4 py-3 ${hasDetails ? 'cursor-pointer' : ''}`}
                             onClick={() => {
                               if (hasDetails) {
-                                setExpandedTreatmentIdx(isExpanded ? null : tIdx);
+                                setCollapsedTreatmentIdxs(prev => {
+                                  const next = new Set(prev);
+                                  if (isExpanded) next.add(tIdx);
+                                  else next.delete(tIdx);
+                                  return next;
+                                });
                               }
                             }}
                           >
