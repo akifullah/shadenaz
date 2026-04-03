@@ -11,7 +11,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { Globe, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,6 +20,18 @@ dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+// --- Types ---
+interface SelectedTreatment {
+  treatment_id: number;
+  staff_id: number | null;
+  treatment_name: string;
+  treament_description: string | null;
+  treatment_price: string | number | null;
+  treatment_duration: string | number | null;
+  details_answers: Record<string, any>; // answers to the treatment's detail questions
+  treatmentObj: any; // full treatment object from API (for rendering detail fields)
+}
 
 const bookingSchema = z.object({
   name: z.string().min(2, 'Name is required'),
@@ -36,8 +48,6 @@ const bookingSchema = z.object({
   date: z.string().min(1, 'Please select a date'),
   time: z.string().min(1, 'Please select a time'),
   message: z.string().optional(),
-  treatment_id: z.number(),
-  details: z.record(z.string(), z.any()).optional()
 });
 
 type BookingFormValues = z.infer<typeof bookingSchema>;
@@ -65,7 +75,10 @@ function BookingContent() {
   const [step, setStep] = useState(1);
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoadingTreatments, setIsLoadingTreatments] = useState(true);
-  const [selectedTreatmentObj, setSelectedTreatmentObj] = useState<any>(null);
+
+  // Multi-treatment cart
+  const [selectedTreatments, setSelectedTreatments] = useState<SelectedTreatment[]>([]);
+  const [expandedTreatmentIdx, setExpandedTreatmentIdx] = useState<number | null>(null);
 
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingSchema),
@@ -84,8 +97,6 @@ function BookingContent() {
       date: '',
       time: '',
       message: '',
-      treatment_id: 0,
-      details: {}
     }
   });
 
@@ -117,8 +128,7 @@ function BookingContent() {
               }
             }
             if (found) {
-              setSelectedTreatmentObj(found);
-              setValue('treatment_id', found.id);
+              handleAddTreatment(found);
               setStep(2);
             }
           }
@@ -126,7 +136,8 @@ function BookingContent() {
       })
       .catch(console.error)
       .finally(() => setIsLoadingTreatments(false));
-  }, [treatmentParam, setValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [treatmentParam]);
 
   // Fetch schedule for the dates
   useEffect(() => {
@@ -168,7 +179,115 @@ function BookingContent() {
     }
   }, [watchedDateStr, schedule]);
 
+  // -- Treatment cart helpers --
+  const handleAddTreatment = (treatment: any) => {
+    const newEntry: SelectedTreatment = {
+      treatment_id: treatment.id,
+      staff_id: null,
+      treatment_name: treatment.name,
+      treament_description: treatment.description || null,
+      treatment_price: treatment.display_price || treatment.price || null,
+      treatment_duration: treatment.duration || treatment.time || null,
+      details_answers: {},
+      treatmentObj: treatment,
+    };
+    setSelectedTreatments(prev => [...prev, newEntry]);
+    setExpandedTreatmentIdx(selectedTreatments.length); // expand the newly added one
+    setStep(2);
+  };
+
+  const handleRemoveTreatment = (idx: number) => {
+    setSelectedTreatments(prev => prev.filter((_, i) => i !== idx));
+    if (expandedTreatmentIdx === idx) {
+      setExpandedTreatmentIdx(null);
+    } else if (expandedTreatmentIdx !== null && expandedTreatmentIdx > idx) {
+      setExpandedTreatmentIdx(expandedTreatmentIdx - 1);
+    }
+  };
+
+  const handleDetailChange = (treatmentIdx: number, detailId: string, value: any) => {
+    setSelectedTreatments(prev => {
+      const updated = [...prev];
+      updated[treatmentIdx] = {
+        ...updated[treatmentIdx],
+        details_answers: {
+          ...updated[treatmentIdx].details_answers,
+          [detailId]: value,
+        }
+      };
+      return updated;
+    });
+  };
+
+  const handleCheckboxDetailChange = (treatmentIdx: number, detailId: string, optionValue: string, checked: boolean) => {
+    setSelectedTreatments(prev => {
+      const updated = [...prev];
+      const currentVal = updated[treatmentIdx].details_answers[detailId];
+      let arr: string[] = Array.isArray(currentVal) ? [...currentVal] : [];
+      if (checked) {
+        if (!arr.includes(optionValue)) arr.push(optionValue);
+      } else {
+        arr = arr.filter(v => v !== optionValue);
+      }
+      updated[treatmentIdx] = {
+        ...updated[treatmentIdx],
+        details_answers: {
+          ...updated[treatmentIdx].details_answers,
+          [detailId]: arr,
+        }
+      };
+      return updated;
+    });
+  };
+
+  // Calculate totals
+  const totalPrice = selectedTreatments.reduce((sum, t) => {
+    const price = parseFloat(String(t.treatment_price || '0'));
+    return sum + (isNaN(price) ? 0 : price);
+  }, 0);
+
+  const totalDuration = selectedTreatments.reduce((sum, t) => {
+    const dur = parseInt(String(t.treatment_duration || '0'));
+    return sum + (isNaN(dur) ? 0 : dur);
+  }, 0);
+
   const onSubmit = async (values: BookingFormValues) => {
+    if (selectedTreatments.length === 0) {
+      setErrorMessage("Please select at least one treatment.");
+      return;
+    }
+
+    // Build booking_treatments array matching the Laravel backend
+    const booking_treatments = selectedTreatments.map(t => ({
+      treatment_id: t.treatment_id,
+      staff_id: t.staff_id,
+      treatment_name: t.treatment_name,
+      treament_description: t.treament_description,
+      treatment_price: t.treatment_price,
+      treatment_duration: t.treatment_duration,
+      details: t.details_answers,
+    }));
+
+    const data = {
+      name: values.name,
+      date_of_birth: values.date_of_birth,
+      gender: values.gender,
+      phone: values.phone,
+      email: values.email || null,
+      address_line_1: values.address_line_1,
+      address_line_2: values.address_line_2 || null,
+      city: values.city,
+      postcode: values.postcode,
+      emergency_contact_name: values.emergency_contact_name,
+      emergency_contact_number: values.emergency_contact_number,
+      booking_date: values.date,
+      booking_time: values.time,
+      message: values.message,
+      booking_treatments: booking_treatments,
+    }
+
+    console.log(data);
+
     setLoading(true);
     setErrorMessage("");
 
@@ -193,9 +312,8 @@ function BookingContent() {
           emergency_contact_number: values.emergency_contact_number,
           booking_date: values.date,
           booking_time: values.time,
-          treatment_id: values.treatment_id,
           message: values.message,
-          treatment_details: values.details
+          booking_treatments: booking_treatments,
         })
       });
 
@@ -214,13 +332,6 @@ function BookingContent() {
     }
   };
 
-  const handleSelectTreatment = (treatment: any) => {
-    setSelectedTreatmentObj(treatment);
-    setValue('treatment_id', treatment.id);
-    setValue('details', {}); // Reset details when treatment changes
-    setStep(2);
-  };
-
   if (submitted) {
     return (
       <>
@@ -235,19 +346,28 @@ function BookingContent() {
               </div>
               <h1 className="text-3xl md:text-4xl font-light text-foreground">Booking Confirmed!</h1>
               <p className="text-sm md:text-lg text-muted-foreground">
-                Thank you for your booking. We'll be in touch soon.
+                Thank you for your booking. We&apos;ll be in touch soon.
               </p>
             </div>
 
             <div className="bg-secondary/30 p-5 md:p-8 space-y-4 border border-accent/50">
-              <div className="grid grid-cols-2 gap-8">
-                <div className="text-left">
-                  <p className="text-xs text-muted-foreground tracking-widest font-medium uppercase">Treatment</p>
-                  <p className="text-lg font-medium text-foreground mt-2">{selectedTreatmentObj?.name}</p>
-                </div>
+              <div className="text-left space-y-3">
+                <p className="text-xs text-muted-foreground tracking-widest font-medium uppercase">Treatments</p>
+                {selectedTreatments.map((t, i) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <span className="text-base font-medium text-foreground">{t.treatment_name}</span>
+                    <span className="text-sm text-primary font-medium">£{t.treatment_price}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 gap-8 pt-4 border-t border-accent/50">
                 <div className="text-left">
                   <p className="text-xs text-muted-foreground tracking-widest font-medium uppercase">Date & Time</p>
                   <p className="text-lg font-medium text-foreground mt-2">{watch('date')} at {watch('time')}</p>
+                </div>
+                <div className="text-left">
+                  <p className="text-xs text-muted-foreground tracking-widest font-medium uppercase">Total</p>
+                  <p className="text-lg font-medium text-primary mt-2">£{totalPrice.toFixed(2)}</p>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground pt-4 border-t border-accent/50">
@@ -273,7 +393,7 @@ function BookingContent() {
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
             <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">Booking</p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-foreground">
-              {step === 1 ? 'Select a Treatment' : 'Schedule Details'}
+              {step === 1 ? 'Select Treatments' : 'Schedule Details'}
             </h1>
             <p className="text-sm md:text-lg text-muted-foreground">
               {step === 1 ? 'Choose from our range of treatments below' : 'Fill out the details below and pick a time'}
@@ -283,6 +403,51 @@ function BookingContent() {
           <div className="bg-card border border-accent/30 p-5 sm:p-12">
             {step === 1 && (
               <div className="space-y-12 text-left">
+                {/* Show selected treatments summary if any */}
+                {selectedTreatments.length > 0 && (
+                  <div className="space-y-4 pb-6 border-b border-accent/50">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-medium text-foreground">
+                        Selected Treatments ({selectedTreatments.length})
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={() => setStep(2)}
+                        className="bg-primary text-primary-foreground px-6 py-2 text-sm tracking-widest font-medium hover:opacity-90 transition"
+                      >
+                        CONTINUE →
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {selectedTreatments.map((t, i) => (
+                        <div key={i} className="flex items-center justify-between bg-secondary/20 border border-accent/30 px-4 py-3">
+                          <div className="flex-1">
+                            <span className="text-sm font-medium text-foreground">{t.treatment_name}</span>
+                            <span className="text-xs text-muted-foreground ml-3">{t.treatment_duration} mins</span>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <span className="text-sm font-medium text-primary">£{t.treatment_price}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveTreatment(i)}
+                              className="text-red-500 hover:text-red-700 transition p-1"
+                              title="Remove treatment"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-between items-center text-sm pt-2">
+                      <span className="text-muted-foreground">
+                        Total: {totalDuration} mins
+                      </span>
+                      <span className="text-lg font-medium text-primary">£{totalPrice.toFixed(2)}</span>
+                    </div>
+                  </div>
+                )}
+
                 {isLoadingTreatments ? (
                   <div className="flex justify-center p-12">
                     <p className="text-muted-foreground">Loading treatments...</p>
@@ -301,63 +466,243 @@ function BookingContent() {
                         )}
                       </div>
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        {category.treatments?.map((treatment: any, idx: number) => (
-                          <div
-                            key={treatment.id || idx}
-                            onClick={() => handleSelectTreatment(treatment)}
-                            className="cursor-pointer border border-accent hover:border-primary transition-all duration-300 p-4 md:p-6 bg-card hover:shadow-md group"
-                          >
-                            <div className="space-y-4">
-                              <div>
-                                <h4 className="text-base md:text-lg font-medium text-foreground group-hover:text-primary transition mb-2">
-                                  {treatment.name}
-                                </h4>
-                                {treatment.description && (
-                                  <p className="text-sm text-muted-foreground mb-4">
-                                    {treatment.description}
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="space-y-2 border-t border-accent/50 pt-4">
-                                <div className="flex justify-between items-center">
-                                  <span className="text-xs text-muted-foreground tracking-wide">Price</span>
-                                  <span className="text-xl md:text-2xl font-medium text-primary">£{treatment.display_price || treatment.price}</span>
+                        {category.treatments?.map((treatment: any, idx: number) => {
+                          const isAlreadySelected = selectedTreatments.some(t => t.treatment_id === treatment.id);
+                          return (
+                            <div
+                              key={treatment.id || idx}
+                              className={`border transition-all duration-300 p-4 md:p-6 bg-card group ${isAlreadySelected
+                                ? 'border-primary/50 bg-primary/5'
+                                : 'border-accent hover:border-primary hover:shadow-md cursor-pointer'
+                                }`}
+                              onClick={() => {
+                                if (!isAlreadySelected) handleAddTreatment(treatment);
+                              }}
+                            >
+                              <div className="space-y-4">
+                                <div>
+                                  <div className="flex items-center justify-between mb-2">
+                                    <h4 className={`text-base md:text-lg font-medium transition ${isAlreadySelected ? 'text-primary' : 'text-foreground group-hover:text-primary'}`}>
+                                      {treatment.name}
+                                    </h4>
+                                    {isAlreadySelected ? (
+                                      <span className="text-xs bg-primary/10 text-primary px-2 py-1 font-medium tracking-wide">SELECTED</span>
+                                    ) : (
+                                      <Plus className="w-5 h-5 text-muted-foreground group-hover:text-primary transition" />
+                                    )}
+                                  </div>
+                                  {treatment.description && (
+                                    <p className="text-sm text-muted-foreground mb-4">
+                                      {treatment.description}
+                                    </p>
+                                  )}
                                 </div>
-                                <div className="flex justify-between items-center">
-                                  <span className="text-xs text-muted-foreground tracking-wide">Duration</span>
-                                  <span className="text-sm font-medium text-foreground">{treatment.duration || treatment.time} mins</span>
+
+                                <div className="space-y-2 border-t border-accent/50 pt-4">
+                                  <div className="flex justify-between items-center">
+                                    <span className="text-xs text-muted-foreground tracking-wide">Price</span>
+                                    <span className="text-xl md:text-2xl font-medium text-primary">£{treatment.display_price || treatment.price}</span>
+                                  </div>
+                                  <div className="flex justify-between items-center">
+                                    <span className="text-xs text-muted-foreground tracking-wide">Duration</span>
+                                    <span className="text-sm font-medium text-foreground">{treatment.duration || treatment.time} mins</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   ))
+                )}
+
+                {/* Bottom continue button */}
+                {selectedTreatments.length > 0 && (
+                  <div className="pt-6 border-t border-accent/50 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => setStep(2)}
+                      className="bg-primary text-primary-foreground px-10 py-3 text-sm tracking-widest font-medium hover:opacity-90 transition"
+                    >
+                      CONTINUE →
+                    </button>
+                  </div>
                 )}
               </div>
             )}
 
             {step === 2 && (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-                <div className="flex items-center justify-between mb-6 pb-6 border-b border-accent/50 text-left">
-                  <div>
-                    <p className="text-sm text-muted-foreground uppercase tracking-widest font-medium mb-1">Selected Treatment</p>
-                    <h3 className="text-xl font-medium">{selectedTreatmentObj?.name}</h3>
+                {/* Selected Treatments Summary */}
+                <div className="mb-6 pb-6 border-b border-accent/50 text-left space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground uppercase tracking-widest font-medium mb-1">Selected Treatments</p>
+                      <p className="text-sm text-muted-foreground">
+                        {selectedTreatments.length} treatment{selectedTreatments.length !== 1 ? 's' : ''} · {totalDuration} mins · £{totalPrice.toFixed(2)}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setStep(1)}
+                      className="text-sm text-primary hover:underline flex items-center gap-1"
+                    >
+                      <ArrowLeft className="w-4 h-4" /> Add/Change
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setStep(1)}
-                    className="text-sm text-primary hover:underline flex items-center gap-1"
-                  >
-                    <ArrowLeft className="w-4 h-4" /> Change
-                  </button>
+
+                  {/* Treatment cards with expandable details */}
+                  <div className="space-y-3">
+                    {selectedTreatments.map((selectedTreatment, tIdx) => {
+                      const treatmentObj = selectedTreatment.treatmentObj;
+                      const hasDetails = treatmentObj?.details && treatmentObj.details.length > 0;
+                      const isExpanded = expandedTreatmentIdx === tIdx;
+
+                      return (
+                        <div key={tIdx} className="border border-accent/50 bg-secondary/10">
+                          {/* Treatment header row */}
+                          <div
+                            className={`flex items-center justify-between px-4 py-3 ${hasDetails ? 'cursor-pointer' : ''}`}
+                            onClick={() => {
+                              if (hasDetails) {
+                                setExpandedTreatmentIdx(isExpanded ? null : tIdx);
+                              }
+                            }}
+                          >
+                            <div className="flex items-center gap-3 flex-1 min-w-0">
+                              <div className="flex-1 min-w-0">
+                                <h4 className="text-sm font-medium text-foreground truncate">{selectedTreatment.treatment_name}</h4>
+                                <p className="text-xs text-muted-foreground">{selectedTreatment.treatment_duration} mins · £{selectedTreatment.treatment_price}</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {hasDetails && (
+                                <span className="text-xs text-primary font-medium">
+                                  {isExpanded ? 'Hide' : 'Details'}
+                                </span>
+                              )}
+                              {hasDetails && (
+                                isExpanded ? <ChevronUp className="w-4 h-4 text-primary" /> : <ChevronDown className="w-4 h-4 text-primary" />
+                              )}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveTreatment(tIdx);
+                                }}
+                                className="text-red-500 hover:text-red-700 transition p-1 ml-2"
+                                title="Remove treatment"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Expandable additional information */}
+                          {hasDetails && isExpanded && (
+                            <div className="px-4 pb-4 pt-2 border-t border-accent/30 space-y-4">
+                              <h5 className="text-sm font-medium text-foreground">Additional Information</h5>
+                              {treatmentObj.details.map((detail: any) => {
+                                const isRequired = detail.required === 1 || detail.required === true;
+                                let options: string[] = [];
+                                try {
+                                  if (detail.options && detail.options !== "null") {
+                                    options = JSON.parse(detail.options);
+                                  }
+                                } catch (e) {
+                                  console.error("Failed to parse options", e);
+                                }
+
+                                const detailValue = selectedTreatment.details_answers[detail.id];
+
+                                return (
+                                  <div key={detail.id} className="space-y-2">
+                                    <label className="text-sm font-medium text-foreground tracking-wide">
+                                      {detail.label} {isRequired && '*'}
+                                    </label>
+
+                                    {detail.type === 'textarea' && (
+                                      <textarea
+                                        value={detailValue || ''}
+                                        onChange={(e) => handleDetailChange(tIdx, detail.id, e.target.value)}
+                                        placeholder={detail.placeholder || ''}
+                                        required={isRequired}
+                                        className="w-full px-4 py-3 border border-accent bg-background text-foreground focus:border-primary focus:outline-none transition resize-y min-h-[100px]"
+                                      />
+                                    )}
+
+                                    {detail.type === 'text' && (
+                                      <input
+                                        type="text"
+                                        value={detailValue || ''}
+                                        onChange={(e) => handleDetailChange(tIdx, detail.id, e.target.value)}
+                                        placeholder={detail.placeholder || ''}
+                                        required={isRequired}
+                                        className="w-full px-4 py-3 border border-accent bg-background text-foreground focus:border-primary focus:outline-none transition"
+                                      />
+                                    )}
+
+                                    {detail.type === 'checkbox' && options.length > 0 && (
+                                      <div className="flex gap-4 flex-wrap">
+                                        {options.map((opt, i) => {
+                                          const checkedArr = Array.isArray(detailValue) ? detailValue : [];
+                                          return (
+                                            <label key={i} className="flex items-center gap-2 cursor-pointer">
+                                              <input
+                                                type="checkbox"
+                                                value={opt}
+                                                checked={checkedArr.includes(opt)}
+                                                onChange={(e) => handleCheckboxDetailChange(tIdx, detail.id, opt, e.target.checked)}
+                                                className="w-4 h-4 text-primary bg-background border-accent rounded focus:ring-primary"
+                                              />
+                                              <span className="text-sm text-foreground">{opt}</span>
+                                            </label>
+                                          );
+                                        })}
+                                      </div>
+                                    )}
+
+                                    {detail.type === 'checkbox' && options.length === 0 && (
+                                      <label className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                          type="checkbox"
+                                          checked={!!detailValue}
+                                          onChange={(e) => handleDetailChange(tIdx, detail.id, e.target.checked)}
+                                          required={isRequired}
+                                          className="w-4 h-4 text-primary bg-background border-accent rounded focus:ring-primary"
+                                        />
+                                        <span className="text-sm text-foreground">{detail.placeholder || 'Yes'}</span>
+                                      </label>
+                                    )}
+
+                                    {detail.type === 'select' && options.length > 0 && (
+                                      <select
+                                        value={detailValue || ''}
+                                        onChange={(e) => handleDetailChange(tIdx, detail.id, e.target.value)}
+                                        required={isRequired}
+                                        className="w-full px-4 py-3 border border-accent bg-background text-foreground focus:border-primary focus:outline-none transition"
+                                      >
+                                        <option value="">Select an option</option>
+                                        {options.map((opt, i) => (
+                                          <option key={i} value={opt}>{opt}</option>
+                                        ))}
+                                      </select>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div className="pt-4 space-y-6">
                   <h4 className="text-lg font-medium">Personal Details</h4>
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground tracking-wide">Full Name *</label>
@@ -422,7 +767,7 @@ function BookingContent() {
 
                 <div className="pt-4 border-t border-accent/50 space-y-6">
                   <h4 className="text-lg font-medium">Address</h4>
-                  
+
                   <div className="grid grid-cols-1 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground tracking-wide">Address Line 1 *</label>
@@ -445,7 +790,7 @@ function BookingContent() {
                       {errors.address_line_2 && <p className="text-destructive text-xs">{errors.address_line_2.message}</p>}
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground tracking-wide">City *</label>
@@ -492,91 +837,7 @@ function BookingContent() {
                   </div>
                 </div>
 
-                {/* DYNAMIC FIELDS FROM API */}
-                {selectedTreatmentObj?.details && selectedTreatmentObj.details.length > 0 && (
-                  <div className="space-y-6 pt-4 border-t border-accent/50">
-                    <h4 className="text-lg font-medium">Additional Information</h4>
-                    {selectedTreatmentObj.details.map((detail: any) => {
-                      const isRequired = detail.required === 1 || detail.required === true;
-                      let options: string[] = [];
-                      try {
-                        if (detail.options && detail.options !== "null") {
-                          options = JSON.parse(detail.options);
-                        }
-                      } catch (e) {
-                        console.error("Failed to parse options", e);
-                      }
 
-                      return (
-                        <div key={detail.id} className="space-y-3">
-                          <label className="text-sm font-medium text-foreground tracking-wide">
-                            {detail.label} {isRequired && '*'}
-                          </label>
-
-                          {detail.type === 'textarea' && (
-                            <textarea
-                              {...register(`details.${detail.id}` as const)}
-                              placeholder={detail.placeholder || ''}
-                              required={isRequired}
-                              className="w-full px-4 py-3 border border-accent bg-background text-foreground focus:border-primary focus:outline-none transition resize-y min-h-[100px]"
-                            />
-                          )}
-
-                          {detail.type === 'text' && (
-                            <input
-                              type="text"
-                              {...register(`details.${detail.id}` as const)}
-                              placeholder={detail.placeholder || ''}
-                              required={isRequired}
-                              className="w-full px-4 py-3 border border-accent bg-background text-foreground focus:border-primary focus:outline-none transition"
-                            />
-                          )}
-
-                          {detail.type === 'checkbox' && options.length > 0 && (
-                            <div className="flex gap-4 flex-wrap">
-                              {options.map((opt, i) => (
-                                <label key={i} className="flex items-center gap-2 cursor-pointer">
-                                  <input
-                                    type="checkbox"
-                                    value={opt}
-                                    {...register(`details.${detail.id}` as const)}
-                                    className="w-4 h-4 text-primary bg-background border-accent rounded focus:ring-primary"
-                                  />
-                                  <span className="text-sm text-foreground">{opt}</span>
-                                </label>
-                              ))}
-                            </div>
-                          )}
-
-                          {detail.type === 'checkbox' && options.length === 0 && (
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                {...register(`details.${detail.id}` as const)}
-                                required={isRequired}
-                                className="w-4 h-4 text-primary bg-background border-accent rounded focus:ring-primary"
-                              />
-                              <span className="text-sm text-foreground">{detail.placeholder || 'Yes'}</span>
-                            </label>
-                          )}
-
-                          {detail.type === 'select' && options.length > 0 && (
-                            <select
-                              {...register(`details.${detail.id}` as const)}
-                              required={isRequired}
-                              className="w-full px-4 py-3 border border-accent bg-background text-foreground focus:border-primary focus:outline-none transition"
-                            >
-                              <option value="">Select an option</option>
-                              {options.map((opt, i) => (
-                                <option key={i} value={opt}>{opt}</option>
-                              ))}
-                            </select>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
 
                 <div className="grid grid-cols-1 gap-6 pt-4 border-t border-accent/50">
                   <style dangerouslySetInnerHTML={{
@@ -603,7 +864,7 @@ function BookingContent() {
                         {errors.date?.message || errors.time?.message}
                       </p>
                     )}
-                    
+
                     <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
                       <div className="flex-1 md:max-w-xs space-y-8">
                         <div className="flex justify-center md:justify-start">
@@ -697,10 +958,10 @@ function BookingContent() {
                 <div className="border-t border-accent/50 pt-8">
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || selectedTreatments.length === 0}
                     className="w-full bg-primary text-primary-foreground py-3 hover:opacity-90 transition text-sm tracking-widest font-medium disabled:opacity-50"
                   >
-                    {loading ? 'PROCESSING...' : 'CONFIRM BOOKING'}
+                    {loading ? 'PROCESSING...' : `CONFIRM BOOKING · £${totalPrice.toFixed(2)}`}
                   </button>
                 </div>
               </form>
