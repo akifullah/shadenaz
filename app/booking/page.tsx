@@ -44,10 +44,7 @@ const bookingSchema = z.object({
   gender: z.string().min(1, 'Gender is required'),
   phone: z.string().min(5, 'Phone number is required'),
   email: z.union([z.literal(""), z.string().email('Invalid email address')]).optional(),
-  address_line_1: z.string().min(1, 'Address Line 1 is required'),
-  address_line_2: z.string().optional(),
-  city: z.string().min(1, 'City is required'),
-  postcode: z.string().min(1, 'Postcode is required'),
+  postcode: z.string().optional(), // kept for backend compatibility if needed but removed from UI, though backend will ignore if not sent
   emergency_contact_name: z.string().min(1, 'Emergency Contact Name is required'),
   emergency_contact_number: z.string().min(1, 'Emergency Contact Number is required'),
   date: z.string().min(1, 'Please select a date'),
@@ -927,53 +924,6 @@ function BookingContent() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-accent/50 space-y-6">
-                  <h4 className="text-lg font-medium">Address</h4>
-
-                  <div className="grid grid-cols-1 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground tracking-wide">Address Line 1 *</label>
-                      <input
-                        type="text"
-                        {...register('address_line_1')}
-                        className={`w-full px-4 py-3 border bg-background text-foreground focus:outline-none transition ${errors.address_line_1 ? 'border-destructive focus:border-destructive' : 'border-accent focus:border-primary'}`}
-                        placeholder="Street Address"
-                      />
-                      {errors.address_line_1 && <p className="text-destructive text-xs">{errors.address_line_1.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground tracking-wide">Address Line 2 <span className="text-muted-foreground font-normal">(Optional)</span></label>
-                      <input
-                        type="text"
-                        {...register('address_line_2')}
-                        className={`w-full px-4 py-3 border bg-background text-foreground focus:outline-none transition ${errors.address_line_2 ? 'border-destructive focus:border-destructive' : 'border-accent focus:border-primary'}`}
-                        placeholder="Apartment, suite, unit etc."
-                      />
-                      {errors.address_line_2 && <p className="text-destructive text-xs">{errors.address_line_2.message}</p>}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground tracking-wide">City *</label>
-                      <input
-                        type="text"
-                        {...register('city')}
-                        className={`w-full px-4 py-3 border bg-background text-foreground focus:outline-none transition ${errors.city ? 'border-destructive focus:border-destructive' : 'border-accent focus:border-primary'}`}
-                      />
-                      {errors.city && <p className="text-destructive text-xs">{errors.city.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground tracking-wide">Postcode *</label>
-                      <input
-                        type="text"
-                        {...register('postcode')}
-                        className={`w-full px-4 py-3 border bg-background text-foreground focus:outline-none transition ${errors.postcode ? 'border-destructive focus:border-destructive' : 'border-accent focus:border-primary'}`}
-                      />
-                      {errors.postcode && <p className="text-destructive text-xs">{errors.postcode.message}</p>}
-                    </div>
-                  </div>
-                </div>
 
                 <div className="pt-4 border-t border-accent/50 space-y-6">
                   <h4 className="text-lg font-medium">Emergency Contact</h4>
