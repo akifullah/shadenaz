@@ -82,11 +82,11 @@ const CheckoutForm = forwardRef<StripeCheckoutHandle, CheckoutFormProps>(
             </div>
             <div className="text-right space-y-1">
               <p className="text-xs text-muted-foreground">Pay Now (Deposit)</p>
-              <p className="text-2xl font-bold text-primary">£44.00</p>
+              <p className="text-2xl font-bold text-primary">£40.00</p>
             </div>
           </div>
           <p className="text-xs text-muted-foreground bg-background/50 p-3 border border-accent/30">
-            💡 Remaining balance of <strong>£{(totalPrice - 44).toFixed(2)}</strong> is due at your appointment.
+            💡 Remaining balance of <strong>£{(totalPrice - 40).toFixed(2)}</strong> is due at your appointment.
           </p>
         </div>
 

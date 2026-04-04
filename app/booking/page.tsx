@@ -1050,7 +1050,7 @@ function BookingContent() {
                         PROCESSING...
                       </>
                     ) : (
-                      `PAY £44.00 DEPOSIT & CONFIRM BOOKING`
+                      `PAY £40.00 DEPOSIT & CONFIRM BOOKING`
                     )}
                   </button>
                 </div>
