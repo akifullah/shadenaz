@@ -23,7 +23,7 @@ interface CheckoutFormProps {
 }
 
 const CheckoutForm = forwardRef<StripeCheckoutHandle, CheckoutFormProps>(
-  ({ totalPrice }: { totalPrice: any }, ref: React.RefObject<StripeCheckoutHandle>) => {
+  ({ totalPrice }, ref) => {
     const stripe = useStripe();
     const elements = useElements();
     const scrollPosRef = useReactRef<number>(0);
@@ -124,7 +124,7 @@ interface StripeCheckoutProps {
 }
 
 const StripeCheckout = forwardRef<StripeCheckoutHandle, StripeCheckoutProps>(
-  ({ clientSecret, totalPrice }: { clientSecret: any, totalPrice: any }, ref: React.RefObject<StripeCheckoutHandle>) => {
+  ({ clientSecret, totalPrice }, ref) => {
     const appearance = {
       theme: 'stripe' as const,
       variables: {
