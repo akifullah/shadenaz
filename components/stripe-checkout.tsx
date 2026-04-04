@@ -125,16 +125,24 @@ interface StripeCheckoutProps {
 
 const StripeCheckout = forwardRef<StripeCheckoutHandle, StripeCheckoutProps>(
   ({ clientSecret, totalPrice }, ref) => {
-    const appearance = {
-      theme: 'stripe' as const,
-      variables: {
-        colorPrimary: '#2563eb',
-        borderRadius: '0px',
+    const options = {
+      clientSecret,
+      appearance: {
+        theme: 'stripe' as const,
+        variables: {
+          colorPrimary: '#2563eb',
+          borderRadius: '0px',
+        },
+      },
+      developerTools: {
+        assistant: {
+          enabled: false,
+        },
       },
     };
 
     return (
-      <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
+      <Elements stripe={stripePromise} options={options}>
         <CheckoutForm ref={ref} totalPrice={totalPrice} />
       </Elements>
     );
