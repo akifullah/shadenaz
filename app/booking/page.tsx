@@ -312,24 +312,7 @@ function BookingContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
 
-  // Only render Stripe when the payment section is visible in viewport
-  const [paymentVisible, setPaymentVisible] = useState(false);
-  const paymentSectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!clientSecret || !paymentSectionRef.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setPaymentVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(paymentSectionRef.current);
-    return () => observer.disconnect();
-  }, [clientSecret]);
+  // Stripe form now loads immediately; lazy loading removed to speed up display.
 
   // On form submit: validate → confirm Stripe payment → create booking
   const onSubmit = async (values: BookingFormValues) => {
@@ -1036,7 +1019,7 @@ function BookingContent() {
                 )}
 
                 {/* Stripe Payment Section */}
-                <div ref={paymentSectionRef} className="border-t border-accent/50 pt-8 space-y-6">
+                <div className="border-t border-accent/50 pt-8 space-y-6">
                   {loadingPayment ? (
                     <div className="flex items-center justify-center py-8">
                       <svg className="animate-spin h-6 w-6 text-primary mr-3" viewBox="0 0 24 24">
@@ -1045,16 +1028,12 @@ function BookingContent() {
                       </svg>
                       <span className="text-sm text-muted-foreground">Loading payment form...</span>
                     </div>
-                  ) : clientSecret && paymentVisible ? (
+                  ) : clientSecret ? (
                     <StripeCheckout
                       ref={stripeRef}
                       clientSecret={clientSecret}
                       totalPrice={totalPrice}
                     />
-                  ) : clientSecret ? (
-                    <div className="flex items-center justify-center py-8">
-                      <span className="text-sm text-muted-foreground">Scroll down to load payment form...</span>
-                    </div>
                   ) : null}
 
                   <button
