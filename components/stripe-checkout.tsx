@@ -133,12 +133,7 @@ const StripeCheckout = forwardRef<StripeCheckoutHandle, StripeCheckoutProps>(
           colorPrimary: '#2563eb',
           borderRadius: '0px',
         },
-      },
-      developerTools: {
-        assistant: {
-          enabled: false,
-        },
-      },
+      }
     };
 
     return (
