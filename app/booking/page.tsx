@@ -2,7 +2,7 @@
 
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { useState, Suspense, useEffect } from 'react';
+import { useState, Suspense, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
@@ -15,6 +15,10 @@ import { ArrowLeft, Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import dynamic from 'next/dynamic';
+import type { StripeCheckoutHandle } from '@/components/stripe-checkout';
+
+const StripeCheckout = dynamic(() => import('@/components/stripe-checkout'), { ssr: false });
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrBefore);
@@ -107,8 +111,14 @@ function BookingContent() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Stripe payment state
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [loadingPayment, setLoadingPayment] = useState(false);
+  const stripeRef = useRef<StripeCheckoutHandle>(null);
+
   const [schedule, setSchedule] = useState<any[]>([]);
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
   const watchedDateStr = watch("date");
   const watchedTimeStr = watch("time");
@@ -179,6 +189,29 @@ function BookingContent() {
       setAvailableSlots([]);
     }
   }, [watchedDateStr, schedule]);
+
+  // Fetch booked/unavailable slots for the selected date
+  useEffect(() => {
+    if (watchedDateStr) {
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/slots-availability?date=${watchedDateStr}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && Array.isArray(data.data)) {
+            // Convert "HH:mm:ss" (24h) from API to "hh:mm A" (12h) to match availableSlots format
+            const formatted = data.data.map((t: string) => {
+              const parsed = dayjs(t, 'HH:mm:ss');
+              return parsed.isValid() ? parsed.format('hh:mm A') : t;
+            });
+            setBookedSlots(formatted);
+          } else {
+            setBookedSlots([]);
+          }
+        })
+        .catch(() => setBookedSlots([]));
+    } else {
+      setBookedSlots([]);
+    }
+  }, [watchedDateStr]);
 
   // -- Treatment cart helpers --
   const handleAddTreatment = (treatment: any) => {
@@ -256,95 +289,109 @@ function BookingContent() {
     return sum + (isNaN(dur) ? 0 : dur);
   }, 0);
 
+  // Create PaymentIntent when step 2 loads
+  useEffect(() => {
+    if (step === 2 && !clientSecret && selectedTreatments.length > 0) {
+      setLoadingPayment(true);
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/create-payment-intent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name: 'Booking Deposit', email: null }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.clientSecret) {
+            setClientSecret(data.clientSecret);
+          } else {
+            setErrorMessage(data.message || 'Failed to initialize payment. Please try again.');
+          }
+        })
+        .catch(() => setErrorMessage('Network error initializing payment.'))
+        .finally(() => setLoadingPayment(false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
+  // Only render Stripe when the payment section is visible in viewport
+  const [paymentVisible, setPaymentVisible] = useState(false);
+  const paymentSectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!clientSecret || !paymentSectionRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setPaymentVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(paymentSectionRef.current);
+    return () => observer.disconnect();
+  }, [clientSecret]);
+
+  // On form submit: validate → confirm Stripe payment → create booking
   const onSubmit = async (values: BookingFormValues) => {
     if (selectedTreatments.length === 0) {
       setErrorMessage("Please select at least one treatment.");
       return;
     }
-
-    // Build booking_treatments array matching the Laravel backend
-    // Transform details_answers into array of { id, question, answer, type } objects
-    const booking_treatments = selectedTreatments.map(t => {
-      const detailsWithQuestions = (t.treatmentObj?.details || []).map((detail: any) => {
-        const answer = t.details_answers[detail.id];
-        return {
-          id: detail.id,
-          question: detail.label,
-          type: detail.type,
-          answer: answer ?? null,
-        };
-      }).filter((d: any) => d.answer !== null && d.answer !== '' && !(Array.isArray(d.answer) && d.answer.length === 0));
-
-      return {
-        treatment_id: t.treatment_id,
-        staff_id: t.staff_id,
-        treatment_name: t.treatment_name,
-        treament_description: t.treament_description,
-        treatment_price: t.treatment_price,
-        treatment_duration: t.treatment_duration,
-        details: detailsWithQuestions,
-      };
-    });
-
-    const data = {
-      name: values.name,
-      date_of_birth: values.date_of_birth,
-      gender: values.gender,
-      phone: values.phone,
-      email: values.email || null,
-      address_line_1: values.address_line_1,
-      address_line_2: values.address_line_2 || null,
-      city: values.city,
-      postcode: values.postcode,
-      emergency_contact_name: values.emergency_contact_name,
-      emergency_contact_number: values.emergency_contact_number,
-      booking_date: values.date,
-      booking_time: values.time,
-      message: values.message,
-      booking_treatments: booking_treatments,
+    if (!stripeRef.current) {
+      setErrorMessage("Payment form is not ready yet. Please wait a moment.");
+      return;
     }
-
-    console.log(data);
 
     setLoading(true);
     setErrorMessage("");
 
+    // 1. Confirm payment with Stripe
+    const paymentResult = await stripeRef.current.confirmPayment();
+    if (!paymentResult.success) {
+      setErrorMessage(paymentResult.error || 'Payment failed.');
+      setLoading(false);
+      return;
+    }
+
+    // 2. Payment succeeded — now create the booking
+    const booking_treatments = selectedTreatments.map(t => {
+      const detailsWithQuestions = (t.treatmentObj?.details || []).map((detail: any) => {
+        const answer = t.details_answers[detail.id];
+        return { id: detail.id, question: detail.label, type: detail.type, answer: answer ?? null };
+      }).filter((d: any) => d.answer !== null && d.answer !== '' && !(Array.isArray(d.answer) && d.answer.length === 0));
+      return {
+        treatment_id: t.treatment_id, staff_id: t.staff_id,
+        treatment_name: t.treatment_name, treament_description: t.treament_description,
+        treatment_price: t.treatment_price, treatment_duration: t.treatment_duration,
+        details: detailsWithQuestions,
+      };
+    });
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/booking`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
-          name: values.name,
-          date_of_birth: values.date_of_birth,
-          gender: values.gender,
-          phone: values.phone,
-          email: values.email || null,
-          address_line_1: values.address_line_1,
-          address_line_2: values.address_line_2 || null,
-          city: values.city,
-          postcode: values.postcode,
+          name: values.name, date_of_birth: values.date_of_birth, gender: values.gender,
+          phone: values.phone, email: values.email || null,
+          address_line_1: values.address_line_1, address_line_2: values.address_line_2 || null,
+          city: values.city, postcode: values.postcode,
           emergency_contact_name: values.emergency_contact_name,
           emergency_contact_number: values.emergency_contact_number,
-          booking_date: values.date,
-          booking_time: values.time,
-          message: values.message,
-          booking_treatments: booking_treatments,
-        })
+          booking_date: values.date, booking_time: values.time, message: values.message,
+          booking_treatments, payment_intent_id: paymentResult.paymentIntentId,
+          total_amount: totalPrice,
+        }),
       });
-
       const data = await response.json();
-
       if (response.ok && data.success) {
         setSubmitted(true);
       } else {
-        setErrorMessage(data.message || "An error occurred while booking. Please try again.");
+        setErrorMessage(data.message || 'Booking failed after payment. Please contact support.');
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage("Network error. Please try again.");
+      setErrorMessage('Network error after payment. Please contact support.');
     } finally {
       setLoading(false);
     }
@@ -407,7 +454,7 @@ function BookingContent() {
     <>
       <Header />
       <main className="w-full bg-background min-h-screen">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-10 py-10 sm:py-24">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-10 sm:py-24">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
             <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">Booking</p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-foreground">
@@ -566,7 +613,7 @@ function BookingContent() {
                       onClick={() => setStep(1)}
                       className="text-sm text-primary hover:underline flex items-center gap-1"
                     >
-                      <ArrowLeft className="w-4 h-4" /> Add/Change
+                      <ArrowLeft className="w-4 h-4" /> Change
                     </button>
                   </div>
 
@@ -723,6 +770,115 @@ function BookingContent() {
                   </div>
                 </div>
 
+
+                <div className="grid grid-cols-1 gap-6 pt-4 border-t border-accent/50">
+                  <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .rdp-root {
+                      --rdp-accent-color: #2563eb;
+                      --rdp-background-color: #ebf5ff;
+                      margin: 0;
+                      width: 100%;
+                    }
+                 
+                    .rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover {
+                      background-color: var(--rdp-accent-color);
+                      color: white;
+                      border-radius: 9999px;
+                    }
+                    .rdp-day {
+                       border-radius: 9999px;
+                    }
+                  `}} />
+
+                  <div className="mt-2 text-left space-y-4">
+                    <h3 className="text-xl font-medium tracking-tight text-foreground mb-2">Select Date & Time <span className="text-destructive">*</span></h3>
+                    {(errors.date || errors.time) && (
+                      <p className="text-destructive text-sm bg-destructive/10 p-2 rounded">
+                        {errors.date?.message || errors.time?.message}
+                      </p>
+                    )}
+
+                    <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
+                      <div className="flex-1  space-y-8">
+                        <div className="flex justify-center md:justify-start">
+                          <Controller
+                            control={control}
+                            name="date"
+                            render={({ field }) => (
+                              <DayPicker
+                                mode="single"
+                                selected={field.value ? dayjs(field.value).toDate() : undefined}
+                                onSelect={(date) => {
+                                  field.onChange(date ? dayjs(date).format('YYYY-MM-DD') : '');
+                                  setValue('time', '');
+                                }}
+                                className="bg-transparent"
+                                disabled={{ before: dayjs().startOf('day').toDate() }}
+                              />
+                            )}
+                          />
+                        </div>
+                        <div className="space-y-4 pt-4">
+                          {watchedDateStr && (
+                            <div className="mb-4">
+                              <p className="text-sm font-medium text-foreground mb-1">Selected Date & Time</p>
+                              <p className="text-sm text-blue-600 font-medium">
+                                {dayjs(watchedDateStr).format('dddd, MMMM D, YYYY')}
+                                {watchedTimeStr && ` at ${watchedTimeStr}`}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex-1">
+                        {watchedDateStr ? (
+                          availableSlots.length > 0 ? (
+                            <div className="h-[400px] overflow-y-auto pr-4 space-y-3 stylish-scrollbar">
+                              <Controller
+                                control={control}
+                                name="time"
+                                render={({ field }) => (
+                                  <>
+                                    {availableSlots.map(slot => {
+                                      const isBooked = bookedSlots.includes(slot);
+                                      return (
+                                        <button
+                                          key={slot}
+                                          type="button"
+                                          onClick={() => !isBooked && field.onChange(slot)}
+                                          disabled={isBooked}
+                                          className={`w-full py-4 px-6 rounded text-sm font-medium transition-colors border ${isBooked
+                                            ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed line-through'
+                                            : field.value === slot
+                                              ? 'bg-blue-600 border-blue-600 text-white cursor-pointer'
+                                              : 'border-blue-600 text-blue-600 hover:bg-blue-50 cursor-pointer'
+                                            }`}
+                                        >
+                                          {slot}{isBooked ? ' (Booked)' : ''}
+                                        </button>
+                                      );
+                                    })}
+                                  </>
+                                )}
+                              />
+                            </div>
+                          ) : (
+                            <div className="h-[400px] flex items-center justify-center text-muted-foreground text-sm border rounded-md bg-accent/10">
+                              No availability on this date.
+                            </div>
+                          )
+                        ) : (
+                          <div className="h-[400px] flex items-center justify-center text-muted-foreground text-sm border border-dashed rounded-md bg-accent/5">
+                            Please select a date first.
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="pt-4 space-y-6">
                   <h4 className="text-lg font-medium">Personal Details</h4>
 
@@ -862,105 +1018,6 @@ function BookingContent() {
 
 
 
-                <div className="grid grid-cols-1 gap-6 pt-4 border-t border-accent/50">
-                  <style dangerouslySetInnerHTML={{
-                    __html: `
-                    .rdp-root {
-                      --rdp-accent-color: #2563eb;
-                      --rdp-background-color: #ebf5ff;
-                      margin: 0;
-                    }
-                    .rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover {
-                      background-color: var(--rdp-accent-color);
-                      color: white;
-                      border-radius: 9999px;
-                    }
-                    .rdp-day {
-                       border-radius: 9999px;
-                    }
-                  `}} />
-
-                  <div className="mt-2 text-left space-y-4">
-                    <h3 className="text-xl font-medium tracking-tight text-foreground mb-2">Select Date & Time <span className="text-destructive">*</span></h3>
-                    {(errors.date || errors.time) && (
-                      <p className="text-destructive text-sm bg-destructive/10 p-2 rounded">
-                        {errors.date?.message || errors.time?.message}
-                      </p>
-                    )}
-
-                    <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
-                      <div className="flex-1 md:max-w-xs space-y-8">
-                        <div className="flex justify-center md:justify-start">
-                          <Controller
-                            control={control}
-                            name="date"
-                            render={({ field }) => (
-                              <DayPicker
-                                mode="single"
-                                selected={field.value ? dayjs(field.value).toDate() : undefined}
-                                onSelect={(date) => {
-                                  field.onChange(date ? dayjs(date).format('YYYY-MM-DD') : '');
-                                  setValue('time', '');
-                                }}
-                                className="bg-transparent"
-                                disabled={{ before: dayjs().startOf('day').toDate() }}
-                              />
-                            )}
-                          />
-                        </div>
-                        <div className="space-y-4 pt-4">
-                          {watchedDateStr && (
-                            <div className="mb-4">
-                              <p className="text-sm font-medium text-foreground mb-1">Selected Date & Time</p>
-                              <p className="text-sm text-blue-600 font-medium">
-                                {dayjs(watchedDateStr).format('dddd, MMMM D, YYYY')}
-                                {watchedTimeStr && ` at ${watchedTimeStr}`}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="flex-1">
-                        {watchedDateStr ? (
-                          availableSlots.length > 0 ? (
-                            <div className="h-[400px] overflow-y-auto pr-4 space-y-3 stylish-scrollbar">
-                              <Controller
-                                control={control}
-                                name="time"
-                                render={({ field }) => (
-                                  <>
-                                    {availableSlots.map(slot => (
-                                      <button
-                                        key={slot}
-                                        type="button"
-                                        onClick={() => field.onChange(slot)}
-                                        className={`cursor-pointer w-full py-4 px-6 rounded text-sm font-medium transition-colors border ${field.value === slot
-                                          ? 'bg-blue-600 border-blue-600 text-white'
-                                          : 'border-blue-600 text-blue-600 hover:bg-blue-50'
-                                          }`}
-                                      >
-                                        {slot}
-                                      </button>
-                                    ))}
-                                  </>
-                                )}
-                              />
-                            </div>
-                          ) : (
-                            <div className="h-[400px] flex items-center justify-center text-muted-foreground text-sm border rounded-md bg-accent/10">
-                              No availability on this date.
-                            </div>
-                          )
-                        ) : (
-                          <div className="h-[400px] flex items-center justify-center text-muted-foreground text-sm border border-dashed rounded-md bg-accent/5">
-                            Please select a date first.
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
                 <div className="space-y-2 pt-4 border-t border-accent/50">
                   <label className="text-sm font-medium text-foreground tracking-wide">Additional Notes</label>
@@ -978,13 +1035,44 @@ function BookingContent() {
                   </div>
                 )}
 
-                <div className="border-t border-accent/50 pt-8">
+                {/* Stripe Payment Section */}
+                <div ref={paymentSectionRef} className="border-t border-accent/50 pt-8 space-y-6">
+                  {loadingPayment ? (
+                    <div className="flex items-center justify-center py-8">
+                      <svg className="animate-spin h-6 w-6 text-primary mr-3" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      <span className="text-sm text-muted-foreground">Loading payment form...</span>
+                    </div>
+                  ) : clientSecret && paymentVisible ? (
+                    <StripeCheckout
+                      ref={stripeRef}
+                      clientSecret={clientSecret}
+                      totalPrice={totalPrice}
+                    />
+                  ) : clientSecret ? (
+                    <div className="flex items-center justify-center py-8">
+                      <span className="text-sm text-muted-foreground">Scroll down to load payment form...</span>
+                    </div>
+                  ) : null}
+
                   <button
                     type="submit"
-                    disabled={loading || selectedTreatments.length === 0}
-                    className="w-full bg-primary text-primary-foreground py-3 hover:opacity-90 transition text-sm tracking-widest font-medium disabled:opacity-50"
+                    disabled={loading || selectedTreatments.length === 0 || !clientSecret}
+                    className="w-full bg-primary text-primary-foreground py-3.5 hover:opacity-90 transition text-sm tracking-widest font-medium disabled:opacity-50 flex items-center justify-center gap-2"
                   >
-                    {loading ? 'PROCESSING...' : `CONFIRM BOOKING · £${totalPrice.toFixed(2)}`}
+                    {loading ? (
+                      <>
+                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                        PROCESSING...
+                      </>
+                    ) : (
+                      `PAY £44.00 DEPOSIT & CONFIRM BOOKING`
+                    )}
                   </button>
                 </div>
               </form>
