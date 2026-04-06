@@ -10,7 +10,7 @@ const navLinks = [
   { href: '/pricing', label: 'TREATMENTS & PRICING' },
   { href: '/results', label: 'RESULTS' },
   { href: '/care-guide', label: 'PRE & POST CARE' },
-  { href: '/consent-form', label: 'CONSENT' },
+  // { href: '/consent-form', label: 'CONSENT' },
   { href: '/policies', label: 'POLICIES' },
   { href: '/contact', label: 'CONTACT' },
 ];
