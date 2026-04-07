@@ -45,6 +45,9 @@ const bookingSchema = z.object({
   gender: z.string().min(1, 'Gender is required'),
   phone: z.string().min(5, 'Phone number is required'),
   email: z.union([z.literal(""), z.string().email('Invalid email address')]).optional(),
+  address_line_1: z.string().optional(),
+  address_line_2: z.string().optional(),
+  city: z.string().optional(),
   postcode: z.string().optional(), // kept for backend compatibility if needed but removed from UI, though backend will ignore if not sent
   emergency_contact_name: z.string().min(1, 'Emergency Contact Name is required'),
   emergency_contact_number: z.string().min(1, 'Emergency Contact Number is required'),
@@ -78,50 +81,50 @@ function BookingContent() {
   const [step, setStep] = useState(1);
   const [hasSignature, setHasSignature] = useState(false);
   const [consentData, setConsentData] = useState({
-        medicalConditions: 'no',
-        medicalConditionsDetails: '',
-        medications: 'no',
-        medicationsDetails: '',
-        allergies: 'no',
-        allergiesDetails: '',
-        previousTreatments: 'no',
-        previousTreatmentsDetails: '',
-        complications: 'no',
-        complicationsDetails: '',
-        pregnantOrBreastfeeding: 'no',
-        activeInfections: 'no',
-        activeInfectionsDetails: '',
-        coldSores: 'no',
-        coldSoresDetails: '',
-        aimsMotivations: '',
-        consentTrueInfo: false,
-        consentNature: false,
-        consentResultsVary: false,
-        consentSideEffects: false,
-        consentRareRisks: false,
-        consentAdditionalTreatments: false,
-        consentAftercare: false,
-        consentEmergency: false,
-        consentOver18: false,
-        consentProceed: false,
-        signatureDate: '',
+    medicalConditions: 'no',
+    medicalConditionsDetails: '',
+    medications: 'no',
+    medicationsDetails: '',
+    allergies: 'no',
+    allergiesDetails: '',
+    previousTreatments: 'no',
+    previousTreatmentsDetails: '',
+    complications: 'no',
+    complicationsDetails: '',
+    pregnantOrBreastfeeding: 'no',
+    activeInfections: 'no',
+    activeInfectionsDetails: '',
+    coldSores: 'no',
+    coldSoresDetails: '',
+    aimsMotivations: '',
+    consentTrueInfo: false,
+    consentNature: false,
+    consentResultsVary: false,
+    consentSideEffects: false,
+    consentRareRisks: false,
+    consentAdditionalTreatments: false,
+    consentAftercare: false,
+    consentEmergency: false,
+    consentOver18: false,
+    consentProceed: false,
+    signatureDate: '',
   });
 
   const handleConsentChange = (field: string, value: any) => {
-      setConsentData(prev => ({ ...prev, [field]: value }));
+    setConsentData(prev => ({ ...prev, [field]: value }));
   };
 
   const allConsentsChecked =
-        consentData.consentTrueInfo &&
-        consentData.consentNature &&
-        consentData.consentResultsVary &&
-        consentData.consentSideEffects &&
-        consentData.consentRareRisks &&
-        consentData.consentAdditionalTreatments &&
-        consentData.consentAftercare &&
-        consentData.consentEmergency &&
-        consentData.consentOver18 &&
-        consentData.consentProceed;
+    consentData.consentTrueInfo &&
+    consentData.consentNature &&
+    consentData.consentResultsVary &&
+    consentData.consentSideEffects &&
+    consentData.consentRareRisks &&
+    consentData.consentAdditionalTreatments &&
+    consentData.consentAftercare &&
+    consentData.consentEmergency &&
+    consentData.consentOver18 &&
+    consentData.consentProceed;
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoadingTreatments, setIsLoadingTreatments] = useState(true);
 
@@ -221,9 +224,10 @@ function BookingContent() {
 
         const slots = [];
         let current = start;
+
         while (current.isBefore(end)) {
           slots.push(current.format("hh:mm A"));
-          current = current.add(30, 'minute');
+          current = current.add(60, 'minute');
         }
         setAvailableSlots(slots);
       } else {
@@ -592,6 +596,7 @@ function BookingContent() {
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         {category.treatments?.map((treatment: any, idx: number) => {
                           const isAlreadySelected = selectedTreatments.some(t => t.treatment_id === treatment.id);
+                          console.log(treatment);
                           return (
                             <div
                               key={treatment.id || idx}
@@ -625,11 +630,11 @@ function BookingContent() {
                                 <div className="space-y-2 border-t border-accent/50 pt-4">
                                   <div className="flex justify-between items-center">
                                     <span className="text-xs text-muted-foreground tracking-wide">Price</span>
-                                    <span className="text-xl md:text-2xl font-medium text-primary">£{treatment.display_price || treatment.price}</span>
+                                    <span className="text-xl md:text-2xl font-medium text-primary">{treatment.display_price || treatment.price}</span>
                                   </div>
                                   <div className="flex justify-between items-center">
                                     <span className="text-xs text-muted-foreground tracking-wide">Duration</span>
-                                    <span className="text-sm font-medium text-foreground">{treatment.duration || treatment.time} mins</span>
+                                    <span className="text-sm font-medium text-foreground">{treatment.display_time || treatment.time}</span>
                                   </div>
                                 </div>
                               </div>
@@ -902,20 +907,24 @@ function BookingContent() {
                                   <>
                                     {availableSlots.map(slot => {
                                       const isBooked = bookedSlots.includes(slot);
+                                      const slotDateTime = dayjs(`${watchedDateStr} ${slot}`, "YYYY-MM-DD hh:mm A");
+                                      const isPastToday = dayjs().isSame(watchedDateStr, 'day') && slotDateTime.isBefore(dayjs());
+                                      const isDisabled = isBooked || isPastToday;
+
                                       return (
                                         <button
                                           key={slot}
                                           type="button"
-                                          onClick={() => !isBooked && field.onChange(slot)}
-                                          disabled={isBooked}
-                                          className={`w-full py-4 px-6 rounded text-sm font-medium transition-colors border ${isBooked
+                                          onClick={() => !isDisabled && field.onChange(slot)}
+                                          disabled={isDisabled}
+                                          className={`w-full py-4 px-6 rounded text-sm font-medium transition-colors border ${isDisabled
                                             ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed line-through'
                                             : field.value === slot
                                               ? 'bg-blue-600 border-blue-600 text-white cursor-pointer'
                                               : 'border-blue-600 text-blue-600 hover:bg-blue-50 cursor-pointer'
                                             }`}
                                         >
-                                          {slot}{isBooked ? ' (Booked)' : ''}
+                                          {slot}{isBooked ? ' (Booked)' : isPastToday ? ' (Past)' : ''}
                                         </button>
                                       );
                                     })}
@@ -1049,209 +1058,209 @@ function BookingContent() {
 
                 {/* ── MEDICAL HISTORY ── */}
                 <div className="pt-8 space-y-6">
-                <section className="space-y-5 md:space-y-8">
-                                <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
-                                    <span className="text-xl">🔍</span>
-                                    <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Medical History</h2>
-                                </div>
+                  <section className="space-y-5 md:space-y-8">
+                    <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
+                      <span className="text-xl">🔍</span>
+                      <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Medical History</h2>
+                    </div>
 
-                                {/* Q1 – Medical conditions */}
-                                <MedicalQuestion
-                                    number={1}
-                                    question="Do you have any medical conditions?"
-                                    hint="e.g. autoimmune disease, bleeding disorders, skin conditions, diabetes, epilepsy, etc."
-                                    value={consentData.medicalConditions}
-                                    details={consentData.medicalConditionsDetails}
-                                    onValueChange={(v) => handleConsentChange('medicalConditions', v)}
-                                    onDetailsChange={(v) => handleConsentChange('medicalConditionsDetails', v)}
-                                />
+                    {/* Q1 – Medical conditions */}
+                    <MedicalQuestion
+                      number={1}
+                      question="Do you have any medical conditions?"
+                      hint="e.g. autoimmune disease, bleeding disorders, skin conditions, diabetes, epilepsy, etc."
+                      value={consentData.medicalConditions}
+                      details={consentData.medicalConditionsDetails}
+                      onValueChange={(v) => handleConsentChange('medicalConditions', v)}
+                      onDetailsChange={(v) => handleConsentChange('medicalConditionsDetails', v)}
+                    />
 
-                                {/* Q2 – Medications */}
-                                <MedicalQuestion
-                                    number={2}
-                                    question="Are you currently taking any medications or supplements?"
-                                    hint="including blood thinners, antibiotics, steroids, prescribed vitamins"
-                                    value={consentData.medications}
-                                    details={consentData.medicationsDetails}
-                                    onValueChange={(v) => handleConsentChange('medications', v)}
-                                    onDetailsChange={(v) => handleConsentChange('medicationsDetails', v)}
-                                />
+                    {/* Q2 – Medications */}
+                    <MedicalQuestion
+                      number={2}
+                      question="Are you currently taking any medications or supplements?"
+                      hint="including blood thinners, antibiotics, steroids, prescribed vitamins"
+                      value={consentData.medications}
+                      details={consentData.medicationsDetails}
+                      onValueChange={(v) => handleConsentChange('medications', v)}
+                      onDetailsChange={(v) => handleConsentChange('medicationsDetails', v)}
+                    />
 
-                                {/* Q3 – Allergies */}
-                                <MedicalQuestion
-                                    number={3}
-                                    question="Do you have any known allergies?"
-                                    hint="medications, latex, lidocaine, foods, skincare, etc."
-                                    value={consentData.allergies}
-                                    details={consentData.allergiesDetails}
-                                    onValueChange={(v) => handleConsentChange('allergies', v)}
-                                    onDetailsChange={(v) => handleConsentChange('allergiesDetails', v)}
-                                />
+                    {/* Q3 – Allergies */}
+                    <MedicalQuestion
+                      number={3}
+                      question="Do you have any known allergies?"
+                      hint="medications, latex, lidocaine, foods, skincare, etc."
+                      value={consentData.allergies}
+                      details={consentData.allergiesDetails}
+                      onValueChange={(v) => handleConsentChange('allergies', v)}
+                      onDetailsChange={(v) => handleConsentChange('allergiesDetails', v)}
+                    />
 
-                                {/* Q4 – Previous treatments */}
-                                <MedicalQuestion
-                                    number={4}
-                                    question="Have you had any previous aesthetic or cosmetic treatments?"
-                                    hint="dermal filler, botulinum toxin, skin boosters, PRP, laser, surgery, etc."
-                                    value={consentData.previousTreatments}
-                                    details={consentData.previousTreatmentsDetails}
-                                    onValueChange={(v) => handleConsentChange('previousTreatments', v)}
-                                    onDetailsChange={(v) => handleConsentChange('previousTreatmentsDetails', v)}
-                                    detailsPlaceholder="Please specify treatment and date"
-                                />
+                    {/* Q4 – Previous treatments */}
+                    <MedicalQuestion
+                      number={4}
+                      question="Have you had any previous aesthetic or cosmetic treatments?"
+                      hint="dermal filler, botulinum toxin, skin boosters, PRP, laser, surgery, etc."
+                      value={consentData.previousTreatments}
+                      details={consentData.previousTreatmentsDetails}
+                      onValueChange={(v) => handleConsentChange('previousTreatments', v)}
+                      onDetailsChange={(v) => handleConsentChange('previousTreatmentsDetails', v)}
+                      detailsPlaceholder="Please specify treatment and date"
+                    />
 
-                                {/* Q5 – Complications */}
-                                <MedicalQuestion
-                                    number={5}
-                                    question="Have you ever experienced a complication or reaction to cosmetic treatments?"
-                                    value={consentData.complications}
-                                    details={consentData.complicationsDetails}
-                                    onValueChange={(v) => handleConsentChange('complications', v)}
-                                    onDetailsChange={(v) => handleConsentChange('complicationsDetails', v)}
-                                />
+                    {/* Q5 – Complications */}
+                    <MedicalQuestion
+                      number={5}
+                      question="Have you ever experienced a complication or reaction to cosmetic treatments?"
+                      value={consentData.complications}
+                      details={consentData.complicationsDetails}
+                      onValueChange={(v) => handleConsentChange('complications', v)}
+                      onDetailsChange={(v) => handleConsentChange('complicationsDetails', v)}
+                    />
 
-                                {/* Q6 – Pregnant / breastfeeding */}
-                                <div className="space-y-3 p-6 border border-accent/30 bg-white/50">
-                                    <p className="text-sm text-foreground font-medium">
-                                        <span className="text-muted-foreground mr-2">6.</span>
-                                        Are you currently pregnant or breastfeeding?
-                                    </p>
-                                    <div className="flex gap-6">
-                                        <label className="flex items-center gap-2 cursor-pointer group">
-                                            <input
-                                                type="radio"
-                                                name="pregnantOrBreastfeeding"
-                                                value="no"
-                                                checked={consentData.pregnantOrBreastfeeding === 'no'}
-                                                onChange={(e) => handleConsentChange('pregnantOrBreastfeeding', e.target.value)}
-                                                className="w-4 h-4 accent-primary"
-                                            />
-                                            <span className="text-sm text-foreground/80 group-hover:text-foreground transition">No</span>
-                                        </label>
-                                        <label className="flex items-center gap-2 cursor-pointer group">
-                                            <input
-                                                type="radio"
-                                                name="pregnantOrBreastfeeding"
-                                                value="yes"
-                                                checked={consentData.pregnantOrBreastfeeding === 'yes'}
-                                                onChange={(e) => handleConsentChange('pregnantOrBreastfeeding', e.target.value)}
-                                                className="w-4 h-4 accent-primary"
-                                            />
-                                            <span className="text-sm text-foreground/80 group-hover:text-foreground transition">Yes</span>
-                                        </label>
-                                    </div>
-                                </div>
+                    {/* Q6 – Pregnant / breastfeeding */}
+                    <div className="space-y-3 p-6 border border-accent/30 bg-white/50">
+                      <p className="text-sm text-foreground font-medium">
+                        <span className="text-muted-foreground mr-2">6.</span>
+                        Are you currently pregnant or breastfeeding?
+                      </p>
+                      <div className="flex gap-6">
+                        <label className="flex items-center gap-2 cursor-pointer group">
+                          <input
+                            type="radio"
+                            name="pregnantOrBreastfeeding"
+                            value="no"
+                            checked={consentData.pregnantOrBreastfeeding === 'no'}
+                            onChange={(e) => handleConsentChange('pregnantOrBreastfeeding', e.target.value)}
+                            className="w-4 h-4 accent-primary"
+                          />
+                          <span className="text-sm text-foreground/80 group-hover:text-foreground transition">No</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer group">
+                          <input
+                            type="radio"
+                            name="pregnantOrBreastfeeding"
+                            value="yes"
+                            checked={consentData.pregnantOrBreastfeeding === 'yes'}
+                            onChange={(e) => handleConsentChange('pregnantOrBreastfeeding', e.target.value)}
+                            className="w-4 h-4 accent-primary"
+                          />
+                          <span className="text-sm text-foreground/80 group-hover:text-foreground transition">Yes</span>
+                        </label>
+                      </div>
+                    </div>
 
-                                {/* Q7 – Active infections */}
-                                <MedicalQuestion
-                                    number={7}
-                                    question="Do you have any active infections, cold sores, skin irritation, or inflammation in the treatment area?"
-                                    value={consentData.activeInfections}
-                                    details={consentData.activeInfectionsDetails}
-                                    onValueChange={(v) => handleConsentChange('activeInfections', v)}
-                                    onDetailsChange={(v) => handleConsentChange('activeInfectionsDetails', v)}
-                                />
+                    {/* Q7 – Active infections */}
+                    <MedicalQuestion
+                      number={7}
+                      question="Do you have any active infections, cold sores, skin irritation, or inflammation in the treatment area?"
+                      value={consentData.activeInfections}
+                      details={consentData.activeInfectionsDetails}
+                      onValueChange={(v) => handleConsentChange('activeInfections', v)}
+                      onDetailsChange={(v) => handleConsentChange('activeInfectionsDetails', v)}
+                    />
 
-                                {/* Q8 – Cold sores */}
-                                <MedicalQuestion
-                                    number={8}
-                                    question="Do you suffer from any cold sores?"
-                                    value={consentData.coldSores}
-                                    details={consentData.coldSoresDetails}
-                                    onValueChange={(v) => handleConsentChange('coldSores', v)}
-                                    onDetailsChange={(v) => handleConsentChange('coldSoresDetails', v)}
-                                />
+                    {/* Q8 – Cold sores */}
+                    <MedicalQuestion
+                      number={8}
+                      question="Do you suffer from any cold sores?"
+                      value={consentData.coldSores}
+                      details={consentData.coldSoresDetails}
+                      onValueChange={(v) => handleConsentChange('coldSores', v)}
+                      onDetailsChange={(v) => handleConsentChange('coldSoresDetails', v)}
+                    />
 
-                                {/* Q9 – Aims and motivations */}
-                                <div className="space-y-3 p-6 border border-accent/30 bg-white/50">
-                                    <p className="text-sm text-foreground font-medium">
-                                        <span className="text-muted-foreground mr-2">9.</span>
-                                        What are your aims and motivations for having this procedure?
-                                    </p>
-                                    <textarea
-                                        value={consentData.aimsMotivations}
-                                        onChange={(e) => handleConsentChange('aimsMotivations', e.target.value)}
-                                        rows={4}
-                                        className="w-full border border-accent/50 bg-white px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition placeholder:text-muted-foreground/40 resize-none"
-                                        placeholder="Please describe your goals and what you hope to achieve from the treatment..."
-                                    />
-                                </div>
-                            </section>
+                    {/* Q9 – Aims and motivations */}
+                    <div className="space-y-3 p-6 border border-accent/30 bg-white/50">
+                      <p className="text-sm text-foreground font-medium">
+                        <span className="text-muted-foreground mr-2">9.</span>
+                        What are your aims and motivations for having this procedure?
+                      </p>
+                      <textarea
+                        value={consentData.aimsMotivations}
+                        onChange={(e) => handleConsentChange('aimsMotivations', e.target.value)}
+                        rows={4}
+                        className="w-full border border-accent/50 bg-white px-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary/50 transition placeholder:text-muted-foreground/40 resize-none"
+                        placeholder="Please describe your goals and what you hope to achieve from the treatment..."
+                      />
+                    </div>
+                  </section>
 
-                            {/* ── TREATMENT CONSENT & DECLARATION ── */}
-                            <section className="space-y-5 md:space-y-8 pt-8">
-                                <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
-                                    <span className="text-xl">💉</span>
-                                    <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Treatment Consent &amp; Declaration</h2>
-                                </div>
-                                <p className="text-sm text-muted-foreground">Please read and confirm each statement below:</p>
+                  {/* ── TREATMENT CONSENT & DECLARATION ── */}
+                  <section className="space-y-5 md:space-y-8 pt-8">
+                    <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
+                      <span className="text-xl">💉</span>
+                      <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Treatment Consent &amp; Declaration</h2>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Please read and confirm each statement below:</p>
 
-                                <div className="space-y-4">
-                                    <ConsentCheckbox
-                                        checked={consentData.consentTrueInfo}
-                                        onChange={(v) => handleConsentChange('consentTrueInfo', v)}
-                                        label="I confirm that all information provided is true and complete to the best of my knowledge."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentNature}
-                                        onChange={(v) => handleConsentChange('consentNature', v)}
-                                        label="I understand the nature and purpose of injectable treatments and have had the opportunity to ask questions."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentResultsVary}
-                                        onChange={(v) => handleConsentChange('consentResultsVary', v)}
-                                        label="I understand that results vary and no guarantees can be given."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentSideEffects}
-                                        onChange={(v) => handleConsentChange('consentSideEffects', v)}
-                                        label="I understand common side effects include redness, swelling, bruising, tenderness, and temporary asymmetry."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentRareRisks}
-                                        onChange={(v) => handleConsentChange('consentRareRisks', v)}
-                                        label="I understand rare but serious risks include infection, allergic reaction, vascular occlusion, tissue damage, scarring, delayed inflammatory reactions, and unsatisfactory results."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentAdditionalTreatments}
-                                        onChange={(v) => handleConsentChange('consentAdditionalTreatments', v)}
-                                        label="I understand that additional treatments may be required to achieve or maintain results at additional cost."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentAftercare}
-                                        onChange={(v) => handleConsentChange('consentAftercare', v)}
-                                        label="I agree to follow all pre and after care instructions provided."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentEmergency}
-                                        onChange={(v) => handleConsentChange('consentEmergency', v)}
-                                        label="I consent to emergency treatment if required."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentOver18}
-                                        onChange={(v) => handleConsentChange('consentOver18', v)}
-                                        label="I confirm that I am over 18 years of age."
-                                    />
-                                    <ConsentCheckbox
-                                        checked={consentData.consentProceed}
-                                        onChange={(v) => handleConsentChange('consentProceed', v)}
-                                        label="I consent to proceed with today's treatment."
-                                    />
-                                </div>
-                            </section>
+                    <div className="space-y-4">
+                      <ConsentCheckbox
+                        checked={consentData.consentTrueInfo}
+                        onChange={(v) => handleConsentChange('consentTrueInfo', v)}
+                        label="I confirm that all information provided is true and complete to the best of my knowledge."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentNature}
+                        onChange={(v) => handleConsentChange('consentNature', v)}
+                        label="I understand the nature and purpose of injectable treatments and have had the opportunity to ask questions."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentResultsVary}
+                        onChange={(v) => handleConsentChange('consentResultsVary', v)}
+                        label="I understand that results vary and no guarantees can be given."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentSideEffects}
+                        onChange={(v) => handleConsentChange('consentSideEffects', v)}
+                        label="I understand common side effects include redness, swelling, bruising, tenderness, and temporary asymmetry."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentRareRisks}
+                        onChange={(v) => handleConsentChange('consentRareRisks', v)}
+                        label="I understand rare but serious risks include infection, allergic reaction, vascular occlusion, tissue damage, scarring, delayed inflammatory reactions, and unsatisfactory results."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentAdditionalTreatments}
+                        onChange={(v) => handleConsentChange('consentAdditionalTreatments', v)}
+                        label="I understand that additional treatments may be required to achieve or maintain results at additional cost."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentAftercare}
+                        onChange={(v) => handleConsentChange('consentAftercare', v)}
+                        label="I agree to follow all pre and after care instructions provided."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentEmergency}
+                        onChange={(v) => handleConsentChange('consentEmergency', v)}
+                        label="I consent to emergency treatment if required."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentOver18}
+                        onChange={(v) => handleConsentChange('consentOver18', v)}
+                        label="I confirm that I am over 18 years of age."
+                      />
+                      <ConsentCheckbox
+                        checked={consentData.consentProceed}
+                        onChange={(v) => handleConsentChange('consentProceed', v)}
+                        label="I consent to proceed with today's treatment."
+                      />
+                    </div>
+                  </section>
 
-                            {/* ── SIGNATURE ── */}
-                            <section className="space-y-5 md:space-y-8 pt-8">
-                                <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
-                                    <span className="text-xl">✍️</span>
-                                    <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Client Signature</h2>
-                                </div>
+                  {/* ── SIGNATURE ── */}
+                  <section className="space-y-5 md:space-y-8 pt-8">
+                    <div className="flex items-center gap-3 border-b border-accent/50 pb-4">
+                      <span className="text-xl">✍️</span>
+                      <h2 className="text-xl md:text-2xl font-light text-foreground tracking-wide">Client Signature</h2>
+                    </div>
 
-                                <SignaturePad onSignatureChange={setHasSignature} />
+                    <SignaturePad onSignatureChange={setHasSignature} />
 
 
-                            </section>
-                            </div>
+                  </section>
+                </div>
 
                 {/* Stripe Payment Section */}
                 <div className="border-t border-accent/50 pt-8 space-y-6">
