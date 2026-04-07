@@ -78,7 +78,12 @@ function BookingContent() {
   const searchParams = useSearchParams();
   const treatmentParam = searchParams.get('treatment') || '';
 
-  const [step, setStep] = useState(1);
+  const [step, setStepRaw] = useState(1);
+  const setStep = useCallback((s: number) => {
+    setStepRaw(s);
+    // Scroll to top on step change to prevent Stripe auto-focus scrolling
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
   const [hasSignature, setHasSignature] = useState(false);
   const [consentData, setConsentData] = useState({
     medicalConditions: 'no',

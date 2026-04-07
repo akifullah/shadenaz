@@ -26,17 +26,34 @@ const CheckoutForm = forwardRef<StripeCheckoutHandle, CheckoutFormProps>(
   ({ totalPrice }, ref) => {
     const stripe = useStripe();
     const elements = useElements();
-    const scrollPosRef = useReactRef<number>(0);
+    const containerRef = useReactRef<HTMLDivElement>(null);
 
-    // Save scroll position before Stripe iframe mounts and steals focus
+    // Block Stripe's auto-focus scroll by intercepting scroll events at the window level.
+    // Stripe's iframe is cross-origin so focusin events don't bubble — we must catch the scroll itself.
     useEffect(() => {
-      scrollPosRef.current = window.scrollY;
-    }, []);
+      const savedPos = window.scrollY;
+      let guardActive = true;
 
-    const handleReady = () => {
-      // Restore scroll position after Stripe's iframe auto-focuses
-      window.scrollTo({ top: scrollPosRef.current });
-    };
+      const handleScroll = () => {
+        if (guardActive) {
+          window.scrollTo({ top: savedPos });
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll);
+
+      // Disable the guard after 3 seconds so user can scroll normally
+      const timer = setTimeout(() => {
+        guardActive = false;
+        window.removeEventListener('scroll', handleScroll);
+      }, 3000);
+
+      return () => {
+        guardActive = false;
+        clearTimeout(timer);
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
 
     useImperativeHandle(ref, () => ({
       confirmPayment: async () => {
@@ -63,7 +80,7 @@ const CheckoutForm = forwardRef<StripeCheckoutHandle, CheckoutFormProps>(
     }));
 
     return (
-      <div className="space-y-6">
+      <div ref={containerRef} className="space-y-6">
         {/* Payment Summary Card */}
         <div className="bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 p-5 space-y-4">
           <div className="flex items-center gap-3">
@@ -98,7 +115,6 @@ const CheckoutForm = forwardRef<StripeCheckoutHandle, CheckoutFormProps>(
           </label>
           <div className="border border-accent bg-background p-4">
             <PaymentElement
-              onReady={handleReady}
               options={{
                 layout: 'tabs',
               }}

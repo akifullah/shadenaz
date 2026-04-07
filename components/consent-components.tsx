@@ -114,25 +114,42 @@ export function SignaturePad({
         const lastPoint = lastPointRef.current;
         const lastTime = pointsRef.current.length > 0 ? pointsRef.current[pointsRef.current.length - 1].time : now;
 
-        // Calculate velocity
+        // Calculate velocity for variable width
         const dx = coords.x - lastPoint.x;
         const dy = coords.y - lastPoint.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const dt = Math.max(now - lastTime, 1);
         const velocity = dist / dt;
 
-        // Quadratic bezier for smooth curves using midpoints
-        const midX = (lastPoint.x + coords.x) / 2;
-        const midY = (lastPoint.y + coords.y) / 2;
-
-        ctx.beginPath();
-        ctx.moveTo(lastPoint.x, lastPoint.y);
-        ctx.quadraticCurveTo(lastPoint.x, lastPoint.y, midX, midY);
         ctx.lineWidth = getLineWidth(velocity * 10);
-        ctx.stroke();
+
+        // Use accumulated points for smooth quadratic curves
+        pointsRef.current.push({ ...coords, time: now });
+        const points = pointsRef.current;
+
+        if (points.length >= 3) {
+            // Draw smooth curve through recent points using quadratic bezier
+            const p1 = points[points.length - 3];
+            const p2 = points[points.length - 2];
+            const p3 = points[points.length - 1];
+            const mid1X = (p1.x + p2.x) / 2;
+            const mid1Y = (p1.y + p2.y) / 2;
+            const mid2X = (p2.x + p3.x) / 2;
+            const mid2Y = (p2.y + p3.y) / 2;
+
+            ctx.beginPath();
+            ctx.moveTo(mid1X, mid1Y);
+            ctx.quadraticCurveTo(p2.x, p2.y, mid2X, mid2Y);
+            ctx.stroke();
+        } else {
+            // For the first two points, draw a simple line
+            ctx.beginPath();
+            ctx.moveTo(lastPoint.x, lastPoint.y);
+            ctx.lineTo(coords.x, coords.y);
+            ctx.stroke();
+        }
 
         lastPointRef.current = coords;
-        pointsRef.current.push({ ...coords, time: now });
     };
 
     const stopDrawing = () => {
