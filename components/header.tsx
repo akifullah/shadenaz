@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: '/about', label: 'ABOUT' },
-  { href: '/pricing', label: 'TREATMENTS & PRICING' },
+  { href: '/booking', label: 'TREATMENTS & PRICING' },
   { href: '/results', label: 'RESULTS' },
   { href: '/care-guide', label: 'PRE & POST CARE' },
   // { href: '/consent-form', label: 'CONSENT' },

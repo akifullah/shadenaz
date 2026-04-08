@@ -226,12 +226,26 @@ function BookingContent() {
         if (end.isBefore(start)) {
           end = end.add(1, 'day');
         }
+        // Parse excluded ranges once
+        const excludedRanges = (dayData.excluded_times ?? []).map((ex: any) => ({
+          start: dayjs(`${watchedDateStr} ${ex.start_time}`, "YYYY-MM-DD HH:mm:ss"),
+          end: dayjs(`${watchedDateStr} ${ex.end_time}`, "YYYY-MM-DD HH:mm:ss"),
+        }));
 
-        const slots = [];
+        // Helper — is a slot inside any excluded range?
+        const isExcluded = (slot: dayjs.Dayjs) =>
+          excludedRanges.some((range: any) =>
+            slot.isSame(range.start) ||
+            (slot.isAfter(range.start) && slot.isBefore(range.end))
+          );
+
+        const slots: string[] = [];
         let current = start;
 
         while (current.isBefore(end)) {
-          slots.push(current.format("hh:mm A"));
+          if (!isExcluded(current)) {
+            slots.push(current.format("hh:mm A"));
+          }
           current = current.add(60, 'minute');
         }
         setAvailableSlots(slots);
@@ -524,12 +538,12 @@ function BookingContent() {
       <main className="w-full bg-background min-h-screen">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-10 sm:py-24">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
-            <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">Booking</p>
+            {/* <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">Booking</p> */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-foreground">
-              {step === 1 ? 'Select Treatments' : 'Schedule Details'}
+              {step === 1 ? 'Treatments & Pricing' : 'Schedule Details'}
             </h1>
             <p className="text-sm md:text-lg text-muted-foreground">
-              {step === 1 ? 'Choose from our range of treatments below' : 'Fill out the details below and pick a time'}
+              {step === 1 ? '' : 'Fill out the details below and pick a time'}
             </p>
           </div>
 
@@ -601,7 +615,6 @@ function BookingContent() {
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         {category.treatments?.map((treatment: any, idx: number) => {
                           const isAlreadySelected = selectedTreatments.some(t => t.treatment_id === treatment.id);
-                          console.log(treatment);
                           return (
                             <div
                               key={treatment.id || idx}
