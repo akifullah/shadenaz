@@ -11,7 +11,8 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { ArrowLeft, Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, ChevronDown, ChevronUp, CheckCircle2, ShieldAlert, AlertTriangle, Info } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -130,6 +131,7 @@ function BookingContent() {
     consentData.consentEmergency &&
     consentData.consentOver18 &&
     consentData.consentProceed;
+  const [careGuideOpen, setCareGuideOpen] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoadingTreatments, setIsLoadingTreatments] = useState(true);
 
@@ -294,6 +296,7 @@ function BookingContent() {
       treatmentObj: treatment,
     };
     setSelectedTreatments([newEntry]);
+    setCareGuideOpen(false);
     // New treatments are expanded by default (not in collapsedTreatmentIdxs)
     setStep(2);
   };
@@ -463,6 +466,7 @@ function BookingContent() {
           consent_proceed: consentData.consentProceed,
           signature_data: signatureData,
           signature_date: consentData.signatureDate,
+          care_guide: selectedTreatments[0]?.treatmentObj?.care_guide ?? null,
         }),
       });
       const data = await response.json();
@@ -536,7 +540,7 @@ function BookingContent() {
     <>
       <Header />
       <main className="w-full bg-background min-h-screen">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-10 sm:py-24">
+        <div className="max-w-7xl mx-auto px-1 sm:px-8 lg:px-10 py-10 sm:py-24">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
             {/* <p className="text-[10px] md:text-xs tracking-widest text-muted-foreground font-medium uppercase">Booking</p> */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-foreground">
@@ -850,6 +854,98 @@ function BookingContent() {
                       );
                     })}
                   </div>
+
+                  {/* Care Guide Accordion – shown when the selected treatment has a care_guide */}
+                  {selectedTreatments.length > 0 && selectedTreatments[0].treatmentObj?.care_guide && (() => {
+                    const guide = selectedTreatments[0].treatmentObj.care_guide;
+                    const isOpen = careGuideOpen;
+                    return (
+                      <div className="space-y-4 pt-4 border-t border-accent/50">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl">📋</span>
+                          <h3 className="text-lg font-medium text-foreground tracking-wide">Pre &amp; Post Care</h3>
+                        </div>
+
+                        <div
+                          className={cn(
+                            "group border border-accent/20 transition-all duration-500 overflow-hidden",
+                            isOpen ? "bg-card shadow-2xl border-primary/20" : "bg-card/50 hover:bg-card/80"
+                          )}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => setCareGuideOpen(o => !o)}
+                            className="w-full flex items-center justify-between p-3 text-left group-hover:cursor-pointer"
+                          >
+                            <div className="space-y-1">
+                              <h2 className={cn(
+                                "text-sm font-medium tracking-tight transition-colors duration-300",
+                                isOpen ? "text-primary" : "text-foreground"
+                              )}>
+                                {guide.title}
+                              </h2>
+                              <p className="text-xs text-muted-foreground tracking-widest uppercase font-light">
+                                {isOpen ? "Collapse details" : "View protocol"}
+                              </p>
+                            </div>
+                            <div className={cn(
+                              "flex items-center justify-center w-6 h-6 rounded-full border border-accent/20 transition-all duration-500",
+                              isOpen ? "rotate-180 bg-primary border-primary text-primary-foreground" : "text-muted-foreground"
+                            )}>
+                              <ChevronDown size={13} />
+                            </div>
+                          </button>
+
+                          <div className={cn(
+                            "grid transition-all duration-500 ease-in-out",
+                            isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                          )}>
+                            <div className="overflow-hidden">
+                              <div className="p-4 md:p-8 pt-0 space-y-6 md:space-y-10">
+                                {guide.sections.map((section: any, idx: number) => (
+                                  <div key={idx} className={cn(
+                                    "relative pl-4 space-y-2",
+                                    section.type === 'critical' && "bg-destructive/5 border-destructive/20 p-2",
+                                    section.type === 'warning' && "bg-amber-500/5 border-amber-500/20 p-2",
+                                    section.type === 'info' && "bg-primary/5 border-primary/20 p-2"
+                                  )}>
+                                    <div className="flex items-center gap-1.5">
+                                      {section.type === 'critical' && <ShieldAlert className="text-destructive" size={20} />}
+                                      {section.type === 'warning' && <AlertTriangle className="text-amber-500" size={20} />}
+                                      {section.type === 'info' && <Info className="text-primary" size={20} />}
+                                      {!section.type && <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary/30" />}
+                                      <h3 className={cn(
+                                        "text-xs tracking-widest font-bold uppercase",
+                                        section.type === 'critical' ? "text-destructive" :
+                                          section.type === 'warning' ? "text-amber-500" :
+                                            section.type === 'info' ? "text-primary" : "text-foreground"
+                                      )}>
+                                        {section.title}
+                                      </h3>
+                                    </div>
+
+                                    <ul className="space-y-2 md:space-y-3">
+                                      {section.items.map((item: string, itemIdx: number) => (
+                                        <li key={itemIdx} className="flex gap-1.5 text-muted-foreground text-xs leading-snug font-light">
+                                          <CheckCircle2 className={cn(
+                                            "flex-shrink-0 mt-0.5",
+                                            section.type === 'critical' ? "text-destructive/50" :
+                                              section.type === 'warning' ? "text-amber-500/50" :
+                                                "text-primary/40"
+                                          )} size={12} />
+                                          <span>{item}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
 
 
