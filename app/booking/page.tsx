@@ -178,7 +178,9 @@ function BookingContent() {
   const watchedTimeStr = watch("time");
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/treatments`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/treatments`, {
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    })
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -206,7 +208,9 @@ function BookingContent() {
 
   // Fetch schedule for the dates
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/slots`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/slots`, {
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    })
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -262,7 +266,9 @@ function BookingContent() {
   // Fetch booked/unavailable slots for the selected date
   useEffect(() => {
     if (watchedDateStr) {
-      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/slots-availability?date=${watchedDateStr}`)
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/slots-availability?date=${watchedDateStr}`, {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      })
         .then(res => res.json())
         .then(data => {
           if (data.success && Array.isArray(data.data)) {

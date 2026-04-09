@@ -376,7 +376,7 @@ export default function ConsentFormPage() {
 
             const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/consent-form`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(payload),
             });
 
