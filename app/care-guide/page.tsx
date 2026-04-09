@@ -37,7 +37,7 @@ export default function CareGuidePage() {
   const [openIds, setOpenIds] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/care-guides')
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/care-guides`)
       .then(res => res.json())
       .then((data: any[]) => {
         const validData = data.filter(item => item && item.id);
@@ -88,86 +88,86 @@ export default function CareGuidePage() {
               <div className="text-center text-muted-foreground py-10">No care guides found.</div>
             ) : (
               careGuides.map((guide) => {
-              const isOpen = openIds.includes(guide.id);
-              return (
-                <div
-                  key={guide.id}
-                  className={cn(
-                    "group border border-accent/20 transition-all duration-500 overflow-hidden",
-                    isOpen ? "bg-card shadow-2xl border-primary/20" : "bg-card/50 hover:bg-card/80"
-                  )}
-                >
-                  <button
-                    onClick={() => toggleAccordion(guide.id)}
-                    className="w-full flex items-center justify-between p-4 md:p-8 text-left group-hover:cursor-pointer"
+                const isOpen = openIds.includes(guide.id);
+                return (
+                  <div
+                    key={guide.id}
+                    className={cn(
+                      "group border border-accent/20 transition-all duration-500 overflow-hidden",
+                      isOpen ? "bg-card shadow-2xl border-primary/20" : "bg-card/50 hover:bg-card/80"
+                    )}
                   >
-                    <div className="space-y-1">
-                      <h2 className={cn(
-                        "text-lg md:text-2xl font-medium tracking-tight transition-colors duration-300",
-                        isOpen ? "text-primary" : "text-foreground"
+                    <button
+                      onClick={() => toggleAccordion(guide.id)}
+                      className="w-full flex items-center justify-between p-4 md:p-8 text-left group-hover:cursor-pointer"
+                    >
+                      <div className="space-y-1">
+                        <h2 className={cn(
+                          "text-lg md:text-2xl font-medium tracking-tight transition-colors duration-300",
+                          isOpen ? "text-primary" : "text-foreground"
+                        )}>
+                          {guide.title}
+                        </h2>
+                        <p className="text-xs text-muted-foreground tracking-widest uppercase font-light">
+                          {isOpen ? "Collapse details" : "View protocol"}
+                        </p>
+                      </div>
+                      <div className={cn(
+                        "flex items-center justify-center w-10 h-10 rounded-full border border-accent/20 transition-all duration-500",
+                        isOpen ? "rotate-180 bg-primary border-primary text-primary-foreground" : "text-muted-foreground"
                       )}>
-                        {guide.title}
-                      </h2>
-                      <p className="text-xs text-muted-foreground tracking-widest uppercase font-light">
-                        {isOpen ? "Collapse details" : "View protocol"}
-                      </p>
-                    </div>
+                        <ChevronDown size={20} />
+                      </div>
+                    </button>
+
                     <div className={cn(
-                      "flex items-center justify-center w-10 h-10 rounded-full border border-accent/20 transition-all duration-500",
-                      isOpen ? "rotate-180 bg-primary border-primary text-primary-foreground" : "text-muted-foreground"
+                      "grid transition-all duration-500 ease-in-out",
+                      isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                     )}>
-                      <ChevronDown size={20} />
-                    </div>
-                  </button>
+                      <div className="overflow-hidden">
+                        <div className="p-4 md:p-8 pt-0 space-y-6 md:space-y-10">
+                          {guide.sections.map((section, idx) => (
+                            <div key={idx} className={cn(
+                              "relative pl-6 space-y-4",
+                              section.type === 'critical' && "bg-destructive/5 border-destructive/20 p-6 -ml-0",
+                              section.type === 'warning' && "bg-amber-500/5 border-amber-500/20 p-6 -ml-0",
+                              section.type === 'info' && "bg-primary/5 border-primary/20 p-6 -ml-0"
+                            )}>
+                              <div className="flex items-center gap-3">
+                                {section.type === 'critical' && <ShieldAlert className="text-destructive" size={20} />}
+                                {section.type === 'warning' && <AlertTriangle className="text-amber-500" size={20} />}
+                                {section.type === 'info' && <Info className="text-primary" size={20} />}
+                                {!section.type && <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary/30" />}
+                                <h3 className={cn(
+                                  "text-sm tracking-widest font-bold uppercase",
+                                  section.type === 'critical' ? "text-destructive" :
+                                    section.type === 'warning' ? "text-amber-500" :
+                                      section.type === 'info' ? "text-primary" : "text-foreground"
+                                )}>
+                                  {section.title}
+                                </h3>
+                              </div>
 
-                  <div className={cn(
-                    "grid transition-all duration-500 ease-in-out",
-                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                  )}>
-                    <div className="overflow-hidden">
-                      <div className="p-4 md:p-8 pt-0 space-y-6 md:space-y-10">
-                        {guide.sections.map((section, idx) => (
-                          <div key={idx} className={cn(
-                            "relative pl-6 space-y-4",
-                            section.type === 'critical' && "bg-destructive/5 border-destructive/20 p-6 -ml-0",
-                            section.type === 'warning' && "bg-amber-500/5 border-amber-500/20 p-6 -ml-0",
-                            section.type === 'info' && "bg-primary/5 border-primary/20 p-6 -ml-0"
-                          )}>
-                            <div className="flex items-center gap-3">
-                              {section.type === 'critical' && <ShieldAlert className="text-destructive" size={20} />}
-                              {section.type === 'warning' && <AlertTriangle className="text-amber-500" size={20} />}
-                              {section.type === 'info' && <Info className="text-primary" size={20} />}
-                              {!section.type && <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary/30" />}
-                              <h3 className={cn(
-                                "text-sm tracking-widest font-bold uppercase",
-                                section.type === 'critical' ? "text-destructive" :
-                                  section.type === 'warning' ? "text-amber-500" :
-                                    section.type === 'info' ? "text-primary" : "text-foreground"
-                              )}>
-                                {section.title}
-                              </h3>
+                              <ul className="space-y-2 md:space-y-3">
+                                {section.items.map((item, itemIdx) => (
+                                  <li key={itemIdx} className="flex gap-2 md:gap-3 text-muted-foreground text-xs md:text-sm leading-relaxed font-light">
+                                    <CheckCircle2 className={cn(
+                                      "flex-shrink-0 mt-0.5",
+                                      section.type === 'critical' ? "text-destructive/50" :
+                                        section.type === 'warning' ? "text-amber-500/50" :
+                                          "text-primary/40"
+                                    )} size={16} />
+                                    <span>{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-
-                            <ul className="space-y-2 md:space-y-3">
-                              {section.items.map((item, itemIdx) => (
-                                <li key={itemIdx} className="flex gap-2 md:gap-3 text-muted-foreground text-xs md:text-sm leading-relaxed font-light">
-                                  <CheckCircle2 className={cn(
-                                    "flex-shrink-0 mt-0.5",
-                                    section.type === 'critical' ? "text-destructive/50" :
-                                      section.type === 'warning' ? "text-amber-500/50" :
-                                        "text-primary/40"
-                                  )} size={16} />
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
               })
             )}
           </div>
