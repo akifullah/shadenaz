@@ -265,7 +265,7 @@ export default function PricingPage() {
                   </div>
                   {/* <div className="flex justify-center">
                     <Link
-                      href="/pricing"
+                      href="/booking"
                       className="inline-block mt-6 md:mt-8 px-8 py-2 md:px-12 md:py-3 border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-xs tracking-widest font-medium"
                     >
                       BOOK NOW
@@ -284,7 +284,7 @@ export default function PricingPage() {
               Contact us for personalised consultations and package deals
             </p>
             <Link
-              href="/pricing"
+              href="/booking"
               className="inline-block border-2 border-primary text-primary px-8 py-2 md:px-10 md:py-3 hover:bg-primary hover:text-primary-foreground transition text-xs md:text-sm tracking-widest font-medium"
             >
               SCHEDULE CONSULTATION

@@ -101,7 +101,7 @@ export function TreatmentsSection() {
                 </div>
 
                 <Link
-                  href={`/pricing?treatment=${treatment.name}`}
+                  href={`/booking?treatment=${treatment.name}`}
                   className="block text-center bg-primary text-primary-foreground py-3 hover:bg-primary/90 transition text-xs tracking-widest font-medium mt-auto"
                 >
                   BOOK NOW

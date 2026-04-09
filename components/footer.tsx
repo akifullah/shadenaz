@@ -20,7 +20,7 @@ export function Footer() {
               <Link href="/results" className="text-sm hover:opacity-70 transition">
                 Results
               </Link>
-              <Link href="/pricing" className="text-sm hover:opacity-70 transition">
+              <Link href="/booking" className="text-sm hover:opacity-70 transition">
                 Pricing
               </Link>
               <Link href="/care-guide" className="text-sm hover:opacity-70 transition">
@@ -29,10 +29,7 @@ export function Footer() {
               <Link href="/policies" className="text-sm hover:opacity-70 transition">
                 Policies & FAQs
               </Link>
-              <Link href="/consent-form" className="text-sm hover:opacity-70 transition">
-                Consent Form
-              </Link>
-              <Link href="/pricing" className="text-sm hover:opacity-70 transition">
+              <Link href="/booking" className="text-sm hover:opacity-70 transition">
                 Book Now
               </Link>
             </nav>
@@ -52,9 +49,9 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-medium tracking-widest uppercase">Contact</h3>
             <div className="flex flex-col gap-3">
-              <a href="mailto:createawebltd@gmail.com" className="flex items-center gap-2 text-sm hover:opacity-70 transition">
+              <a href="mailto:shadenaz.aesthetics@gmail.com" className="flex items-center gap-2 text-sm hover:opacity-70 transition">
                 <Mail size={16} />
-                <span>createawebltd@gmail.com</span>
+                <span>shadenaz.aesthetics@gmail.com</span>
               </a>
               <a href="https://www.facebook.com/shadenaz.aesthetics/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm hover:opacity-70 transition">
                 <Facebook size={16} />
@@ -80,7 +77,7 @@ export function Footer() {
 
         <div className="border-t border-secondary/30 pt-6 md:pt-8">
           <p className="text-xs md:text-sm text-center opacity-70">
-            © {new Date().getFullYear()} Shadenaz Aesthetics. All rights reserved. | Made ❤ by <a className='font-bold' href="https://createaweb.co.uk" target='_blank'>CREATEA WEB</a>
+            © {new Date().getFullYear()} Shadenaz Aesthetics. All rights reserved. | Made by <a className='font-bold' href="https://createaweb.co.uk?utm_source=shadenazaesthetics" target='_blank'>CREATEA WEB</a>
           </p>
         </div>
       </div>

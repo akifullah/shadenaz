@@ -32,6 +32,16 @@ export default function AboutPage() {
   const values = useInView(0.1);
   const cta = useInView(0.1);
 
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handlePlayVideo = () => {
+    setIsVideoPlaying(true);
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  };
+
   return (
     <>
       <Header />
@@ -174,14 +184,40 @@ export default function AboutPage() {
                 <div className="absolute -inset-3 border border-accent/30 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="relative aspect-video rounded-sm overflow-hidden shadow-2xl bg-secondary/20">
-                  <iframe
-                    src="https://drive.google.com/file/d/1NmVQG-wvsjkXeorpKXSChzn2D3XcXSzp/preview"
-                    title="About Shadenaz Aesthetics"
-                    className="w-full h-full"
-                    allow="autoplay; encrypted-media"
-                    allowFullScreen
-                    loading="lazy"
-                  />
+                  <div className="w-full h-full relative">
+                    {!isVideoPlaying && (
+                      <div
+                        className="absolute inset-0 z-10 cursor-pointer group/play"
+                        onClick={handlePlayVideo}
+                      >
+                        <Image
+                          src="/video_thumbnail.jpg"
+                          alt="Video Thumbnail"
+                          fill
+                          className="object-cover"
+                          priority
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover/play:bg-black/10 transition-colors" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-background/80 text-foreground rounded-full flex items-center justify-center backdrop-blur-sm shadow-lg group-hover/play:scale-110 transition-transform duration-300">
+                            <svg className="w-6 h-6 sm:w-8 sm:h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    <video
+                      ref={videoRef}
+                      controls={isVideoPlaying}
+                      className="w-full h-full object-cover"
+                      onPlay={() => setIsVideoPlaying(true)}
+                    >
+                      <source
+                        src={`https://res.cloudinary.com/dtagnmwqr/video/upload/q_auto/f_auto/v1775718847/lv_0_20260408140635_1_1_uykhqy.mp4`}
+                      />
+                    </video>
+                  </div>
                 </div>
               </div>
             </div>
@@ -223,7 +259,7 @@ export default function AboutPage() {
             </p>
             <div className="pt-4">
               <a
-                href="/pricing"
+                href="/booking"
                 className="group inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-3 md:px-12 md:py-4 hover:opacity-90 transition-all duration-300 text-xs tracking-[0.25em] font-medium"
               >
                 BOOK YOUR CONSULTATION

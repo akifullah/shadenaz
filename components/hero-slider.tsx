@@ -71,9 +71,9 @@ export function HeroSlider() {
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 bg-cover bg-center ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+          className={`absolute inset-0 transition-opacity duration-1000 bg-cover bg-center ${index === currentSlide ? 'opacity-90 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
             }`}
-          style={{ backgroundImage: slide.image, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundImage: slide.image, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: index === 2 ? 'center top' : 'center' }}
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center space-y-3 md:space-y-6 px-4 md:px-6 max-w-3xl">
@@ -86,9 +86,9 @@ export function HeroSlider() {
               <p className="text-sm md:text-xl text-foreground/70 font-light">
                 {slide.subtitle}
               </p>
-              <div className="pt-4 md:pt-8">
+              <div className="mt-4 md:mt-8">
                 <Link
-                  href="/pricing"
+                  href="/booking"
                   className="inline-block border-2 border-primary text-primary px-8 py-2 md:px-12 md:py-3 hover:bg-primary hover:text-primary-foreground transition text-xs md:text-sm tracking-widest font-medium"
                 >
                   BOOK NOW

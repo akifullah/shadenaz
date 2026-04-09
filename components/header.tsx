@@ -44,6 +44,16 @@ export function Header() {
     setSidebarOpen(false);
   }, []);
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, closeSidebarFlag: boolean = false) => {
+    if (closeSidebarFlag) {
+      closeSidebar();
+    }
+    if (pathname === '/booking' && href === '/booking') {
+      e.preventDefault();
+      window.location.href = href;
+    }
+  };
+
   return (
     <>
       <header className="w-full bg-background sticky top-0 z-50 border-b border-accent/30">
@@ -66,6 +76,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={(e) => handleLinkClick(e, link.href)}
                   className="text-foreground hover:text-primary transition text-xs tracking-widest font-medium"
                 >
                   {link.label}
@@ -77,6 +88,7 @@ export function Header() {
               {/* Book Now — always visible */}
               <Link
                 href="/booking"
+                onClick={(e) => handleLinkClick(e, '/booking')}
                 className="hidden sm:inline-block border-2 border-primary text-primary px-8 py-2 hover:bg-primary hover:text-primary-foreground transition text-xs tracking-widest font-medium"
               >
                 BOOK NOW
@@ -127,7 +139,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                onClick={closeSidebar}
+                onClick={(e) => handleLinkClick(e, link.href, true)}
                 className={`group flex items-center gap-4 py-4 border-b border-accent/20 transition-all duration-300 ${sidebarOpen
                   ? 'opacity-100 translate-x-0'
                   : 'opacity-0 translate-x-8'
@@ -155,8 +167,8 @@ export function Header() {
             }}
           >
             <Link
-              href="/pricing"
-              onClick={closeSidebar}
+              href="/booking"
+              onClick={(e) => handleLinkClick(e, '/booking', true)}
               className="block w-full text-center border-2 border-primary text-primary px-8 py-4 hover:bg-primary hover:text-primary-foreground transition-colors duration-300 text-xs tracking-widest font-medium"
             >
               BOOK NOW

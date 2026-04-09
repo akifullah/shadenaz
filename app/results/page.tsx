@@ -62,7 +62,7 @@ export default function ResultsPage() {
 
       <main className="w-full bg-background">
 
-       
+
 
         {/* ── Gallery Section ────────────────────────────────────────────── */}
         <section className="w-full py-16 md:py-28">
@@ -173,7 +173,7 @@ export default function ResultsPage() {
               Book a consultation and let&#39;s create your personalised treatment plan.
             </p>
             <Link
-              href="/pricing"
+              href="/booking"
               className="inline-block border border-white text-white px-10 py-3 text-xs tracking-widest hover:bg-white hover:text-black transition-all duration-300"
             >
               BOOK A CONSULTATION
