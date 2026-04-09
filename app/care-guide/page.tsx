@@ -37,7 +37,12 @@ export default function CareGuidePage() {
   const [openIds, setOpenIds] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/care-guides`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/care-guide`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
       .then(res => res.json())
       .then((data: any[]) => {
         const validData = data.filter(item => item && item.id);
