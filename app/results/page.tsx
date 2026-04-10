@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Script from 'next/script';
 import Link from 'next/link';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -96,8 +97,12 @@ export default function ResultsPage() {
               ))}
             </div> */}
 
+            {/* LightWidget WIDGET */}
+            <Script src="https://cdn.lightwidget.com/widgets/lightwidget.js" strategy="afterInteractive" />
+            <iframe src="https://cdn.lightwidget.com/widgets/60a3ab0559fc54339aa913d4978e4afc.html" scrolling="no" className="lightwidget-widget" style={{ width: '100%', border: '0', overflow: 'hidden' }}></iframe>
+
             {/* Masonry grid */}
-            <div className="results-grid" style={{ display: 'grid' }}>
+            {/* <div className="results-grid" style={{ display: 'grid' }}>
               {filtered.map((item, idx) => (
                 <div
                   key={item.id}
@@ -111,17 +116,13 @@ export default function ResultsPage() {
                       fill
                       className="object-cover object-center  transition-transform duration-700 group-hover:scale-110"
                     />
-                    {/* Overlay */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500 flex flex-col items-center justify-center gap-2">
                       <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0" size={28} />
                       <p className="text-white text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 delay-75">
                         {item.label}
                       </p>
                     </div>
-                    {/* Category pill */}
-                    {/* <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-[9px] tracking-widest uppercase px-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      {item.category}
-                    </span> */}
+
                   </div>
                   <div className="pt-3 pb-1">
                     <p className="text-xs font-medium tracking-wide text-foreground">{item.label}</p>
@@ -129,14 +130,14 @@ export default function ResultsPage() {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
 
             {/* no results */}
-            {filtered.length === 0 && (
+            {/* {filtered.length === 0 && (
               <p className="text-center text-muted-foreground text-sm py-20">
                 No results for this category yet. Check back soon!
               </p>
-            )}
+            )} */}
           </div>
         </section>
 
