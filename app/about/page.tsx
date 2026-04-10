@@ -252,7 +252,7 @@ export default function AboutPage() {
               Ready to Begin?
             </p>
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-light text-foreground leading-snug">
-              Begin Your Aesthetic <span className="italic">Journey</span>
+              Begin Your Aesthetic <span className="">Journey</span>
             </h2>
             <p className="text-sm md:text-lg text-muted-foreground font-light max-w-xl mx-auto leading-relaxed">
               Schedule your consultation today and discover how Shadenaz Aesthetics can help you feel like the most confident version of yourself

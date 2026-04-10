@@ -11,7 +11,7 @@ export default function Home() {
       <Header />
       <main className="w-full">
         <HeroSlider />
-        <TreatmentsSection />
+        {/* <TreatmentsSection /> */}
         <AboutSection />
         <TestimonialsSection />
       </main>

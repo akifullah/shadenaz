@@ -38,14 +38,14 @@ export function AboutSection() {
             </div>
           </div>
 
-          <div className="space-y-3 md:space-y-4 pt-6 md:pt-8 bg-background p-5 md:p-8 rounded-sm border border-accent/50">
+          {/* <div className="space-y-3 md:space-y-4 pt-6 md:pt-8 bg-background p-5 md:p-8 rounded-sm border border-accent/50">
             <h3 className="text-base md:text-lg font-medium text-foreground">Opening Hours</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>Monday to Friday – 10am - 8pm</p>
               <p>Saturdays - CLOSED</p>
               <p>Sunday – 12pm - 8pm</p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
