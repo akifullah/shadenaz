@@ -170,8 +170,8 @@ function BookingContent() {
   const [loadingPayment, setLoadingPayment] = useState(false);
   const stripeRef = useRef<StripeCheckoutHandle>(null);
 
-  const [schedule, setSchedule] = useState<any[]>([]);
-  const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+  const [availableSlots, setAvailableSlots] = useState<{id: number; start_time: string; start_time_24: string; end_time: string | null; is_available: boolean}[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
   const watchedDateStr = watch("date");
@@ -206,62 +206,28 @@ function BookingContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [treatmentParam]);
 
-  // Fetch schedule for the dates
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/slots`, {
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setSchedule(data.data);
-        }
-      })
-      .catch(console.error);
-  }, []);
-
+  // Fetch available time slots for the selected date
   useEffect(() => {
     if (watchedDateStr) {
-      const dayOfWeek = dayjs(watchedDateStr).format('dddd');
-      const dayData = schedule.find(s => s.day_of_week === dayOfWeek && s.is_active === 1);
-
-      if (dayData && dayData.start_time && dayData.end_time) {
-        let start = dayjs(`${watchedDateStr} ${dayData.start_time}`, "YYYY-MM-DD hh:mm A");
-        let end = dayjs(`${watchedDateStr} ${dayData.end_time}`, "YYYY-MM-DD hh:mm A");
-
-        if (end.isBefore(start)) {
-          end = end.add(1, 'day');
-        }
-        // Parse excluded ranges once
-        const excludedRanges = (dayData.excluded_times ?? []).map((ex: any) => ({
-          start: dayjs(`${watchedDateStr} ${ex.start_time}`, "YYYY-MM-DD HH:mm:ss"),
-          end: dayjs(`${watchedDateStr} ${ex.end_time}`, "YYYY-MM-DD HH:mm:ss"),
-        }));
-
-        // Helper — is a slot inside any excluded range?
-        const isExcluded = (slot: dayjs.Dayjs) =>
-          excludedRanges.some((range: any) =>
-            slot.isSame(range.start) ||
-            (slot.isAfter(range.start) && slot.isBefore(range.end))
-          );
-
-        const slots: string[] = [];
-        let current = start;
-
-        while (current.isBefore(end)) {
-          if (!isExcluded(current)) {
-            slots.push(current.format("hh:mm A"));
+      setLoadingSlots(true);
+      setAvailableSlots([]);
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/slots?date=${watchedDateStr}`, {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && Array.isArray(data.data)) {
+            setAvailableSlots(data.data);
+          } else {
+            setAvailableSlots([]);
           }
-          current = current.add(60, 'minute');
-        }
-        setAvailableSlots(slots);
-      } else {
-        setAvailableSlots([]);
-      }
+        })
+        .catch(() => setAvailableSlots([]))
+        .finally(() => setLoadingSlots(false));
     } else {
       setAvailableSlots([]);
     }
-  }, [watchedDateStr, schedule]);
+  }, [watchedDateStr]);
 
   // Fetch booked/unavailable slots for the selected date
   useEffect(() => {
@@ -1018,7 +984,17 @@ function BookingContent() {
 
                       <div className="flex-1">
                         {watchedDateStr ? (
-                          availableSlots.length > 0 ? (
+                          loadingSlots ? (
+                            <div className="h-[400px] flex items-center justify-center text-muted-foreground text-sm border border-dashed rounded-md bg-accent/5">
+                              <div className="flex flex-col items-center gap-2">
+                                <svg className="animate-spin h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span>Loading available slots...</span>
+                              </div>
+                            </div>
+                          ) : availableSlots.length > 0 ? (
                             <div className="h-[400px] overflow-y-auto pr-4 space-y-3 stylish-scrollbar">
                               <Controller
                                 control={control}
@@ -1026,25 +1002,25 @@ function BookingContent() {
                                 render={({ field }) => (
                                   <>
                                     {availableSlots.map(slot => {
-                                      const isBooked = bookedSlots.includes(slot);
-                                      const slotDateTime = dayjs(`${watchedDateStr} ${slot}`, "YYYY-MM-DD hh:mm A");
+                                      const isBooked = bookedSlots.includes(slot.start_time);
+                                      const slotDateTime = dayjs(`${watchedDateStr} ${slot.start_time}`, "YYYY-MM-DD hh:mm A");
                                       const isPastToday = dayjs().isSame(watchedDateStr, 'day') && slotDateTime.isBefore(dayjs());
                                       const isDisabled = isBooked || isPastToday;
 
                                       return (
                                         <button
-                                          key={slot}
+                                          key={slot.id}
                                           type="button"
-                                          onClick={() => !isDisabled && field.onChange(slot)}
+                                          onClick={() => !isDisabled && field.onChange(slot.start_time)}
                                           disabled={isDisabled}
                                           className={`w-full py-4 px-6 rounded text-sm font-medium transition-colors border ${isDisabled
                                             ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed line-through'
-                                            : field.value === slot
+                                            : field.value === slot.start_time
                                               ? 'bg-blue-600 border-blue-600 text-white cursor-pointer'
                                               : 'border-blue-600 text-blue-600 hover:bg-blue-50 cursor-pointer'
                                             }`}
                                         >
-                                          {slot}{isBooked ? ' (Booked)' : isPastToday ? ' (Past)' : ''}
+                                          {slot.start_time}{slot.end_time ? ` – ${slot.end_time}` : ''}{isBooked ? ' (Booked)' : isPastToday ? ' (Past)' : ''}
                                         </button>
                                       );
                                     })}
