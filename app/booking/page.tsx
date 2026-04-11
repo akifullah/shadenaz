@@ -11,7 +11,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { ArrowLeft, Plus, Trash2, ChevronDown, ChevronUp, CheckCircle2, ShieldAlert, AlertTriangle, Info } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, ChevronDown, ChevronUp, CheckCircle2, ShieldAlert, AlertTriangle, Info, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -170,7 +170,7 @@ function BookingContent() {
   const [loadingPayment, setLoadingPayment] = useState(false);
   const stripeRef = useRef<StripeCheckoutHandle>(null);
 
-  const [availableSlots, setAvailableSlots] = useState<{id: number; start_time: string; start_time_24: string; end_time: string | null; is_available: boolean}[]>([]);
+  const [availableSlots, setAvailableSlots] = useState<{ id: number; start_time: string; start_time_24: string; end_time: string | null; is_available: boolean }[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
@@ -523,7 +523,7 @@ function BookingContent() {
             </p>
           </div>
 
-          <div className="bg-card border border-accent/30 p-5 sm:p-12">
+          <div className="bg-card border border-accent/30 p-5 px-2 sm:p-12">
             {step === 1 && (
               <div className="space-y-12 text-left">
                 {/* Show selected treatments summary if any */}
@@ -573,7 +573,10 @@ function BookingContent() {
 
                 {isLoadingTreatments ? (
                   <div className="flex justify-center p-12">
-                    <p className="text-muted-foreground">Loading treatments...</p>
+                    <div className="flex justify-center items-center py-20">
+                      <Loader2 className="animate-spin text-primary w-8 h-8 md:w-12 md:h-12" />
+                      <span className="ml-2 text-primary">Please wait...</span>
+                    </div>
                   </div>
                 ) : categories.length === 0 ? (
                   <div className="flex justify-center p-12">

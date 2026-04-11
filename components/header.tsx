@@ -89,7 +89,7 @@ export function Header() {
               <Link
                 href="/booking"
                 onClick={(e) => handleLinkClick(e, '/booking')}
-                className="hidden sm:inline-block border-2 border-primary text-primary px-8 py-2 hover:bg-primary hover:text-primary-foreground transition text-xs tracking-widest font-medium"
+                className="inline-block border-2 border-primary text-primary px-4 sm:px-8 py-1 sm:py-2 hover:bg-primary hover:text-primary-foreground transition text-xs tracking-widest font-medium"
               >
                 BOOK NOW
               </Link>
